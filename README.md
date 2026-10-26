@@ -2,6 +2,10 @@
 
 A web app where you describe your situation in plain words and it tells you which Yale Health line to call, gives you a plan for the call, and checks what your plan covers, quoting the rule behind every claim.
 
+It is a care planner for the Yale community, not a chatbot over documents. One main purpose, getting a person to the right call, and every feature serves it: tap-to-call, a map with directions and an open-now badge, a checklist and write-down list, a referral checker and tracker, add-to-calendar, a printable call sheet, and email or MyChart drafts. Most people ask an AI, make a call, see a doctor, and stop. This app plans the steps and the follow-up, so the whole solution comes in one go.
+
+**Where it could go next** (ideas, not built): dental, vision and other insurers; family and dependent views; more languages; and triage help only if Yale clinicians review it. The report and slides give the full roadmap.
+
 ## Who it is for
 
 All Yale members: **students, staff or faculty, dependents, and visiting students**. The first thing the app needs is which of these you are, and it only uses the rules for that role plus the shared rules.
