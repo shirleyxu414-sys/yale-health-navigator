@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yale Health Navigator</title>
+<style>
+  :root {
+    --yale: #00356B;
+    --yale-dark: #002349;
+    --yale-mid: #286DC0;
+    --tint: #EAF1F9;
+    --line: #D3DEEC;
+    --ink: #17283F;
+    --muted: #5A6B82;
+    --white: #FFFFFF;
+    --lift: 0 1px 2px rgba(0, 53, 107, .06), 0 4px 14px rgba(0, 53, 107, .08);
+  --alert: #B3261E;
+    --alert-bg: #FDECEA;
+    --ok: #1C6B3F;
+    --ok-bg: #E6F4EC;
+    --warn: #7A5300;
+    --warn-bg: #FFF4D6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); background: var(--tint); line-height: 1.5; }
+  header { background: var(--yale); color: var(--white); }
+  .bar { max-width: 880px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .wordmark { font-family: Georgia, "Times New Roman", serif; font-size: 22px; font-weight: 700; letter-spacing: .3px; }
+  .bar .sub { font-size: 13px; opacity: .85; border-left: 1px solid rgba(255,255,255,.35); padding-left: 12px; }
+  main { max-width: 880px; margin: 0 auto; padding: 0 20px 150px; }  /* room at the bottom so the chat button never covers the appendix or the footer text */
+
+  /* Bulldog helper, built from HTML and CSS only */
+  .hero { background: var(--white); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--lift); padding: 30px 32px; margin: 32px 0 32px; }
+  .herowrap { display: flex; align-items: center; gap: 28px; }
+  .hero h1 { margin: 0 0 16px; font-family: Georgia, serif; font-size: 36px; line-height: 1.15; color: var(--yale); }
+  /* The bulldog helper, built from HTML and CSS only */
+  .bulldog { --dog-scale: 1; position: relative; width: 112px; height: 104px; flex: none; transform: scale(var(--dog-scale)); transform-origin: top center; }
+  .bulldog.thinking { animation: tilt 1.1s ease-in-out infinite; }
+  @keyframes tilt { 0%,100% { transform: scale(var(--dog-scale)) rotate(-5deg); } 50% { transform: scale(var(--dog-scale)) rotate(5deg); } }
+  /* An English bulldog, original flat artwork: white face, brown patch over one eye and ear, wrinkled brow, wide muzzle, jowls, floppy ears. */
+  .bulldog { --dog-white: #FBF8F2; --dog-brown: #9A6535; --dog-line: #5B3B1F; }
+  .bulldog .ear { position: absolute; top: 12px; width: 28px; height: 36px; background: var(--dog-white); border: 3px solid var(--dog-line); border-radius: 20% 80% 70% 45%; }
+  .bulldog .ear.l { left: 0; background: var(--dog-brown); transform: rotate(32deg); }
+  .bulldog .ear.r { right: 0; transform: rotate(-32deg) scaleX(-1); }
+  .bulldog .head { position: absolute; left: 6px; top: 14px; width: 100px; height: 76px; background: var(--dog-white); border: 3px solid var(--dog-line); border-radius: 42% 42% 48% 48%; }
+  .bulldog .patch { position: absolute; left: 3px; top: 4px; width: 46px; height: 42px; background: var(--dog-brown); border-radius: 55% 45% 50% 50%; }
+  .bulldog .wrinkle { position: absolute; left: 50%; height: 5px; border-top: 2px solid var(--dog-line); border-radius: 50% 50% 0 0; transform: translateX(-50%); opacity: .55; }
+  .bulldog .wrinkle.a { top: 3px; width: 34px; }
+  .bulldog .wrinkle.b { top: 9px; width: 22px; }
+  .bulldog .jowl { position: absolute; top: 50px; width: 30px; height: 24px; background: var(--dog-white); border: 3px solid var(--dog-line); border-radius: 45% 45% 60% 60%; }
+  .bulldog .jowl.l { left: 12px; }
+  .bulldog .jowl.r { right: 12px; }
+  .bulldog .brow { position: absolute; top: 22px; width: 17px; height: 6px; border-top: 3px solid var(--dog-line); border-radius: 60% 60% 0 0; }
+  .bulldog .brow.l { left: 21px; transform: rotate(-2deg); }
+  .bulldog .brow.r { right: 21px; transform: rotate(2deg); }
+  .bulldog .eye { position: absolute; top: 31px; width: 13px; height: 13px; background: #2A1A0E; border-radius: 50%; }
+  .bulldog .eye::after { content: ""; position: absolute; left: 3px; top: 2px; width: 5px; height: 5px; background: var(--white); border-radius: 50%; }
+  .bulldog .eye.l { left: 23px; }
+  .bulldog .eye.r { right: 23px; }
+  .bulldog .muzzle { position: absolute; left: 50%; top: 40px; transform: translateX(-50%); width: 62px; height: 32px; background: var(--dog-white); border: 3px solid var(--dog-line); border-radius: 50% 50% 55% 55%; }
+  .bulldog .nose { position: absolute; left: 50%; top: -2px; transform: translateX(-50%); width: 26px; height: 9px; background: #2A1A0E; border-radius: 40% 40% 55% 55%; }
+  .bulldog .mouth { position: absolute; left: 50%; top: 9px; transform: translateX(-50%); width: 40px; height: 14px; border-bottom: 3px solid #2A1A0E; border-left: 3px solid #2A1A0E; border-right: 3px solid #2A1A0E; border-radius: 0 0 36px 36px; }
+  .bulldog .cheek { position: absolute; top: 44px; width: 13px; height: 9px; border-radius: 50%; background: var(--tint); }
+  .bulldog .cheek.l { left: 5px; }
+  .bulldog .cheek.r { right: 5px; }
+  .bulldog .collar { position: absolute; left: 24px; bottom: -2px; width: 68px; height: 12px; background: var(--yale); border-radius: 0 0 14px 14px; z-index: 1; }
+  .bulldog .cross { position: absolute; left: 50%; bottom: -10px; transform: translateX(-50%); width: 20px; height: 20px; background: var(--white); border: 2px solid var(--yale); border-radius: 50%; z-index: 3; }
+  .bulldog .cross::before, .bulldog .cross::after { content: ""; position: absolute; background: var(--yale-mid); }
+  .bulldog .cross::before { left: 7px; top: 3px; width: 4px; height: 10px; }
+  .bulldog .cross::after { left: 4px; top: 6px; width: 10px; height: 4px; }
+  .btn-outline { background: transparent; color: var(--yale); border: 2px solid var(--yale); border-radius: 10px; padding: 9px 20px; font-weight: 700; cursor: pointer; }
+  .btn-outline:hover { background: var(--tint); }
+
+  .steps { display: flex; align-items: stretch; gap: 8px; margin: 0 0 38px; }
+  .stepbox { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; min-height: 64px; padding: 10px 14px; background: var(--white); border: none; border-radius: 12px; font-weight: 600; font-size: 15px; color: var(--yale); box-shadow: var(--lift); }
+  .arrow { align-self: center; flex: none; font-size: 22px; line-height: 1; color: var(--yale-mid); }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; box-shadow: var(--lift); }
+  .card h2 { margin: 0 0 12px; font-size: 18px; color: var(--yale); display: flex; align-items: center; gap: 10px; }
+  #roleCard h2, #askCard h2 { font-size: 22px; font-weight: 700; margin-bottom: 16px; color: var(--ink); }
+  #roleCard, #askCard { margin-bottom: 36px; padding: 24px 26px 26px; }
+  .num { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 50%; background: var(--yale); color: var(--white); font-size: 14px; font-weight: 700; flex: none; }
+  .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+  .role { position: relative; display: flex; }
+  .role input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .role span { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 72px; padding: 12px 14px; border: 2px solid var(--line); border-radius: 10px; font-weight: 600; color: var(--ink); background: var(--white); }
+  .role span { transition: border-color .15s, background .15s; }
+  .role:hover span { border-color: var(--yale-mid); }
+  .role small { font-weight: 400; font-size: 12px; color: var(--muted); }
+  .role input:checked + span small { color: rgba(255,255,255,.85); }
+  .role input:checked + span { border-color: var(--yale); background: var(--yale); color: var(--white); box-shadow: 0 3px 8px rgba(0, 53, 107, .22); }
+  .role input:focus-visible + span { outline: 3px solid var(--yale-mid); outline-offset: 2px; }
+  textarea { width: 100%; min-height: 110px; padding: 12px 14px; font: inherit; border: 2px solid var(--line); border-radius: 10px; resize: vertical; color: var(--ink); }
+  textarea:focus { outline: none; border-color: var(--yale); }
+  #situation { min-height: 130px; padding: 14px 16px; font-size: 17px; border: 2px solid var(--yale-mid); background: var(--tint); }
+  #situation:focus { background: var(--white); border-color: var(--yale); }
+  #situation::placeholder { color: var(--muted); }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 12px; flex-wrap: wrap; }
+  .gowrap { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: flex-end; }
+  .sitefoot { margin-top: 36px; text-align: center; font-size: 12px; color: var(--muted); }
+  .sitefoot a { color: var(--muted); }
+  .hint { font-size: 12px; color: var(--muted); }
+  .privacy { font-size: 12px; color: var(--muted); }
+  button { font: inherit; font-weight: 600; border-radius: 10px; padding: 11px 22px; cursor: pointer; border: 2px solid var(--yale); }
+  .primary { background: var(--yale); color: var(--white); }
+  .primary:hover:not(:disabled) { background: var(--yale-dark); }
+  .primary:disabled { opacity: .5; cursor: not-allowed; }
+  /* The primary action: solid Yale blue once it can be clicked, medium size, flat. While it cannot, it is small and quiet. */
+  #go:not(:disabled) { font-size: 17px; font-weight: 700; padding: 12px 30px; border-radius: 10px; box-shadow: none; }
+  #go:disabled { background: var(--tint); color: var(--muted); border-color: var(--line); opacity: 1; font-size: 15px; font-weight: 600; padding: 10px 20px; box-shadow: none; }
+  .ghost { background: var(--white); color: var(--yale); }
+
+  .banner { background: var(--alert-bg); border: 2px solid var(--alert); color: var(--alert); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-weight: 700; }
+  .phone { display: inline-block; font-size: 30px; font-weight: 700; color: var(--yale); text-decoration: none; letter-spacing: .5px; }
+  .phone:hover { text-decoration: underline; }
+  .linename { font-size: 17px; font-weight: 700; }
+  .meta { color: var(--muted); font-size: 14px; margin: 2px 0; }
+  .assumed { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: -8px 0 14px; font-size: 14px; color: var(--muted); }
+  .assumed button { margin-left: 0; }
+  .reason { margin: 10px 0 0; }
+  .also { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; }
+  .also a { color: var(--yale); font-weight: 600; text-decoration: none; }
+  .group { margin-top: 14px; }
+  .group h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--yale-mid); }
+  ul { margin: 0; padding-left: 20px; }
+  li { margin: 3px 0; }
+  .item { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
+  .item .top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .item .topic { font-weight: 700; }
+  .pill { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+  .pill.covered { background: var(--ok-bg); color: var(--ok); }
+  .pill.conditions { background: var(--tint); color: var(--yale); }
+  .pill.not_verified { background: var(--warn-bg); color: var(--warn); }
+  .item p { margin: 6px 0 0; }
+  .src { font-size: 12px; margin-top: 6px; }
+  .src a { color: var(--yale-mid); }
+  .emergency { background: var(--alert-bg); border: 3px solid var(--alert); border-radius: 14px; padding: 26px 24px; text-align: center; }
+  .emergency h2 { display: block; margin: 0 0 14px; font-size: 32px; line-height: 1.2; color: var(--alert); }
+  .emergency .er { margin: 14px 0; font-size: 17px; }
+  .emergency .er strong { display: block; }
+  .emergency p { margin: 8px 0; font-size: 16px; }
+  .emergency .phone { color: var(--alert); font-size: 38px; }
+  .redflags { margin-top: 18px; border: 2px solid var(--alert); background: var(--alert-bg); border-radius: 12px; padding: 14px 18px; }
+  .redflags h3 { margin: 0 0 6px; color: var(--alert); font-size: 16px; }
+  .redflags .call { margin-top: 8px; font-weight: 700; color: var(--alert); }
+  .rule { font-size: 12px; margin-top: 6px; color: var(--muted); }
+  .scope { font-weight: 700; color: var(--warn); background: var(--warn-bg); border-radius: 6px; padding: 4px 8px; display: inline-block; }
+  .quote { font-style: italic; }
+  .rule code { background: var(--tint); color: var(--yale); padding: 1px 6px; border-radius: 4px; }
+  .disclaimer { font-size: 13px; color: var(--muted); text-align: center; margin-top: 8px; }
+  .error { background: var(--warn-bg); border: 1px solid #E8C86A; border-radius: 10px; padding: 12px 16px; color: var(--warn); margin-top: 12px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+  .chips-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin: 6px 0 8px; }
+  .chip { background: var(--white); color: var(--yale); border: 1.5px solid var(--yale); border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .chip { transition: border-color .15s, background .15s; }
+  .chip:hover { background: var(--tint); border-color: var(--yale-mid); }
+  .chip:focus-visible, button:focus-visible { outline: 3px solid var(--yale-mid); outline-offset: 2px; }
+  .notice-top { background: var(--warn-bg); border: 2px solid #E8C86A; color: var(--warn); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-weight: 700; font-size: 17px; }
+  .notice { background: var(--warn-bg); border: 1px solid #E8C86A; color: var(--warn); border-radius: 10px; padding: 8px 12px; margin-bottom: 10px; font-size: 14px; }
+  .planhead { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .planhead p { margin: 0; flex: 1; min-width: 220px; font-size: 17px; font-weight: 600; color: var(--yale); }
+  .timeline { list-style: none; margin: 0; padding: 0 0 0 4px; }
+  .timeline li { position: relative; padding: 0 0 14px 28px; margin: 0; }
+  .timeline li::before { content: ""; position: absolute; left: 7px; top: 14px; bottom: -2px; width: 2px; background: var(--line); }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li:last-child::before { display: none; }
+  .timeline .dot { position: absolute; left: 0; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--yale); border: 3px solid var(--tint); box-shadow: 0 0 0 2px var(--yale); }
+  .timeline .when { font-weight: 700; color: var(--yale); font-size: 14px; text-transform: uppercase; letter-spacing: .5px; }
+  .dnf { margin: 0 0 10px; padding: 10px 14px; background: var(--tint); border-left: 4px solid var(--yale); border-radius: 8px; }
+  .dnf strong { display: block; }
+  .dnf span { color: var(--muted); font-size: 14px; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .cols .card { margin-bottom: 0; }
+  .check { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 16px; cursor: pointer; }
+  .check input { width: 20px; height: 20px; accent-color: var(--yale); flex: none; }
+  .check input:checked + span { text-decoration: line-through; color: var(--muted); }
+  .blank { display: flex; align-items: baseline; gap: 10px; padding: 7px 0; }
+  .blank > span:first-child { flex: none; max-width: 55%; }
+  .blank input { flex: 1; min-width: 40px; padding: 2px; border: none; border-bottom: 1.5px dotted var(--muted); border-radius: 0; background: transparent; font: inherit; color: var(--ink); }
+  .blank input:focus { outline: none; border-bottom: 1.5px solid var(--yale); }
+  .blank input:focus-visible { outline: 3px solid var(--yale-mid); outline-offset: 2px; }
+  .blank .printval { display: none; }
+  .gw { margin-bottom: 10px; }
+  .gw strong { display: block; color: var(--yale); }
+  .field { margin-top: 3px; font-size: 14px; }
+  .field b { color: var(--yale); }
+  details.how { box-shadow: var(--lift); background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 14px 20px; margin-bottom: 18px; }
+  details.how summary { font-weight: 700; color: var(--yale); cursor: pointer; font-size: 18px; }
+  dl.how { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 12px 0 0; }
+  dl.how dt { font-weight: 700; color: var(--muted); }
+  dl.how dd { margin: 0; }
+  .draft { margin-top: 12px; }
+  .draft h3 { margin: 0 0 4px; font-size: 15px; color: var(--yale); }
+  .draft textarea { min-height: 170px; font-size: 14px; background: var(--tint); }
+  .draft .meta { margin-bottom: 4px; }
+  .warnbox { background: var(--warn-bg); border: 1px solid #E8C86A; color: var(--warn); border-radius: 10px; padding: 10px 14px; margin: 10px 0; font-size: 14px; }
+  .warnbox ul { padding-left: 18px; }
+  .sm { padding: 6px 14px; font-size: 14px; }
+
+  
+  
+  .cal-btn { margin-top: 6px; }
+  .calform { margin-top: 8px; padding: 14px 16px; background: var(--tint); border: 1px solid var(--line); border-radius: 10px; }
+  .calform label { display: block; font-size: 13px; font-weight: 700; color: var(--yale); margin-top: 8px; }
+  .calform input, .calform select, .calform textarea { width: 100%; padding: 8px 10px; font: inherit; font-weight: 400; border: 2px solid var(--line); border-radius: 8px; background: var(--white); }
+  .calform textarea { min-height: 96px; }
+  .msg { max-width: 92%; padding: 10px 14px; border-radius: 12px; font-size: 15px; }
+  .msg.me { align-self: flex-end; background: var(--yale); color: var(--white); border-bottom-right-radius: 4px; }
+  .msg.bot { align-self: flex-start; background: var(--white); border: 1px solid var(--line); border-bottom-left-radius: 4px; width: 92%; }
+  .msg.bot.typing { color: var(--muted); font-style: italic; width: auto; }
+  .msg.bot .item { background: var(--tint); margin-top: 8px; }
+  .msg.bot .item:first-child { margin-top: 0; }
+  .msg p { margin: 0 0 6px; }
+  .msg p:last-child { margin-bottom: 0; }
+  .chatform { display: flex; gap: 8px; }
+  .chatform input { flex: 1; min-width: 0; padding: 11px 14px; font: inherit; font-weight: 400; border: 2px solid var(--line); border-radius: 10px; color: var(--ink); background: var(--white); }
+  .chatform input:focus { outline: none; border-color: var(--yale); }
+  .chatnote { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  /* Warmth: small icons, a bulldog that reacts, one human line under the call card. */
+  .ico { display: inline-flex; flex: none; width: 24px; height: 24px; color: var(--yale); }
+  .ico svg { width: 100%; height: 100%; }
+  .callhero .label { display: flex; align-items: center; }
+  .callhero .label .ico { width: 28px; height: 28px; padding: 5px; margin-right: 10px; border-radius: 50%; background: var(--white); color: var(--yale); }
+  .dogsays { display: flex; align-items: center; gap: 14px; margin: 0 0 14px; }
+  .dogsays .dogwrap { background: transparent; overflow: visible; }
+  .dogsays .says { position: relative; background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 9px 16px; color: var(--ink); font-weight: 600; box-shadow: var(--lift); }
+  .dogsays .says::before { content: ""; position: absolute; left: -6px; top: 50%; width: 10px; height: 10px; margin-top: -5px; background: var(--white); border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); transform: rotate(45deg); }
+  .printsheet { display: none; }
+  .callsub { margin: -10px 6px 26px; font-size: 14px; color: var(--muted); }
+  .thinkdog { background: transparent; overflow: visible; }
+  .thinkdog[hidden] { display: none; }
+  .bulldog.cheer { animation: hop .7s ease-out 1; }
+  @keyframes hop { 0%, 100% { transform: translateY(0) scale(var(--dog-scale)); } 40% { transform: translateY(-7px) scale(var(--dog-scale)); } }
+  @media (prefers-reduced-motion: reduce) { .bulldog.thinking, .bulldog.cheer { animation: none; } }
+  .refform { display: flex; gap: 8px; margin: 8px 0; }
+  .refform input { flex: 1; min-width: 0; padding: 10px 14px; font: inherit; border: 2px solid var(--line); border-radius: 10px; color: var(--ink); background: var(--white); }
+  .refform input:focus { outline: none; border-color: var(--yale); }
+  .combo { position: relative; flex: 1; display: flex; min-width: 0; }
+  .combo input { padding-right: 40px; }
+  .comboarrow { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; padding: 0; border: none; background: none; color: var(--yale-mid); font-size: 16px; cursor: pointer; }
+  .combolist { position: absolute; left: 0; right: 0; top: 100%; z-index: 5; max-height: 220px; overflow-y: auto; margin-top: 4px; padding: 4px; background: var(--white); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--lift); }
+  .comboitem { display: block; width: 100%; padding: 8px 10px; border: none; background: none; text-align: left; font: inherit; color: var(--ink); border-radius: 6px; cursor: pointer; }
+  .comboitem:hover, .comboitem:focus-visible { background: var(--tint); outline: none; }
+  .refresult { margin-top: 10px; }
+  .officiallink { display: inline-block; margin-top: 4px; font-size: 14px; font-weight: 600; color: var(--yale-mid); }
+  .refhome { margin-bottom: 36px; }
+  .reftitle { margin: 0 0 4px; font-size: 17px; color: var(--ink); }
+  .refemergency { margin: 0; font-weight: 700; color: var(--alert); }
+  .stage { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .stage:first-of-type { border-top: none; }
+  .stagelabel { display: flex; align-items: center; gap: 10px; flex: 1 1 240px; cursor: pointer; }
+  .stagelabel input { width: 20px; height: 20px; accent-color: var(--yale); flex: none; }
+  .stage > input[type=date] { padding: 6px 8px; font: inherit; border: 2px solid var(--line); border-radius: 8px; color: var(--ink); }
+  .stage .printval { display: none; }
+  .pcpcard p { margin: 0 0 10px; }
+  .openrow { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 2px; }
+  .openstatus { font-size: 13px; font-weight: 700; padding: 3px 12px; border-radius: 999px; }
+  .openstatus.open { background: var(--ok-bg); color: var(--ok); }
+  .openstatus.closed { background: var(--warn-bg); color: var(--warn); }
+  .placerow { margin-top: 8px; font-size: 15px; }
+  .placerow .pin { width: 16px; height: 16px; margin-right: 6px; vertical-align: -2px; color: var(--white); }
+  .mapstrip { position: relative; height: 150px; margin-top: 16px; border-radius: 14px; overflow: hidden; background: var(--tint); }
+  .mapstrip iframe { display: block; width: 100%; height: 100%; border: 0; }
+  .mapstrip .maptap { position: absolute; inset: 0; }
+  .directions { margin-left: 10px; font-size: 13px; font-weight: 700; color: inherit; text-decoration: underline; white-space: nowrap; }
+  a.tel { color: inherit; font-weight: 600; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 3px; }
+  .term { background: none; border: none; border-bottom: 1.5px dotted var(--yale-mid); border-radius: 0; padding: 0; min-height: 0; font: inherit; font-weight: inherit; color: inherit; cursor: help; }
+  .term:focus-visible { outline: 3px solid var(--yale-mid); outline-offset: 2px; }
+  .gloss { margin: 6px 0; padding: 8px 12px; background: var(--tint); border-left: 4px solid var(--yale-mid); border-radius: 6px; font-size: 14px; font-weight: 400; color: var(--ink); }
+  .gloss .rule { font-size: 11px; }
+  .unconfirmed { color: var(--warn); font-weight: 700; }
+  .rulesused { margin-top: 4px; }
+  .rulesused strong { display: block; margin-top: 8px; color: var(--ink); }
+  details.collapse h3 { margin: 14px 0 0; font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+  .callhero a.tel { color: var(--white); }
+  .calform .two { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  .calform .fine { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  .calform .err { color: var(--alert); font-size: 13px; margin-top: 6px; }
+  .calrow { margin-top: 12px; }
+  [hidden] { display: none !important; }
+
+
+  /* The answer first: the line to call is the strongest thing on the page. */
+  .callhero { background: var(--yale); color: var(--white); border-radius: 18px; padding: 28px 28px 24px; margin-bottom: 22px; box-shadow: 0 2px 4px rgba(0, 53, 107, .18), 0 14px 32px rgba(0, 53, 107, .30); }
+  .callhero .label { font-size: 13px; letter-spacing: .9px; text-transform: uppercase; font-weight: 700; color: rgba(255,255,255,.8); margin-bottom: 8px; }
+  .callhero .linename { font-size: 20px; font-weight: 700; color: var(--white); }
+  .callhero .phone { display: block; font-size: 52px; line-height: 1.1; margin: 6px 0 4px; color: var(--white); }
+  .callhero .meta { color: rgba(255,255,255,.85); }
+  .callhero .reason { margin: 12px 0 0; font-size: 17px; }
+  .callhero .also { border-top: 1px solid rgba(255,255,255,.3); }
+  .callhero .also a { color: var(--white); }
+  .callhero .also .meta { color: rgba(255,255,255,.8); }
+  .verdict .pill { font-size: 14px; padding: 4px 14px; }
+  .verdict .topic { font-size: 17px; }
+  .verdictline { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .pill.not_covered { background: var(--alert-bg); color: var(--alert); }
+  .plansummary { margin: 0 0 18px; font-weight: 600; color: var(--yale); }
+  .takeaway .actions { display: flex; gap: 12px; }
+  .takeaway .actions button { flex: 1; }
+  details.collapse { padding: 0; }
+  details.collapse > summary { cursor: pointer; padding: 16px 22px; font-weight: 700; font-size: 17px; color: var(--yale); list-style: none; display: flex; align-items: center; justify-content: space-between; }
+  details.collapse > summary::-webkit-details-marker { display: none; }
+  details.collapse > summary::after { content: "+"; font-size: 22px; font-weight: 400; color: var(--yale-mid); }
+  details.collapse[open] > summary::after { content: "\2212"; }
+  details.collapse > summary:focus-visible { outline: 3px solid var(--yale-mid); outline-offset: -3px; border-radius: 14px; }
+  details.collapse > :not(summary) { margin-left: 22px; margin-right: 22px; }
+  details.collapse > :last-child { margin-bottom: 20px; }
+  /* "How it decided" is grader evidence, an appendix: a quiet footnote row, not a plan card. */
+  details.collapse.appendix { margin: 18px 0 0; background: none; border: none; box-shadow: none; border-radius: 0; }
+  details.collapse.appendix > summary { padding: 8px 4px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  details.collapse.appendix > summary::after { font-size: 16px; color: var(--muted); }
+  details.collapse.appendix > :not(summary) { margin-left: 4px; margin-right: 4px; font-size: 13px; color: var(--muted); }
+
+  /* The chat window: a thread of bubbles. */
+  .fab { position: fixed; right: 18px; bottom: 18px; z-index: 49; display: flex; align-items: center; gap: 10px; min-height: 56px; border-radius: 999px; padding: 14px 24px 14px 20px; font-size: 16px; box-shadow: 0 6px 20px rgba(0, 53, 107, .4); }
+  .fab[hidden] { display: none; }
+  .chaticon { position: relative; flex: none; width: 22px; height: 17px; border: 2px solid var(--white); border-radius: 6px; }
+  .chaticon::after { content: ""; position: absolute; left: 4px; bottom: -7px; width: 7px; height: 7px; background: var(--yale); border-left: 2px solid var(--white); border-bottom: 2px solid var(--white); transform: skewY(-35deg) rotate(0deg); }
+  .chaticon::before { content: ""; position: absolute; left: 4px; top: 5px; width: 3px; height: 3px; border-radius: 50%; background: var(--white); box-shadow: 5px 0 0 var(--white), 10px 0 0 var(--white); }
+  .chatwin { position: fixed; right: 18px; bottom: 18px; z-index: 50; width: 390px; max-width: calc(100vw - 24px); height: min(580px, calc(100vh - 36px)); display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 10px 36px rgba(0, 53, 107, .32); overflow: hidden; }
+  .chatwin[hidden] { display: none; }
+  .chathead { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--yale); color: var(--white); }
+  .chathead div > span { display: block; font-size: 12px; opacity: .85; }
+  .chathead button { margin-left: auto; background: none; border: none; color: var(--white); font-size: 26px; line-height: 1; padding: 0 6px; min-height: 0; }
+  /* The same bulldog as the hero, scaled down, on a white disc so its blue ears show against the blue header. */
+  .dogwrap { position: relative; flex: none; width: 46px; height: 46px; border-radius: 50%; background: var(--white); overflow: hidden; }
+  .dogsays .dogwrap .bulldog, .thinkdog .bulldog { --dog-scale: .42; left: 0; top: 0; }
+  .dogwrap .bulldog { --dog-scale: .34; position: absolute; left: 4px; top: 6px; transform-origin: top left; }
+  .thread { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; background: var(--tint); }
+  .chatchips { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 12px 0; }
+  .chatchips:empty { display: none; }
+  .chatwin .chatform { padding: 10px 12px; border-top: 1px solid var(--line); }
+  .chatwin .chatnote { padding: 0 12px 10px; margin: 0; }
+
+  /* Media queries come last so they win over the base rules above. */
+  @media (max-width: 560px) {
+    main { padding: 14px 12px 140px; }
+    .bar { flex-wrap: wrap; padding: 12px; }
+    .bar .sub { display: none; }
+    .hero { padding: 20px 16px 22px; margin: 18px 0 24px; }
+    .herowrap { flex-direction: column; text-align: center; gap: 6px; }
+    #roleCard, #askCard { padding: 18px 16px 20px; margin-bottom: 26px; }
+    #roleCard h2, #askCard h2 { font-size: 20px; }
+    .gowrap { justify-content: center; flex-direction: column-reverse; align-items: center; gap: 8px; }
+    .hint { text-align: center; }
+    .fab { padding: 12px 18px 12px 16px; min-height: 52px; font-size: 15px; }
+    .bulldog { --dog-scale: .72; margin-bottom: -28px; }
+    .hero h1 { font-size: 26px; }
+    .steps { flex-direction: column; gap: 4px; margin-bottom: 28px; }
+    .stepbox { min-height: 52px; }
+    .arrow { transform: rotate(90deg); }
+    .card { padding: 16px; }
+    .card h2 { font-size: 17px; }
+    .phone { font-size: 24px; }
+    .emergency { padding: 18px 14px; }
+    .emergency h2 { font-size: 24px; }
+    .emergency .phone { font-size: 30px; }
+    .calform .two { grid-template-columns: 1fr; }
+    .row { flex-direction: column; align-items: stretch; }
+    button { min-height: 44px; }
+    .chip { min-height: 40px; }
+    dl.how { grid-template-columns: 1fr; gap: 2px; }
+    dl.how dd { margin-bottom: 8px; }
+    .planhead { flex-direction: column; }
+    .takeaway .actions button { padding-left: 10px; padding-right: 10px; }
+    .check { padding: 10px 0; }
+    .callhero { padding: 22px 18px 20px; }
+    .callhero .phone { font-size: 38px; }
+    .callhero .linename { font-size: 18px; }
+    details.collapse > summary { padding: 14px 16px; }
+    details.collapse > :not(summary) { margin-left: 16px; margin-right: 16px; }
+    .chatwin { inset: 0; width: auto; max-width: none; height: auto; border-radius: 0; border: none; }
+    .fab { right: 12px; bottom: 12px; }
+    .chatwin .chatform { flex-direction: row; }
+    .msg { max-width: 100%; }
+  }
+  @media print {
+    body.sheeting > :not(.printsheet) { display: none !important; }
+    .sheeting .printsheet { display: block; font-size: 13px; color: var(--ink); }
+    .sheetblock { margin: 0 0 12px; break-inside: avoid; }
+    .sheetblock h1 { margin: 0 0 4px; font-size: 20px; color: var(--yale); }
+    .sheetblock h2 { margin: 0 0 3px; font-size: 13px; letter-spacing: .6px; color: var(--yale); }
+    .sheetline { white-space: pre-wrap; overflow-wrap: anywhere; }
+    body { background: #fff; }
+    header, .hero, .steps, #roleCard, #askCard, .noprint, button { display: none !important; }
+    main { padding: 0; max-width: none; }
+    .card { border: 1px solid #999; box-shadow: none; break-inside: avoid; }
+    .callhero { background: var(--white) !important; box-shadow: none; border: 2px solid var(--yale); }
+    .callhero, .callhero .phone, .callhero .linename, .callhero .label, .callhero .meta, .callhero a { color: var(--ink) !important; }
+    details.collapse > summary::after { display: none; }
+    .blank input, .stage > input[type=date] { display: none; }
+    .stage .printval { display: inline-block; min-width: 110px; border-bottom: 1.5px dotted var(--ink); padding: 2px; color: var(--ink); }
+    .blank .printval { display: block; flex: 1; min-height: 1.5em; padding: 2px; border-bottom: 1.5px dotted var(--ink); color: var(--ink); overflow-wrap: anywhere; }
+    .cols { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar"><span class="wordmark">Yale Health Navigator</span><span class="sub">Find the right line, plan the call, check coverage</span></div>
+</header>
+<main>
+  <section class="hero">
+    <div class="herowrap">
+      <div class="bulldog" id="dog" aria-hidden="true">
+        <div class="ear l"></div><div class="ear r"></div>
+        <div class="head">
+          <div class="patch"></div><div class="wrinkle a"></div><div class="wrinkle b"></div><div class="jowl l"></div><div class="jowl r"></div>
+          <div class="brow l"></div><div class="brow r"></div>
+          <div class="eye l"></div><div class="eye r"></div>
+          <div class="muzzle"><div class="nose"></div><div class="mouth"></div></div>
+          <div class="cheek l"></div><div class="cheek r"></div>
+        </div>
+        <div class="collar"></div><div class="cross"></div>
+      </div>
+      <div class="herotext">
+        <h1>Hi, I'm your Yale Health helper.</h1>
+        <button type="button" class="btn-outline" id="example">See an example plan</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="steps" role="list" aria-label="How it works">
+    <div class="stepbox" role="listitem">Tell me in plain words</div>
+    <span class="arrow" aria-hidden="true">&rarr;</span>
+    <div class="stepbox" role="listitem">I route you to the right line</div>
+    <span class="arrow" aria-hidden="true">&rarr;</span>
+    <div class="stepbox" role="listitem">You get a plan with coverage</div>
+  </div>
+
+  <section class="card" id="roleCard">
+    <h2><span class="num" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></span><span>Who are you at Yale?</span></h2>
+    <div class="roles" id="roles" role="radiogroup" aria-label="Your role at Yale"></div>
+  </section>
+
+  <section class="card" id="askCard">
+    <h2><span class="num" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.7 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span><span>What is going on?</span></h2>
+    <div class="chips-title">Common questions</div>
+    <div class="chips" id="chips"></div>
+    <div class="notice" id="chipNotice" hidden>Pick your role in step 1 first, then tap the question again.</div>
+    <textarea id="situation" maxlength="2000" placeholder='For example: "lower back pain for weeks, I want physical therapy"'></textarea>
+    <div class="row">
+      <span class="privacy">Nothing you type is saved. Closing or refreshing this page clears it.</span>
+      <div class="gowrap"><span class="dogwrap thinkdog" id="thinkDog" hidden aria-hidden="true"></span><span class="hint" id="goHint">Pick a role and tell me what's going on.</span><button class="primary" id="go" disabled>Find my next step</button></div>
+    </div>
+    <div class="error" id="error" hidden></div>
+  </section>
+
+  <section class="card refhome" id="refCard">
+    <h3 class="reftitle">Do I need a referral?</h3>
+    <p class="meta">Pick a department or service. The answer comes from Yale Health's referral lists. If it is not on them, I will say so.</p>
+    <form class="refform" id="refForm">
+      <div class="combo" id="refCombo">
+        <input id="refInput" type="text" maxlength="80" aria-label="Department or service" placeholder="Pick or type a department, for example Dermatology">
+        <button type="button" class="comboarrow" id="refArrow" aria-label="Show all departments">&#9662;</button>
+        <div class="combolist" id="refList" role="listbox" hidden></div>
+      </div>
+      <button type="submit" class="primary sm" id="refGo">Check</button>
+    </form>
+    <div class="notice" id="refNotice" hidden>Pick your role in step 1 first, then check again.</div>
+    <div class="refresult" id="refResult" aria-live="polite"></div>
+  </section>
+
+  <div id="result" hidden></div>
+  <footer class="sitefoot noprint"><a href="/safety-demo">Safety demo</a></footer>
+</main>
+
+<button type="button" class="primary fab noprint" id="chatFab" aria-controls="chatWin"><span class="chaticon" aria-hidden="true"></span>Chat with the helper</button>
+<section class="chatwin noprint" id="chatWin" role="dialog" aria-label="Chat with the Yale Health helper" hidden>
+  <div class="chathead">
+    <span class="dogwrap" aria-hidden="true"><div class="bulldog" id="chatDog">
+        <div class="ear l"></div><div class="ear r"></div>
+        <div class="head">
+          <div class="patch"></div><div class="wrinkle a"></div><div class="wrinkle b"></div><div class="jowl l"></div><div class="jowl r"></div>
+          <div class="brow l"></div><div class="brow r"></div>
+          <div class="eye l"></div><div class="eye r"></div>
+          <div class="muzzle"><div class="nose"></div><div class="mouth"></div></div>
+          <div class="cheek l"></div><div class="cheek r"></div>
+        </div>
+        <div class="collar"></div><div class="cross"></div>
+      </div></span>
+    <div><strong>Yale Health helper</strong><span>Answers only from Yale Health's rules</span><span id="chatRoleLine" hidden></span></div>
+    <button type="button" id="chatClose" aria-label="Close chat">&times;</button>
+  </div>
+  <div class="thread" id="chatThread" role="log" aria-live="polite"></div>
+  <div class="chatchips" id="chatChips"></div>
+  <form class="chatform" id="chatForm">
+    <input id="chatInput" type="text" maxlength="500" placeholder="Ask a question..." autocomplete="off" aria-label="Your question">
+    <button class="primary lock" id="chatSend" type="submit">Send</button>
+  </form>
+  <p class="chatnote">This chat lives in this page only. The app's audit log records each question and answer on the computer that runs it.</p>
+</section>
+
+<script>
+  const ROLES = {
+    student: "Yale student",
+    staff_faculty: "Staff or faculty",
+    dependent: "Dependent",
+    visiting_student: "Visiting student"
+  };
+  const ROLE_SUB = { dependent: "of a Yale member" };
+  const EXAMPLE_TEXT = "lower back pain for weeks, I want physical therapy";
+  const CHIPS = [
+    "Is PT covered?",
+    "Is acupuncture covered?",
+    "I have a headache",
+    "I don't have insurance",
+    "What if it's after hours?",
+    "I already have a referral",
+    { text: "Do I need a referral?", card: "Do I need a referral?" },  // these three open the referral checker, the PCP card and the plain plan for mental health
+    { text: "Who is my PCP?", card: "Your PCP" },
+    { text: "I need mental health support" }
+  ];
+  let wantCard = null;             // the card a chip asked for, opened once the plan is drawn
+  const $ = (id) => document.getElementById(id);
+  const el0 = (tag, cls, text) => {  // a plain element, text set as-is
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  };
+
+  // ---- Small icons for the card headers. Fixed pictures, no user text ever goes into them.
+  const ICONS = {
+    phone: '<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11 11 0 0 0 3.5.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.2.2 2.4.55 3.5a1 1 0 0 1-.25 1z"/></svg>',
+    clipboard: '<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M9 3h6a1 1 0 0 1 1 1v1h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2V4a1 1 0 0 1 1-1zm1 2v2h4V5h-4zM8 11h8v2H8v-2zm0 4h6v2H8v-2z"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3zm-1.2 14.2L7.5 12.9l1.4-1.4 1.9 1.9 4.3-4.3 1.4 1.4-5.7 5.7z"/></svg>',
+    pin: '<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.500a2.500 2.500 0 0 1 0 5z"/></svg>',
+    calendar: '<svg viewBox="0 0 24 24" focusable="false"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V2zm-2 8v10h14V10H5zm3 2h3v3H8v-3z"/></svg>'
+  };
+
+  // ---- Rich text. Every phone number becomes a tap-to-call link. In the plan, glossary terms become tappable too. ----
+  const PHONES = "\\(\\d{3}\\) \\d{3}-\\d{4}|\\b\\d{3}-\\d{3}-\\d{4}\\b|\\b911\\b|\\b988\\b";
+  const escapeRe = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  let glossary = [];  // the terms this plan uses, each with the one sentence from the rule files that explains it
+  const termSeen = new Set();  // a term is tappable only the first time it appears, so the plan is not covered in underlines
+
+  function richNodes(text, withTerms) {
+    const variants = withTerms ? glossary.flatMap((gl) => gl.variants).sort((x, y) => y.length - x.length) : [];
+    const terms = variants.length ? "|(?<![\\w])(" + variants.map(escapeRe).join("|") + ")(?![\\w])" : "";
+    const re = new RegExp("(" + PHONES + ")" + terms, "gi");
+    const nodes = [];
+    let last = 0, m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) nodes.push(document.createTextNode(text.slice(last, m.index)));
+      if (m[1]) {
+        const a = el0("a", "tel", m[1]);
+        a.href = "tel:" + m[1].replace(/[^\d+]/g, "");
+        nodes.push(a);
+      } else {
+        const entry = glossary.find((gl) => gl.variants.some((v) => v.toLowerCase() === m[2].toLowerCase()));
+        if (termSeen.has(entry.term)) nodes.push(document.createTextNode(m[2]));
+        else { termSeen.add(entry.term); nodes.push(termButton(m[2], entry)); }
+      }
+      last = m.index + m[0].length;
+    }
+    if (last < text.length) nodes.push(document.createTextNode(text.slice(last)));
+    return nodes;
+  }
+
+  function richElement(tag, cls, text, withTerms) {
+    const n = el0(tag, cls);
+    if (text === undefined) return n;
+    const nodes = richNodes(String(text), withTerms);
+    if (nodes.length === 1 && nodes[0].nodeType !== 1 && !(nodes[0].tag && nodes[0].tag !== "#t")) n.textContent = String(text);
+    else n.append(...nodes);
+    return n;
+  }
+  const el = (tag, cls, text) => richElement(tag, cls, text, false);   // phone numbers only
+  const elt = (tag, cls, text) => richElement(tag, cls, text, true);   // phone numbers and glossary terms
+
+  // A glossary term the person can tap. It shows one sentence from the rule files, with its citation, and nothing invented.
+  function termButton(label, gl) {
+    const b = el0("button", "term", label);
+    b.type = "button";
+    b.setAttribute("aria-expanded", "false");
+    let box = null;
+    b.addEventListener("click", () => {
+      if (box) { box.remove(); box = null; b.setAttribute("aria-expanded", "false"); return; }
+      box = el0("div", "gloss");
+      box.append(el0("strong", "", "In plain words: "), ...richNodes(gl.explanation, false));
+      const host = b.parentNode;
+      if (host && host.insertAdjacentElement) host.insertAdjacentElement("afterend", box); else if (host) host.append(box);
+      b.setAttribute("aria-expanded", "true");
+    });
+    return b;
+  }
+
+  // The rule behind an answer: id, file and source. It is shown only in "How it decided", never on a card or a warning list.
+  function ruleRow(rule) {
+    const row = el0("div", "rule", "Rule ");
+    row.append(el0("code", "", rule.id), document.createTextNode(" (" + rule.file + " file). Source: "));
+    if (rule.url) { const a = el0("a", "", rule.source); a.href = rule.url; a.target = "_blank"; a.rel = "noopener noreferrer"; row.append(a); }
+    else row.append(document.createTextNode(rule.source));
+    if (rule.source_status) row.append(el0("span", "unconfirmed", rule.source_status === "unconfirmed" ? " Not confirmed by a Yale Health document: check before relying on it." : " Partly confirmed: check the rest before relying on it."));
+    return row;
+  }
+  // Kept in memory only for this page view. Nothing is written to the browser's storage.
+  // A random id for this plan's budget. It holds no personal data and lives only in memory. Start over makes a new one.
+  const newSessionId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+  let sessionId = newSessionId();
+  let busy = false;                // true while a request is in flight: chips and answer buttons are locked
+  const chatTurns = [];            // the chat thread, kept in memory for this session only
+  let chatContext = null;          // what the plan established, sent with each chat question
+  let chatRoleLabel = "";
+  let chatOpen = false;
+  const stageDone = new Set();     // referral tracker stages the person ticked, kept in memory for this session
+  const stageDates = {};           // and the date typed for each stage
+  const written = {};              // what the person typed into the Write down fields, by field label; memory only, for this session
+  const ticked = new Set();        // ids of checklist items the person has ticked, kept in memory across re-renders
+  let role = null;
+  const roleInputs = {};
+  let current = { situation: "", hasReferral: false };
+
+  for (const [value, label] of Object.entries(ROLES)) {
+    const wrap = el("label", "role");
+    const input = el("input");
+    input.type = "radio"; input.name = "role"; input.value = value;
+    input.addEventListener("change", () => { role = value; $("chipNotice").hidden = true; $("refNotice").hidden = true; $("refResult").replaceChildren(); syncHomeDepartments(); refresh(); if (chatOpen) redrawChat(false); });
+    const box = el("span", "", label);
+    if (ROLE_SUB[value]) box.append(el("small", "", ROLE_SUB[value]));
+    roleInputs[value] = input;
+    wrap.append(input, box);
+    $("roles").append(wrap);
+  }
+
+  function refresh() {
+    const ready = !!(role && $("situation").value.trim().length >= 3);
+    $("go").disabled = !ready || busy;
+    $("goHint").hidden = ready || busy;  // the hint explains a disabled button; it is not needed once the button works
+  }
+  $("situation").addEventListener("input", refresh);
+  $("situation").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && !$("go").disabled) $("go").click();
+  });
+
+  // Chips are shortcuts into the same pipeline, not a separate FAQ.
+  CHIPS.forEach((chip) => {
+    const text = typeof chip === "string" ? chip : chip.text;
+    const b = el("button", "chip", text);
+    b.type = "button";
+    b.addEventListener("click", () => {
+      if (busy) return;
+      $("situation").value = text;
+      wantCard = (typeof chip === "object" && chip.card) || null;
+      refresh();
+      if (!role) { $("chipNotice").hidden = false; $("roles").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+      $("go").click();
+    });
+    $("chips").append(b);
+  });
+
+  function list(title, entries) {
+    if (!entries || !entries.length) return null;
+    const g = el("div", "group");
+    g.append(el("h3", "", title));
+    const ul = el("ul");
+    entries.forEach((t) => ul.append(el("li", "", t)));
+    g.append(ul);
+    return g;
+  }
+
+  function icon(name) {
+    const span = el0("span", "ico");
+    span.setAttribute("aria-hidden", "true");
+    span.innerHTML = ICONS[name];
+    return span;
+  }
+
+  // The bulldog helper, built the same way as the one in the hero, for the places it reacts.
+  function buildDog() {
+    const dog = el0("div", "bulldog");
+    const part = (cls, ...kids) => { const n = el0("div", cls); n.append(...kids); return n; };
+    const head = part("head", part("patch"), part("wrinkle a"), part("wrinkle b"), part("jowl l"), part("jowl r"), part("brow l"), part("brow r"), part("eye l"), part("eye r"), part("muzzle", part("nose"), part("mouth")), part("cheek l"), part("cheek r"));
+    dog.append(part("ear l"), part("ear r"), head, part("collar"), part("cross"));
+    return dog;
+  }
+
+  // A calm line from the bulldog when the plan is ready. It points at the one thing to do next.
+  function renderDogSays(plan) {
+    const row = el0("div", "dogsays");
+    const wrap = el0("span", "dogwrap");
+    wrap.setAttribute("aria-hidden", "true");
+    const dog = buildDog();
+    dog.classList.add("cheer");
+    wrap.append(dog);
+    const line = plan.timeline.length ? "Here's your plan. First step: call this number." : "Here's your answer. You can call this number to confirm it.";
+    row.append(wrap, el("div", "says", line));
+    return row;
+  }
+
+  // The bulldog thinks while a plan is being made.
+  function setThinking(on) {
+    ["dog", "thinkDog", "chatDog"].forEach((id) => {
+      const dog = id === "thinkDog" ? $(id).firstChild : $(id);
+      if (!dog) return;
+      if (on) dog.classList.add("thinking"); else dog.classList.remove("thinking");
+    });
+    $("thinkDog").hidden = !on;
+  }
+
+  function card(num, title, iconName) {
+    const sec = el("section", "card");
+    const h = el("h2");
+    if (iconName) h.append(icon(iconName));
+    if (num) h.append(el("span", "num", String(num)));
+    h.append(document.createTextNode(title));
+    sec.append(h);
+    return sec;
+  }
+
+  function telLink(text, number) {
+    const a = el0("a", "phone", text);
+    a.href = "tel:" + number.replace(/[^\d+]/g, "");
+    return a;
+  }
+
+  function contactEl(line) {
+    if (line.phone) return telLink(line.phone, line.phone);
+    if (line.email) { const a = el0("a", "phone", line.email); a.href = "mailto:" + line.email; a.style.fontSize = "20px"; return a; }
+    return null;
+  }
+
+  // ---- Open now: read from the hours written in the rule files, compared with this device's clock. If the hours are not in
+  // a form this can read exactly, there is no badge. It never fills in hours.
+  const HOURS_RE = /24\/7|(Monday-Friday|Sunday-Saturday),?\s+(\d{1,2}):(\d{2})\s+(a\.m\.|p\.m\.)-(\d{1,2}):(\d{2})\s+(a\.m\.|p\.m\.)/g;
+  const DAY_SETS = { "Monday-Friday": [1, 2, 3, 4, 5], "Sunday-Saturday": [0, 1, 2, 3, 4, 5, 6] };
+  const DAY_NAMES = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const clock = (h, m, ap) => (Number(h) % 12 + (ap === "p.m." ? 12 : 0)) * 60 + Number(m);
+
+  function parseHours(text) {
+    const found = [];
+    let last = 0, m;
+    HOURS_RE.lastIndex = 0;
+    while ((m = HOURS_RE.exec(String(text)))) {
+      const label = String(text).slice(last, m.index).replace(/^[\s.,;:-]+|[\s.,;:-]+$/g, "");
+      last = m.index + m[0].length;
+      if (m[0] === "24/7") found.push({ label, always: true });
+      else found.push({ label, days: DAY_SETS[m[1]], open: clock(m[2], m[3], m[4]), close: clock(m[5], m[6], m[7]), openText: m[2] + ":" + m[3] + " " + m[4], closeText: m[5] + ":" + m[6] + " " + m[7] });
+    }
+    return found;
+  }
+
+  function openStatus(hoursText, now) {
+    const many = parseHours(hoursText).length > 1;
+    return parseHours(hoursText).map((c) => {
+      let status;
+      const day = now.getDay(), mins = now.getHours() * 60 + now.getMinutes();
+      if (c.always) status = { open: true, text: "Open now, 24 hours" };
+      else if (c.days.includes(day) && mins >= c.open && mins < c.close) status = { open: true, text: "Open now until " + c.closeText };
+      else {
+        for (let i = 0; i <= 7 && !status; i++) {
+          const d = (day + i) % 7;
+          if (!c.days.includes(d) || (i === 0 && mins >= c.open)) continue;
+          status = { open: false, text: "Closed, opens " + (i === 0 ? "today" : i === 1 ? "tomorrow" : DAY_NAMES[d]) + " " + c.openText };
+        }
+      }
+      return { ...status, label: c.label, text: (c.label && (many || c.label) ? c.label + ": " : "") + status.text };
+    });
+  }
+
+  function openBadges(line) {
+    if (!line.phone || !line.hours) return null;  // only call lines, and only when the rule files give hours
+    const statuses = openStatus(line.hours, new Date());
+    if (!statuses.length) return null;
+    const row = el0("div", "openrow");
+    statuses.forEach((st) => {
+      const b = el0("span", "openstatus " + (st.open ? "open" : "closed"), st.text);
+      b.title = "From the hours in Yale Health's rules and this device's clock";
+      row.append(b);
+    });
+    return row;
+  }
+
+  function lineBlock(line) {
+    const frag = document.createDocumentFragment();
+    frag.append(el("div", "linename", line.name));
+    const c = contactEl(line);
+    if (c) frag.append(c);
+    if (line.hours && line.hours !== "Not stated") frag.append(el("div", "meta", line.hours));
+    const badges = openBadges(line);
+    if (badges) frag.append(badges);
+    return frag;
+  }
+
+  function showForm(on) { $("roleCard").hidden = !on; $("refCard").hidden = !on; $("askCard").hidden = !on; }
+
+  function startOverButton() {
+    const reset = el("button", "ghost noprint", "Start over");
+    reset.addEventListener("click", () => {
+      sessionId = newSessionId();  // a new plan does not share the last plan's session
+      ticked.clear();
+      clearWritten();
+      resetChat();
+      $("result").hidden = true; $("result").replaceChildren();
+      showForm(true); $("situation").value = ""; refresh();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    const row = el("div", "row noprint"); row.style.justifyContent = "center"; row.append(reset);
+    return row;
+  }
+
+  // The emergency rule: this message only. No plan, no checklist, no coverage, no questions.
+  function renderEmergency(em) {
+    const box = el("section", "emergency");
+    box.setAttribute("role", "alert");
+    box.append(el("h2", "", em.headline));
+    const erBox = el("div", "er");
+    erBox.append(el("strong", "", "Nearest ER"));
+    em.er.forEach((site) => erBox.append(el("div", "", site.name + ", " + site.address)));
+    box.append(erBox);
+    em.notes.forEach((n) => box.append(el("p", "", n)));
+    return [box, startOverButton()];
+  }
+
+  function renderCrisis(cr) {
+    const box = el("section", "emergency");
+    box.setAttribute("role", "alert");
+    box.append(el("h2", "", cr.headline));
+    cr.lines.forEach((line) => { box.append(el("div", "linename", line.name)); box.append(telLink(line.phone, line.phone)); });
+    box.append(el("p", "", cr.label));
+    return [box, startOverButton()];
+  }
+
+  // The one administrative question.
+  // Opens the address in the person's own maps app: Apple Maps on iPhone and iPad, a geo link on Android, Google Maps elsewhere.
+  function directionsUrl(address, ua) {
+    const q = encodeURIComponent(address);
+    if (/iPhone|iPad|iPod/i.test(ua || "")) return "https://maps.apple.com/?q=" + q;
+    if (/Android/i.test(ua || "")) return "geo:0,0?q=" + q;
+    return "https://www.google.com/maps/search/?api=1&query=" + q;
+  }
+
+  function directionsLink(place) {
+    const a = el0("a", "directions", "Get directions");
+    a.href = directionsUrl(place.name + ", " + place.address, typeof navigator !== "undefined" ? navigator.userAgent : "");
+    a.target = "_blank"; a.rel = "noopener noreferrer";
+    return a;
+  }
+
+  function placeRow(place) {
+    const row = el0("div", "placerow");
+    const pin = icon("pin"); pin.className = "ico pin";
+    row.append(pin, el0("span", "", place.name + ", " + place.address), directionsLink(place));
+    return row;
+  }
+
+  // A compact OpenStreetMap strip for the Yale Health Center. Tapping it opens the same directions link as "Get directions".
+  const MAP_SRC = "https://www.openstreetmap.org/export/embed.html?bbox=-72.938%2C41.30824%2C-72.918%2C41.32424&layer=mapnik&marker=41.31624%2C-72.928";
+  function mapPreview(place) {
+    const box = el0("div", "mapstrip noprint");
+    const frame = el0("iframe");
+    frame.src = MAP_SRC; frame.title = "Map of " + place.name; frame.loading = "lazy"; frame.referrerPolicy = "no-referrer"; frame.tabIndex = -1;
+    const tap = el0("a", "maptap");
+    tap.href = directionsLink(place).href; tap.target = "_blank"; tap.rel = "noopener noreferrer";
+    tap.setAttribute("aria-label", "Get directions to " + place.name);
+    box.append(frame, tap);
+    return box;
+  }
+
+  // The answer comes first: the line to call, larger and stronger than every other card.
+  function renderCall(data) {
+    const sec = el("section", "callhero");
+    const label = el("div", "label");
+    label.append(icon("phone"), document.createTextNode("Call this line"));
+    sec.append(label);
+    sec.append(el("div", "linename", data.line.name));
+    const c = contactEl(data.line);
+    if (c) sec.append(c);
+    if (data.line.hours && data.line.hours !== "Not stated") sec.append(el("div", "meta", data.line.hours));
+    const badges = openBadges(data.line);
+    if (badges) sec.append(badges);
+    if (data.place) sec.append(placeRow(data.place));
+    sec.append(elt("p", "reason", data.how_it_decided.reason));
+    if (data.also_consider && data.also_consider.length) {
+      const also = el("div", "also");
+      also.append(el("strong", "", "Also useful"));
+      data.also_consider.forEach((line) => {
+        const row = el("div", "");
+        row.style.marginTop = "6px";
+        row.append(document.createTextNode(line.name + ": "));
+        const c2 = contactEl(line);
+        if (c2) { c2.className = ""; c2.style.fontWeight = "600"; row.append(c2); }
+        const b2 = openBadges(line);
+        if (b2) row.append(b2);
+        if (line.use_for) row.append(elt("div", "meta", line.use_for));
+        also.append(row);
+      });
+      sec.append(also);
+    }
+    if (data.place) sec.append(mapPreview(data.place));
+    return sec;
+  }
+
+  let shownPlan = null;   // the plan on the page, kept in memory so Copy plan can turn it into text
+  let shownPlace = null;
+
+  // The whole plan as plain text, with the ticks and the typed Write down answers, ready to paste into Notes or send to family.
+  function planSheet(data) {
+    data = data || shownPlan;
+    const plan = data.plan, blocks = [];
+    const add = (title, lines) => { if (lines.length) blocks.push({ title, lines }); };
+    add("YALE HEALTH NAVIGATOR: YOUR PLAN", ["For: " + data.how_it_decided.role_label]);
+    const call = [data.line.name, data.line.phone || data.line.email || ""];
+    if (data.line.hours && data.line.hours !== "Not stated") call.push(data.line.hours);
+    if (data.place) call.push("Where: " + data.place.name + ", " + data.place.address);
+    add("CALL THIS LINE", call.filter(Boolean));
+    add(null, ["Why: " + data.how_it_decided.reason]);
+    if (plan.summary) add(null, [plan.summary]);
+    add("WHAT YOUR PLAN COVERS", data.coverage.items.flatMap((i) => ["- " + i.topic + ": " + STATUS_LABELS[i.status], "  " + i.answer]));
+    add("TIMELINE", plan.timeline.map((t) => t.when + ": " + t.what));
+    add("DO NOT FORGET TO MENTION", plan.do_not_forget.map((p) => "- " + p.point + " (" + p.why + ")"));
+    add("WRITE DOWN", plan.write_down.map((t) => t + ": " + (written[t] || "______")));
+    add("CHECKLIST", plan.checklist.map((c) => (ticked.has(c.id) ? "[x] " : "[ ] ") + c.label));
+    if (data.referral_help && data.referral_help.tracker_note) add("REFERRAL TRACKER", STAGES.map((st) => (stageDone.has(st.id) ? "[x] " : "[ ] ") + st.label + (stageDates[st.id] ? ": " + stageDates[st.id] : "")));
+    if (data.safety_net) add("GET EMERGENCY HELP RIGHT AWAY IF", data.safety_net.signs.map((t) => "- " + t).concat(data.safety_net.closing));
+    add("IF THINGS DO NOT GO AS PLANNED", plan.if_not_as_planned.map((g) => "- " + g.problem + ": " + g.what_to_do));
+    add(null, [data.disclaimer]);
+    return blocks;
+  }
+
+  // The call sheet: what Copy puts on the clipboard and what Print puts on paper. Both come from planSheet, so they are the same sheet.
+  function planAsText(data) {
+    return planSheet(data).map((b) => (b.title ? [b.title, ...b.lines] : b.lines).join("\n")).join("\n\n");
+  }
+
+  function printSheetEl(data) {
+    const sheet = el0("div", "printsheet");
+    sheet.id = "printSheet";
+    planSheet(data).forEach((b, n) => {
+      const sec = el0("section", "sheetblock");
+      if (b.title) sec.append(el0(n === 0 ? "h1" : "h2", "", b.title));
+      b.lines.forEach((line) => sec.append(el0("div", "sheetline", line)));
+      sheet.append(sec);
+    });
+    return sheet;
+  }
+
+  // Copies in the browser. Nothing is sent anywhere.
+  async function copyPlan(button) {
+    const text = planAsText();
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) {
+      const box = el0("textarea"); box.value = text; document.body.append(box); box.select();
+      try { document.execCommand("copy"); } catch (e2) { /* the person can still select the text by hand */ }
+      box.remove();
+    }
+    const label = button.textContent;
+    button.textContent = "Copied";
+    setTimeout(() => { button.textContent = label; }, 2000);
+  }
+
+  // The plan's one-sentence summary. The buttons that used to sit beside it now live in "Take this plan with you", at the end.
+  function renderPlanBar(plan) {
+    if (!plan.summary) return null;
+    return elt("p", "plansummary", plan.summary);
+  }
+
+  // ---- The end of the plan: take it with you. One section, Copy and Print side by side, after all the plan content.
+  function renderTakeAway() {
+    const sec = card(null, "Take this plan with you", "calendar");
+    sec.classList.add("takeaway", "noprint");
+    const row = el("div", "actions");
+    const copy = el("button", "ghost", "Copy plan");
+    copy.type = "button";
+    copy.addEventListener("click", () => copyPlan(copy));
+    const print = el("button", "ghost", "Print plan");
+    print.type = "button";
+    print.addEventListener("click", () => { showSheetForPrint(); window.print(); });
+    row.append(copy, print);
+    sec.append(row);
+    return sec;
+  }
+
+  // ---- Add to calendar. Everything below runs in the browser. Nothing is sent anywhere and no calendar account is used. ----
+  function icsEscape(text) {
+    return String(text).replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  }
+
+  function icsFold(line) {  // lines are folded at 75 bytes, as the calendar format requires
+    const enc = new TextEncoder();
+    if (enc.encode(line).length <= 75) return line;
+    let out = "", cur = "", bytes = 0;
+    for (const ch of line) {
+      const b = enc.encode(ch).length;
+      if (bytes + b > 75) { out += cur + "\r\n "; cur = ""; bytes = 1; }
+      cur += ch; bytes += b;
+    }
+    return out + cur;
+  }
+
+  function icsLocal(dateText, timeText, addMinutes) {  // local ("floating") time, so the person's own calendar shows it as typed
+    const [y, m, d] = dateText.split("-").map(Number);
+    const [hh, mm] = timeText.split(":").map(Number);
+    const t = new Date(y, m - 1, d, hh, mm + addMinutes, 0);
+    const p2 = (n) => String(n).padStart(2, "0");
+    return "" + t.getFullYear() + p2(t.getMonth() + 1) + p2(t.getDate()) + "T" + p2(t.getHours()) + p2(t.getMinutes()) + "00";
+  }
+
+  function buildIcs(f, now) {
+    const stamp = (now || new Date()).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+    const uid = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(36).slice(2)) + "@yale-health-navigator";
+    const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Yale Health Navigator//Add to calendar//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
+      "BEGIN:VEVENT", "UID:" + uid, "DTSTAMP:" + stamp, "DTSTART:" + icsLocal(f.date, f.time, 0), "DTEND:" + icsLocal(f.date, f.time, f.minutes),
+      "SUMMARY:" + icsEscape(f.title)];
+    if (f.location) lines.push("LOCATION:" + icsEscape(f.location));
+    if (f.notes) lines.push("DESCRIPTION:" + icsEscape(f.notes));
+    lines.push("END:VEVENT", "END:VCALENDAR");
+    return lines.map(icsFold).join("\r\n") + "\r\n";
+  }
+
+  function downloadIcs(text, title) {
+    const blob = new Blob([text], { type: "text/calendar;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = el0("a");
+    a.href = url;
+    a.download = (title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "yale-health-visit") + ".ics";
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function todayIso(now) {  // today's date on the person's own clock, as YYYY-MM-DD
+    const p2 = (n) => String(n).padStart(2, "0");
+    return now.getFullYear() + "-" + p2(now.getMonth() + 1) + "-" + p2(now.getDate());
+  }
+
+  function isPastDate(dateText, now) { return dateText < todayIso(now); }
+
+  function field(labelText, control) {
+    const lab = el("label", "", labelText);
+    lab.append(control);
+    return lab;
+  }
+
+  function calendarForm(ev, prefill) {
+    const form = el("form", "calform noprint");
+    const title = el("input"); title.value = ev.title; title.required = true; title.maxLength = 150;
+    const where = el("input"); where.value = ev.location; where.maxLength = 200;
+    const notes = el("textarea"); notes.value = ev.notes; notes.maxLength = 1000;
+    const date = el("input"); date.type = "date"; date.required = true; date.min = todayIso(new Date());
+    const time = el("input"); time.type = "time"; time.required = true;
+    const len = el("select");
+    [15, 30, 45, 60, 90].forEach((m) => { const o = el("option", "", m + " minutes"); o.value = String(m); if (m === 60) o.selected = true; len.append(o); });
+    const row = el("div", "two");
+    row.append(field("Date (add it after you call)", date), field("Start time", time), field("Length", len));
+    const err = el("div", "err"); err.hidden = true;
+    const save = el("button", "primary sm", "Save .ics file"); save.type = "submit"; save.disabled = true;
+    const ready = el("span", "fine", " Pick the date and time of your appointment to save it.");
+    const check = () => { const ok = !!date.value && !!time.value && !isPastDate(date.value, new Date()); save.disabled = !ok; ready.hidden = ok; };
+    date.addEventListener("input", check); time.addEventListener("input", check); date.addEventListener("change", check); time.addEventListener("change", check);
+    if (prefill) { date.value = prefill; check(); }  // a date the person typed themselves; the time is still theirs to add
+    const cancel = el("button", "ghost sm", "Cancel"); cancel.type = "button";
+    cancel.addEventListener("click", () => form.remove());
+    const btns = el("div", "calrow"); btns.append(save, document.createTextNode(" "), cancel, ready);
+    const whereField = field("Location", where);
+    if (shownPlace && ev.location.includes(shownPlace.address.split(",")[0])) whereField.append(directionsLink(shownPlace));
+    form.append(field("Title", title), whereField, field("Notes", notes), row, err, btns,
+      el("p", "fine", "This only saves what you already booked by phone. The app never books anything. The file is made in your browser and is not sent anywhere. Open it in Google Calendar, Apple Calendar or Outlook."));
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!date.value || !time.value) { err.textContent = "Add the date and time of your appointment."; err.hidden = false; return; }
+      if (isPastDate(date.value, new Date())) { err.textContent = "Pick today or a later date."; err.hidden = false; return; }
+      err.hidden = true;
+      downloadIcs(buildIcs({ title: title.value.trim(), location: where.value.trim(), notes: notes.value.trim(), date: date.value, time: time.value, minutes: Number(len.value) }), title.value);
+    });
+    return form;
+  }
+
+  function calendarButton(ev, getDate) {
+    const holder = el("div", "cal-btn noprint");
+    const b = el("button", "ghost sm", "Add to calendar");
+    b.type = "button";
+    b.addEventListener("click", () => {
+      const open = holder.querySelector(".calform");
+      if (open) { open.remove(); return; }
+      holder.append(calendarForm(ev, getDate ? getDate() : ""));
+    });
+    holder.append(b);
+    return holder;
+  }
+
+  function renderTimeline(plan) {
+    if (!plan.timeline.length) return null;  // a coverage question has no steps
+    const sec = card(null, "Your timeline");
+    const ol = el("ol", "timeline");
+    const placed = new Set();
+    plan.timeline.forEach((step) => {
+      const li = el("li");
+      li.append(el("span", "dot"), el("div", "when", step.when), elt("div", "", step.what));
+      plan.calendar.forEach((ev) => {  // a button next to each booked step
+        if (ev.when === step.when && !placed.has(ev)) { placed.add(ev); li.append(calendarButton(ev)); }
+      });
+      ol.append(li);
+    });
+    sec.append(ol);
+    const loose = plan.calendar.filter((ev) => !placed.has(ev));
+    if (loose.length) {
+      const row = el("div", "also noprint");
+      row.append(el("strong", "", "Save to your calendar"));
+      loose.forEach((ev) => { row.append(el("div", "meta", ev.title)); row.append(calendarButton(ev)); });
+      sec.append(row);
+    }
+    if (plan.calendar.length) sec.append(el("p", "meta noprint", "Add to calendar only saves an appointment you already booked by phone. The app never books for you."));
+    return sec;
+  }
+
+  function renderDoNotForget(plan) {
+    if (!plan.do_not_forget.length) return null;
+    const sec = card(null, "Do not forget to mention");
+    plan.do_not_forget.forEach((pt) => {
+      const box = el("div", "dnf");
+      box.append(elt("strong", "", pt.point), elt("span", "", pt.why));
+      sec.append(box);
+    });
+    return sec;
+  }
+
+  function renderChecklist(plan) {
+    if (!plan.checklist.length) return null;
+    const c = card(null, "Checklist");
+    plan.checklist.forEach((cl) => {
+      const lab = el("label", "check");
+      const box = el("input"); box.type = "checkbox"; box.id = cl.id;
+      box.checked = ticked.has(cl.id);  // reapply what was ticked before this render
+      box.addEventListener("change", () => { if (box.checked) ticked.add(cl.id); else ticked.delete(cl.id); });
+      lab.append(box, el("span", "", cl.label));
+      c.append(lab);
+    });
+    return c;
+  }
+
+  function renderWriteDown(plan) {
+    if (!plan.write_down.length) return null;
+    const w = card(null, "Write down", "clipboard");
+    plan.write_down.forEach((t) => {
+      const row = el("label", "blank");
+      const input = el("input"); input.type = "text"; input.maxLength = 300; input.autocomplete = "off"; input.setAttribute("aria-label", t);
+      const onPaper = el("span", "printval", written[t] || "");  // shown only when printing, so the typed text lands on the dotted line
+      input.value = written[t] || "";  // reapply what was typed before this render
+      input.addEventListener("input", () => { written[t] = input.value; onPaper.textContent = input.value; });
+      row.append(el("span", "", t), input, onPaper);
+      w.append(row);
+    });
+    return w;
+  }
+
+  function renderSafetyNet(net) {
+    const flags = el("div", "redflags");
+    flags.append(el("h3", "", "Get emergency help right away if"));
+    const ul = el("ul");
+    net.signs.forEach((t) => ul.append(el("li", "", t)));
+    flags.append(ul, el("div", "call", net.closing));
+    flags.style.marginBottom = "18px";
+    return flags;
+  }
+
+  const STATUS_LABELS = { covered: "Covered", conditions: "Covered with conditions", not_covered: "Not covered", not_verified: "Not in the rules" };
+  const norm = (t) => String(t).toLowerCase().replace(/[^a-z0-9% ]+/g, " ").replace(/\s+/g, " ").trim();
+  const isNew = (text, ...seen) => !!text && !seen.some((t) => t && norm(t).includes(norm(text)));
+
+  // One coverage answer: the verdict sentence (which already says any condition) and one quote from the rules.
+  // The rule ids, files and sources are in "How it decided".
+  function itemBox(item) {
+    const box = el("div", "item " + item.status);
+    const top = el("div", "top");
+    top.append(el("span", "topic", item.topic), el("span", "pill " + item.status, STATUS_LABELS[item.status]));
+    box.append(top, elt("p", "verdictline", item.answer));
+    if (item.claim) box.append(el("div", "rule quote", "From the rules: " + item.claim));
+    if (isNew(item.excluded, item.answer, item.claim)) { const f = el("div", "field"); f.append(el("b", "", "Excluded: "), ...richNodes(item.excluded, false)); box.append(f); }
+    (item.applies_to || []).forEach((t) => box.append(el("p", "scope", "Applies to: " + t)));
+    return box;
+  }
+
+  function renderCoverage(cov, role_label) {
+    const sec = card(null, "What your plan covers (" + role_label + ")", "shield");
+    sec.classList.add("verdict");
+    cov.items.forEach((item) => sec.append(itemBox(item)));
+    if (cov.official_url) {
+      const link = el("a", "officiallink noprint", "See the official Yale Health coverage page");
+      link.href = cov.official_url; link.target = "_blank"; link.rel = "noopener noreferrer";
+      sec.append(link);
+    }
+    return sec;
+  }
+
+  // A section that starts closed and opens on tap.
+  function collapsible(title, nodes, extraClass) {
+    const d = el("details", "card collapse " + (extraClass || ""));
+    d.append(el("summary", "", title));
+    nodes.forEach((n) => d.append(n));
+    return d;
+  }
+
+  function renderIfNot(plan) {
+    const sec = el("div");
+    plan.if_not_as_planned.forEach((gw) => {
+      const box = el("div", "gw");
+      box.append(el("strong", "", gw.problem), elt("div", "", gw.what_to_do));
+      if (gw.action === "has_referral") {
+        const b = el("button", "primary sm noprint lock", "I have my referral");
+        b.style.marginTop = "8px";
+        b.addEventListener("click", () => run({ hasReferral: true }));
+        box.append(b);
+      }
+      sec.append(box);
+    });
+    return collapsible("If things do not go as planned", [sec], "printable");
+  }
+
+  function draftBlock(title, draft) {
+    const box = el("div", "draft");
+    box.append(el("h3", "", title));
+    if (draft.to) box.append(el("div", "meta", "To: " + draft.to));
+    if (draft.subject) box.append(el("div", "meta", "Subject: " + draft.subject));
+    const ta = el("textarea"); ta.value = draft.body; ta.readOnly = true;
+    const copy = el("button", "ghost sm noprint", "Copy text");
+    copy.style.marginTop = "6px";
+    copy.addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(draft.body); copy.textContent = "Copied"; }
+      catch (e) { ta.select(); copy.textContent = "Press Ctrl/Cmd+C to copy"; }
+    });
+    box.append(ta, copy);
+    return box;
+  }
+
+  function renderWriting(pw) {
+    const inner = el("div");
+    const warn = el("div", "warnbox");
+    const ul = el("ul");
+    pw.warnings.forEach((t) => ul.append(el("li", "", t)));
+    warn.append(ul);
+    inner.append(el("p", "", pw.note), warn);
+    if (pw.email) inner.append(draftBlock("Email draft to Member Services (coverage and administrative questions only)", pw.email));
+    if (pw.mychart) inner.append(draftBlock("MyChart message draft (non-urgent care team message)", pw.mychart));
+    return collapsible("Email or MyChart drafts", [inner], "printable");
+  }
+
+  function renderHow(how, data) {
+    const dl = el("dl", "how");
+    [["Role", how.role_label], ["Rule files used", how.rule_files.join(" + ")], ["Category", how.category_label], ["Line chosen", how.line_name + " " + how.contact]]
+      .forEach(([k, v]) => { dl.append(el("dt", "", k), el("dd", "", v)); });
+    const used = el("div", "rulesused");
+    const seen = new Set();
+    const group = (heading, rules) => {
+      const fresh = rules.filter((r) => r && !seen.has(r.id));
+      if (!fresh.length) return;
+      used.append(el("strong", "", heading));
+      fresh.forEach((r) => { seen.add(r.id); used.append(ruleRow(r)); });
+    };
+    data.coverage.items.forEach((item) => group(item.topic, item.rules));
+    const net = data.safety_net, help = data.referral_help;
+    if (net) group("The warning-sign list", [net.rule]);
+    group("Plain-words explanations", (data.glossary || []).map((gl) => gl.rule));
+    if (help) group("PCP and referral help", [...(help.pcp || []).map((hp) => hp.rule), ...(help.tracker_note ? [help.tracker_note.rule] : [])]);
+    return collapsible("How it decided", [dl, el("h3", "", "Rules behind the answers"), used], "printable appendix");
+  }
+
+  // ---- Referral help: the referral tracker and the PCP card. Departments and lines only.
+  const STAGES = [
+    { id: "visit", label: "PCP visit done", when: ["This week"] },
+    { id: "requested", label: "Referral requested" },
+    { id: "authorized", label: "Referral reviewed and authorized" },
+    { id: "booked", label: "Appointment booked", when: ["After the referral", "Today"] }
+  ];
+  const VERDICTS = { needed: ["conditions", "Referral needed"], not_needed: ["covered", "No referral needed"], unknown: ["not_verified", "Ask Member Services"] };
+
+  // The verdict display and the request for the homepage checker, the one place to check a department.
+  function showVerdict(result, ans) {
+    result.replaceChildren();
+    if (!ans) return;
+    if (ans.verdict === "emergency") { result.append(el("p", "refemergency", ans.answer)); return; }
+    const [cls, label] = VERDICTS[ans.verdict];
+    result.append(el("span", "pill " + cls, label), el("p", "verdictline", ans.answer));
+    if (ans.next_step) result.append(el("p", "", ans.next_step));
+    if (ans.department && (ans.verdict === "needed" || ans.verdict === "not_needed")) {  // the homepage checker only has one: an unknown department gets no plan, it would guess
+      const more = el("button", "ghost sm lock", "Get a plan for " + ans.department);
+      more.type = "button";
+      more.addEventListener("click", () => { if (!busy) startPlan(ans.department); });
+      result.append(more);
+    }
+  }
+
+  async function askReferral(text) {
+    try {
+      const res = await fetch("/api/referral", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ role, department: text, session_id: sessionId }) });
+      const ans = await res.json();
+      if (!res.ok) throw new Error("the referral check failed");
+      return ans;
+    } catch (err) {
+      return { verdict: "unknown", answer: "I couldn't check just now. Ask Member Services at (203) 432-0246." };
+    }
+  }
+
+  // A suggestions dropdown that always opens the full list: the arrow shows every department even with text typed,
+  // typing filters the list, tapping a department fills the input and closes it. Free text still works.
+  const combos = [];
+  function deptCombo(root, input, arrow, list, getNames) {
+    const close = () => { list.hidden = true; input.setAttribute("aria-expanded", "false"); };
+    const show = (names) => {
+      list.replaceChildren(...names.map((name) => {
+        const b = el0("button", "comboitem", name);
+        b.type = "button"; b.setAttribute("role", "option");
+        b.addEventListener("click", () => { input.value = name; close(); input.focus(); });
+        return b;
+      }));
+      list.hidden = !names.length;
+      input.setAttribute("aria-expanded", String(!list.hidden));
+    };
+    input.setAttribute("aria-expanded", "false");
+    arrow.addEventListener("click", () => { if (list.hidden) show(getNames()); else close(); });
+    input.addEventListener("input", () => { const q = input.value.trim().toLowerCase(); show(getNames().filter((n) => n.toLowerCase().includes(q))); });
+    input.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+    for (let i = combos.length - 1; i >= 0; i--) if (combos[i].root.isConnected === false) combos.splice(i, 1);
+    combos.push({ root, close });
+  }
+  // Pressing anywhere outside a dropdown closes it, including pressing Check.
+  if (document.addEventListener) document.addEventListener("pointerdown", (e) => combos.forEach((c) => { if (!c.root.contains || !c.root.contains(e.target)) c.close(); }));
+
+  // The homepage checker: before any plan, using the role picked on the form. Its suggestions come from /api/departments.
+  let deptRole = null;
+  let homeDepartments = [];
+  deptCombo($("refCombo"), $("refInput"), $("refArrow"), $("refList"), () => homeDepartments);
+  async function syncHomeDepartments() {
+    if (!role || role === deptRole) return;
+    const asked = role;
+    homeDepartments = []; deptRole = null;
+    try {
+      const res = await fetch("/api/departments?role=" + encodeURIComponent(asked));
+      if (!res.ok) return;
+      const names = (await res.json()).departments;
+      if (role !== asked) return;
+      homeDepartments = names;
+      deptRole = asked;
+    } catch (err) { /* free text still works without suggestions */ }
+  }
+  async function checkHome() {
+    if (!role) { $("refNotice").hidden = false; $("roles").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+    $("refNotice").hidden = true;
+    const text = $("refInput").value.trim();
+    if (text.length < 2) return;
+    const result = $("refResult");
+    result.replaceChildren(el("p", "meta", "Checking..."));  // a slow check never reads as no response
+    showVerdict(result, await askReferral(text));
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });  // never left hidden behind the suggestions
+  }
+  // With the suggestions open, the first tap can be spent closing them. Pressing Check closes them itself and submits at once;
+  // the click that follows the same press is ignored.
+  let pressedAt = 0;
+  $("refGo").addEventListener("pointerdown", () => { pressedAt = Date.now(); $("refInput").blur(); checkHome(); });
+  $("refForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (Date.now() - pressedAt < 800) return;
+    checkHome();
+  });
+
+  function renderTracker(help, plan) {
+    const body = el("div", "tracker");
+    body.append(el("p", "meta", help.tracker_note.text));
+    STAGES.forEach((stage) => {
+      const row = el("div", "stage");
+      const lab = el("label", "stagelabel");
+      const box = el("input"); box.type = "checkbox"; box.id = "stage-" + stage.id; box.checked = stageDone.has(stage.id);
+      box.addEventListener("change", () => { if (box.checked) stageDone.add(stage.id); else stageDone.delete(stage.id); });
+      lab.append(box, el("span", "", stage.label));
+      const date = el("input"); date.type = "date"; date.value = stageDates[stage.id] || ""; date.setAttribute("aria-label", stage.label + ": date");
+      const onPaper = el("span", "printval", stageDates[stage.id] || "");
+      date.addEventListener("input", () => { stageDates[stage.id] = date.value; onPaper.textContent = date.value; });
+      row.append(lab, date, onPaper);
+      const ev = stage.when && stage.when.map((w) => plan.calendar.find((c) => c.when === w)).find(Boolean);
+      if (ev) row.append(calendarButton(ev, () => stageDates[stage.id] || ""));  // an appointment stage can go in the calendar
+      body.append(row);
+    });
+    return collapsible("Track your referral", [body], "printable");
+  }
+
+  function renderPcpCard(help) {
+    const body = el("div", "pcpcard");
+    help.pcp.forEach((hp) => body.append(el("p", "", hp.text)));
+    return collapsible("Your PCP", [body], "printable");
+  }
+
+  function renderReferralHelp(data) {
+    const help = data.referral_help;
+    return [...(help.tracker_note ? [renderTracker(help, data.plan)] : []), ...(help.pcp ? [renderPcpCard(help)] : [])];
+  }
+
+  function clearWritten() {  // a new plan starts clean: typed answers and tracker stages
+    Object.keys(written).forEach((k) => { delete written[k]; });
+    Object.keys(stageDates).forEach((k) => { delete stageDates[k]; });
+    stageDone.clear();
+  }
+
+  function noticeBox(text) { return el("div", "notice-top", text); }
+
+  // ---- The chat window. A second door to the same bot the form uses: same pipeline, same rules, same session. ----
+  const ROLE_QUESTION = "Are you a Yale student, staff or faculty, a dependent, or a visiting student?";
+  const ROLE_PHRASE = { student: "Yale student", staff_faculty: "Yale staff or faculty", dependent: "a dependent of a Yale member", visiting_student: "a visiting student" };
+  const ROLE_RULES_NAME = { student: "Yale student", staff_faculty: "staff or faculty", dependent: "dependent", visiting_student: "visiting student" };
+  const CHAT_EXAMPLES = ["Is dental covered?", "Do I need prior authorization?", "Where is the official coverage page?"];  // insurance lookups the homepage chips do not cover
+  const CHAT_MAX = 500;  // the real limit: the server accepts a question of up to 500 characters
+  let pendingQuestion = null;  // something the person asked before telling the bot their role
+
+  function botBubble(chat) {
+    const bubble = el("div", "msg bot");
+    if (chat.kind === "answer") {
+      chat.items.forEach((item) => bubble.append(itemBox(item)));
+    } else if (chat.kind === "emergency") {
+      bubble.append(renderEmergency(chat.emergency)[0]);
+    } else if (chat.kind === "crisis") {
+      bubble.append(renderCrisis(chat.crisis)[0]);
+    } else {
+      bubble.append(el("p", "", chat.text));
+      if (chat.line) bubble.append(lineBlock(chat.line));
+      if (chat.link) {
+        const a = el("a", "officiallink", chat.link.text);
+        a.href = chat.link.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        bubble.append(a);
+      }
+    }
+    return bubble;
+  }
+
+  // One opening message. With no role yet it carries the role question too, so the chat never opens with two bubbles in a row.
+  function welcomeBubble() {
+    const b = el("div", "msg bot");
+    if (!role) {
+      b.append(el("p", "", "Hi! Ask me what is covered or what to do next. I can't diagnose."));
+      b.append(el("p", "", ROLE_QUESTION));
+      return b;
+    }
+    b.append(el("p", "", "Hi! Ask me what is covered or what to do next. I can't diagnose."));
+    if (chatContext && chatContext.wants && chatContext.wants !== "my question") b.append(el("p", "", "I can see your plan was about " + chatContext.wants + ", so you don't need to repeat that."));
+    return b;
+  }
+
+  // Under the title, once a role is set: which role's file the answers come from.
+  function syncChatRole() {
+    const tag = $("chatRoleLine");
+    tag.hidden = !role;
+    tag.textContent = role ? ROLE_RULES_NAME[role][0].toUpperCase() + ROLE_RULES_NAME[role].slice(1) + " rules" : "";
+  }
+
+  function redrawChat(waiting) {
+    syncChatRole();
+    const thread = $("chatThread");
+    thread.replaceChildren(welcomeBubble());
+    chatTurns.forEach((turn) => thread.append(turn.from === "me" ? el("div", "msg me", turn.text) : botBubble(turn.reply)));
+    if (waiting) thread.append(el("div", "msg bot typing", "Looking in the rule files..."));
+    const avatar = $("chatDog");
+    if (waiting) avatar.classList.add("thinking"); else avatar.classList.remove("thinking");
+    $("chatChips").replaceChildren();
+    const asked = chatTurns.some((t) => t.from === "me" && !t.roleAnswer);
+    // Role chips only until a role is chosen. After that, example questions until the person has asked something.
+    const offer = !role ? Object.entries(ROLES).map(([value, label]) => ({ label, pick: value }))
+      : (asked ? [] : CHAT_EXAMPLES.map((q) => ({ label: q, ask: q })));
+    offer.forEach((o) => {
+      const c = el("button", "chip lock", o.label);
+      c.type = "button";
+      c.addEventListener("click", () => (o.pick ? chooseRole(o.pick) : askFollowUp(o.ask)));
+      $("chatChips").append(c);
+    });
+    thread.scrollTop = thread.scrollHeight;
+  }
+
+  function openChat() {
+    chatOpen = true;
+    $("chatWin").hidden = false;
+    $("chatFab").hidden = true;
+    redrawChat(false);
+    $("chatInput").focus();
+  }
+
+  function closeChat() {
+    chatOpen = false;
+    $("chatWin").hidden = true;
+    $("chatFab").hidden = false;
+  }
+
+  function resetChat() {  // a new session: the thread, the plan context and the window all start fresh
+    chatTurns.length = 0;
+    chatContext = null;
+    chatRoleLabel = "";
+    pendingQuestion = null;
+    chatOpen = false;
+    $("chatWin").hidden = true;
+    $("chatFab").hidden = false;
+  }
+
+  // The chat's answer for a situation with no plan yet is the plan itself: the same pipeline the form runs.
+  function startPlanFromChat(question) {
+    closeChat();  // on a phone the chat covers the page, so close it to show the plan
+    startPlan(question);
+  }
+
+  // A new plan from words the person did not have to retype, with the role already picked.
+  function startPlan(question) {
+    $("situation").value = question;
+    current = { situation: question, hasReferral: false };
+    ticked.clear();
+    clearWritten();
+    run();
+  }
+
+  // Sets the role and confirms in one message. If the person had already asked something, answer that now.
+  async function roleChosen(value) {
+    selectRole(value);  // the form and the chat share one role
+    const waiting = pendingQuestion;
+    pendingQuestion = null;
+    const confirm = "Got it, I'll use the " + ROLE_RULES_NAME[value] + " rules." + (waiting ? "" : " What would you like to ask?");
+    chatTurns.push({ from: "bot", reply: { kind: "role_set", role: value, text: confirm } });
+    refresh();
+    redrawChat(false);
+    if (waiting) await askFollowUp(waiting, { resend: true });
+  }
+
+  // Tapping a role chip sets the role directly. It never goes through the question pipeline.
+  async function chooseRole(value) {
+    if (busy) return;
+    chatTurns.push({ from: "me", text: ROLES[value], roleAnswer: true });
+    await roleChosen(value);
+  }
+
+  async function askFollowUp(question, opts) {
+    if (busy) return;
+    const answeringRole = !role;  // with no role yet, what is typed is read as the answer to the role question
+    const earlier = chatTurns.filter((t) => t.from === "me" && !t.roleAnswer).map((t) => t.text).slice(-5);
+    if (!(opts && opts.resend)) chatTurns.push({ from: "me", text: question, roleAnswer: answeringRole });
+    if (question.length > CHAT_MAX) {  // the one real limit, said plainly
+      chatTurns.push({ from: "bot", reply: { kind: "unknown", text: "That message is longer than " + CHAT_MAX + " characters. Try a short question, like \"Is dental covered?\"." } });
+      redrawChat(false);
+      return;
+    }
+    setBusy(true);
+    redrawChat(true);
+    let reply;
+    try {
+      const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role, question, history: earlier, context: chatContext, session_id: sessionId, answering_role: answeringRole, has_plan: !!chatContext }) });
+      reply = await res.json();
+      if (!res.ok) throw new Error("the chat request failed");
+    } catch (err) {  // a failure of the app, never blamed on the person's message
+      reply = { kind: "unknown", text: "I couldn't answer just now. Please try again, or call Member Services at (203) 432-0246." };
+    }
+    setBusy(false);
+    if (reply.kind === "role_set") { await roleChosen(reply.role); return; }
+    chatTurns.push({ from: "bot", reply });
+    if (reply.kind === "ask_role" && answeringRole && question.trim().split(/\s+/).length >= 3) pendingQuestion = question;
+    redrawChat(false);
+    refresh();
+    if (reply.kind === "use_plan") startPlanFromChat(question);
+  }
+
+  $("thinkDog").append(buildDog());
+  $("chatFab").addEventListener("click", openChat);
+  $("chatClose").addEventListener("click", closeChat);
+  $("chatForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const q = $("chatInput").value.trim();
+    if (q.length < 2 || busy) return;
+    $("chatInput").value = "";
+    askFollowUp(q);
+  });
+  if (document.addEventListener) document.addEventListener("keydown", (e) => { if (e.key === "Escape" && chatOpen) closeChat(); });
+
+  // When the person did not say when they need care, the plan assumed today. Say so, and offer the routine plan in one tap.
+  function renderAssumed(data) {
+    if (!data.timing_assumed) return null;
+    const row = el("p", "assumed", "You didn't say when you need care, so this plan assumes today.");
+    const b = el("button", "ghost sm lock", "It can wait? Show the routine plan instead.");
+    b.type = "button";
+    b.addEventListener("click", () => run({ timing: "can_wait" }));
+    row.append(b);
+    return row;
+  }
+
+  function renderPlan(data) {
+    const how = data.how_it_decided, plan = data.plan;
+    chatContext = data.chat_context || null;  // what this plan established; the chat starts from it
+    shownPlan = data;
+    shownPlace = data.place || null;
+    glossary = data.glossary || [];  // set before anything is drawn, so the plan's own words can become tappable
+    termSeen.clear();
+    chatRoleLabel = how.role_label;
+    if (!chatOpen) $("chatFab").hidden = false;
+    // First screen: the line to call, the coverage verdict, the checklist. Then the detail. Then the sections that open on tap.
+    const parts = [renderDogSays(plan), renderCall(data), renderAssumed(data), el("p", "callsub", "You don't need to explain everything. Start with one sentence about what's going on."), renderCoverage(data.coverage, how.role_label), renderChecklist(plan), renderPlanBar(plan),
+      renderTimeline(plan), renderDoNotForget(plan), renderWriteDown(plan), ...(data.referral_help ? renderReferralHelp(data) : [])];
+    if (data.safety_net) parts.push(renderSafetyNet(data.safety_net));
+    parts.push(renderIfNot(plan), renderWriting(data.prefer_writing), renderTakeAway(), startOverButton(), el("div", "disclaimer", data.disclaimer), renderHow(how, data));  // the trace is grader evidence, so it sits below the plan as an appendix
+    return parts.filter(Boolean);
+  }
+
+  function render(data) {
+    const out = $("result");
+    out.replaceChildren();
+    let parts;
+    if (data.kind === "emergency") { showForm(false); closeChat(); $("chatFab").hidden = true; parts = renderEmergency(data.emergency); }
+    else if (data.kind === "crisis") { showForm(false); closeChat(); $("chatFab").hidden = true; parts = renderCrisis(data.crisis); }
+    else if (data.kind === "refused") parts = [noticeBox(data.notice), startOverButton()];
+    else if (data.kind === "budget") parts = [noticeBox(data.notice)];
+    else parts = renderPlan(data);
+    if (data.notice && data.kind === "plan") parts.unshift(noticeBox(data.notice));
+    out.append(...parts);
+    out.hidden = false;
+    const card = wantCard; wantCard = null;
+    const wanted = card && data.kind === "plan" ? [...out.querySelectorAll("details.collapse")].find((d) => d.firstChild && d.firstChild.textContent === card) : null;
+    if (wanted) { wanted.open = true; wanted.scrollIntoView({ behavior: "smooth", block: "start" }); return; }
+    if (data.kind === "emergency" || data.kind === "crisis") window.scrollTo({ top: 0 });
+    else out.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Lock everything that can start a run while one is in flight, and unlock it when the run finishes.
+  function setBusy(on) {
+    busy = on;
+    document.querySelectorAll(".chip, .lock").forEach((b) => { b.disabled = on; });
+  }
+
+  async function run(extra) {
+    if (busy) return;
+    $("error").hidden = true;
+    setBusy(true);
+    $("go").disabled = true; $("go").textContent = "Thinking...";
+    setThinking(true);
+    try {
+      if (extra && extra.hasReferral) current.hasReferral = true;
+      const body = { role, situation: current.situation, has_referral: current.hasReferral, session_id: sessionId };
+      if (extra && extra.timing) body.timing = extra.timing;
+      const res = await fetch("/api/navigate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+      const reply = await res.json();
+      if (!res.ok) throw new Error(typeof reply.detail === "string" ? reply.detail : "Please check what you typed and try again.");
+      render(reply);
+    } catch (err) {
+      $("error").textContent = err.message || "Something went wrong. Please try again, or call Member Services at (203) 432-0246.";
+      $("error").hidden = false;
+    } finally {
+      setThinking(false);
+      $("go").textContent = "Find my next step";
+      setBusy(false);
+      refresh();
+    }
+  }
+
+  function selectRole(value) {
+    roleInputs[value].checked = true;
+    role = value;
+    $("chipNotice").hidden = true;
+    $("refNotice").hidden = true;
+    syncHomeDepartments();
+    chatRoleLabel = "";
+  }
+
+  // The example plan comes from the server with no model call and no tokens. It also fills in the role and the text,
+  // so the person can press "Find my next step" to get a real plan for the same case, or change either one.
+  $("example").addEventListener("click", async () => {
+    if (busy) return;
+    $("error").hidden = true;
+    setBusy(true);
+    try {
+      const res = await fetch("/api/example");
+      const reply = await res.json();
+      if (!res.ok) throw new Error("The example could not load. Please try again.");
+      selectRole("student");
+      $("situation").value = EXAMPLE_TEXT;
+      current = { situation: EXAMPLE_TEXT, hasReferral: false };
+      ticked.clear();
+      clearWritten();
+      resetChat();
+      render(reply);
+    } catch (err) {
+      $("error").textContent = err.message || "The example could not load. Please try again.";
+      $("error").hidden = false;
+    } finally {
+      setBusy(false);
+      refresh();
+    }
+  });
+
+  $("go").addEventListener("click", () => {
+    if (busy) return;
+    current = { situation: $("situation").value.trim(), hasReferral: false };
+    ticked.clear();  // a brand-new question is a new plan; re-runs of the same plan keep the ticks and what was written
+    clearWritten();
+    run();
+  });
+  // Print puts the call sheet on paper, not the page: the sheet is built when printing starts and removed when it ends.
+  let printing = false;  // beforeprint and the print media query can both fire for one print: only the first one counts
+  function showSheetForPrint() {
+    if (printing || !shownPlan || $("result").hidden) return;
+    printing = true;
+    document.body.append(printSheetEl(shownPlan));
+    document.body.classList.add("sheeting");
+  }
+  function hideSheetAfterPrint() {
+    if (!printing) return;
+    printing = false;
+    const sheet = $("printSheet");
+    if (sheet) sheet.remove();
+    document.body.classList.remove("sheeting");
+  }
+  if (window.addEventListener) {
+    window.addEventListener("beforeprint", showSheetForPrint);
+    window.addEventListener("afterprint", hideSheetAfterPrint);
+  }
+  // Some mobile browsers do not send beforeprint, but they do report the print media.
+  if (window.matchMedia) {
+    const mq = window.matchMedia("print");
+    if (mq.addEventListener) mq.addEventListener("change", (e) => (e.matches ? showSheetForPrint() : hideSheetAfterPrint()));
+  }
+</script>
+</body>
+</html>

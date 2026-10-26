@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.DS_Store
+.pytest_cache/
+output/run_log.jsonl
+output/guard_log.jsonl
+output/chat_log.json
+output/audit_trail.json

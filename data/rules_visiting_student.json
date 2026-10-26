@@ -1,0 +1,21 @@
+{
+  "file": "visiting_student",
+  "role": "visiting_student",
+  "label": "Visiting student",
+  "lines": [],
+  "coverage": [
+    {
+      "id": "visiting.cisi",
+      "topic": "visiting international students",
+      "statement": "Visiting international students may be on CISI coverage instead of Yale Health. Anything beyond that goes to Member Services at (203) 432-0246.",
+      "source": "Yale Summer Session Health and Safety page (visiting international students enrolled in person in Yale Summer Session are enrolled in and charged for CISI); Yale Office of International Students & Scholars Health Care page lists CISI as a plan international students have used. Other visiting programs: ask OISS or Yale Health.",
+      "url": "https://summer.yale.edu/admitted-students/health-and-safety"
+    }
+  ],
+  "not_verified": [
+    "whether a visiting student is eligible for any Yale Health coverage",
+    "what CISI covers",
+    "physical therapy, mental health, and every other service"
+  ],
+  "departments": []
+}

@@ -1,0 +1,131 @@
+{
+  "file": "staff_faculty",
+  "role": "staff_faculty",
+  "label": "Yale staff or faculty",
+  "status": {
+    "sources_allowed": [
+      "Yale Health Member Booklet 2026 (final draft), https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf",
+      "Yale Health coverage page, https://yalehealth.yale.edu/coverage"
+    ],
+    "verified": [
+      "employee.care_at_center (coverage page)",
+      "employee.plan_groups (coverage page and booklet)",
+      "employee.direct_access (booklet p. 12)",
+      "employee.physical_therapy (booklet pp. 37-38, with amounts)",
+      "employee.emergency_room_cost (booklet p. 26, with amounts)",
+      "employee.urgent_care_cost (booklet p. 46, with amounts)",
+      "employee.behavioral_health (booklet p. 19)",
+      "employee.direct_access also names the departments employees can go to without an authorization (booklet p. 12)"
+    ],
+    "verified_but_outside_named_sources": [
+      "employee.aetna_after_three_years: NOT in the booklet or the Yale Health coverage page. Source is Yale's benefits page (It's Your Yale, 'Medical, Dental, & Vision'). Scope: Clerical & Technical, Service & Maintenance, and Security staff only. It is never presented as general employee coverage."
+    ],
+    "missing": [
+      "which plan group a given employee belongs to",
+      "office-visit and specialist copays",
+      "how many physical therapy visits are allowed",
+      "Aetna plan benefits and costs",
+      "dental, vision, prescriptions",
+      "employee mental health support lines other than Magellan",
+      "whether any Aetna choice applies to Faculty or Managerial & Professional staff"
+    ],
+    "rule_for_missing": "Anything missing falls back to Member Services at (203) 432-0246. Nothing is filled in from the student file."
+  },
+  "lines": [
+    {
+      "id": "behavioral_health_magellan",
+      "name": "Magellan Healthcare (behavioral health benefit)",
+      "phone": "800-327-9240",
+      "hours": "Not stated in the booklet",
+      "use_for": "Outpatient behavioral health services need prior authorization from, and are accessed through, Magellan.",
+      "source": "employee.behavioral_health"
+    }
+  ],
+  "departments": [
+    {
+      "name": "Internal Medicine",
+      "aliases": [
+        "internal medicine",
+        "primary care"
+      ],
+      "needs_referral": false,
+      "rule_id": "employee.direct_access"
+    },
+    {
+      "name": "Pediatrics",
+      "aliases": [
+        "pediatrics",
+        "pediatrician"
+      ],
+      "needs_referral": false,
+      "rule_id": "employee.direct_access"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "employee.care_at_center",
+      "topic": "where care happens, referrals, pre-existing conditions",
+      "statement": "Care happens at the Yale Health Center unless your primary care clinician refers you outside. Prior authorization is required for all referrals to outside clinicians or specialists. There are no pre-existing condition limitations.",
+      "source": "Yale Health coverage page",
+      "url": "https://yalehealth.yale.edu/coverage"
+    },
+    {
+      "id": "employee.plan_groups",
+      "topic": "plan groups",
+      "statement": "Cost-sharing depends on your plan group. The groups are: Faculty, Post-Doctoral Associates and Fellows, and Managerial & Professional; Clerical & Technical Staff, Service & Maintenance Staff, and Yale Security; and Yale Police Benevolent Association (YPBA). This app does not know which group you are in. Member Services can tell you.",
+      "source": "Yale Health coverage page and Member Booklet 2026, plan group tables",
+      "url": "https://yalehealth.yale.edu/coverage"
+    },
+    {
+      "id": "employee.direct_access",
+      "topic": "departments you can see without an authorization",
+      "statement": "You can go directly, without an authorization, to Acute Care, Internal Medicine, Obstetrics & Gynecology, Ophthalmology and Pediatrics at the Yale Health Center, 55 Lock Street. All other departments and services require prior authorization.",
+      "source": "Yale Health Member Booklet 2026, p. 12",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    },
+    {
+      "id": "employee.aetna_after_three_years",
+      "topic": "choosing a different plan after three years (Clerical & Technical, Service & Maintenance, and Security staff only)",
+      "statement": "Applies to Clerical & Technical, Service & Maintenance, and Security staff only. After three years of service, these employees may remain a member of Yale Health or, if eligible, enroll in either Aetna Smart Care with a Health Savings Account (HSA) or Aetna Select. This is not general staff and faculty coverage. Faculty and Managerial & Professional staff are not covered by this rule; ask Member Services.",
+      "source": "Yale benefits page 'Medical, Dental, & Vision' (It's Your Yale), under the Clerical & Technical, Service & Maintenance, Security classification. Not the booklet or the Yale Health coverage page.",
+      "url": "https://your.yale.edu/working-at-yale/benefits/your-well-being/medical-dental-vision",
+      "scope": "Clerical & Technical, Service & Maintenance, and Security staff only",
+      "quote": "\"After you complete three years of service, you may remain a member of Yale Health\" ... \"eligible staff can enroll in either Aetna Smart Care with a Health Savings Account (HSA) or Aetna Select\""
+    },
+    {
+      "id": "employee.physical_therapy",
+      "topic": "physical therapy",
+      "statement": "Physical therapy and occupational therapy are covered when medically necessary and prescribed by a physician as part of a written plan of care. Yale Health may limit the number of sessions or the duration of treatment. Cost per visit by plan group: Faculty, Post-Doctoral Associates and Fellows, and Managerial & Professional: $20 copay per visit (in-network providers, including PTSMC locations). Clerical & Technical, Service & Maintenance, and Yale Security: covered at 100%. YPBA: covered at 100%. PTSMC at Yale Health is at 55 Lock Street, New Haven.",
+      "source": "Yale Health Member Booklet 2026, pp. 37-38",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    },
+    {
+      "id": "employee.emergency_room_cost",
+      "topic": "hospital emergency room cost",
+      "statement": "Hospital emergency facility copay per visit: Faculty, Post-Doctoral Associates and Fellows, and Managerial & Professional: $150, waived if admitted. Clerical & Technical, Service & Maintenance, and Yale Security: $50, waived if you notify Yale Health within 48 hours at 877-947-2273. YPBA: $70, with the same waiver. Non-emergency care in a hospital emergency room is not covered.",
+      "source": "Yale Health Member Booklet 2026, p. 26",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    },
+    {
+      "id": "employee.urgent_care_cost",
+      "topic": "urgent care cost",
+      "statement": "Urgent medical care at Yale Health Acute Care: Faculty, Post-Doctoral Associates and Fellows, and Managerial & Professional: covered at 100% Monday-Friday 8 a.m.-6 p.m., $20 copay from 6 p.m.-10 p.m., weekends, and University holidays and recess days. Clerical & Technical, Service & Maintenance, Yale Security, and YPBA: covered at 100%.",
+      "source": "Yale Health Member Booklet 2026, p. 46",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    },
+    {
+      "id": "employee.behavioral_health",
+      "topic": "mental health and behavioral health",
+      "statement": "Outpatient behavioral health services by in-network mental health professionals are covered at 100% for recognized behavioral health and substance abuse disorders across all plan groups, subject to exclusions and limitations. Outpatient services require prior authorization from, and are accessed through, Magellan Healthcare at 800-327-9240.",
+      "source": "Yale Health Member Booklet 2026, pp. 18-19",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    }
+  ],
+  "not_verified": [
+    "which plan group a given employee belongs to",
+    "office-visit and specialist copays",
+    "how many physical therapy visits are allowed",
+    "Aetna plan benefits and costs",
+    "dental, vision, prescriptions"
+  ]
+}

@@ -1,0 +1,414 @@
+{
+  "file": "common",
+  "fallback": {
+    "name": "Yale Health Member Services",
+    "phone": "(203) 432-0246",
+    "hours": "Monday-Friday, 8:30 a.m.-5:00 p.m.",
+    "text": "I don't know this. It is not in the Yale Health rules this app has, so I won't guess. Please ask Yale Health directly: Member Services, (203) 432-0246."
+  },
+  "emergency": {
+    "rule_id": "common.emergency",
+    "headline": "Call 911 or go to the emergency room now.",
+    "er": [
+      {
+        "name": "Yale New Haven Hospital Main Campus",
+        "address": "20 York St, New Haven"
+      },
+      {
+        "name": "Yale New Haven Hospital Saint Raphael Campus",
+        "address": "1450 Chapel St"
+      }
+    ],
+    "notes": [
+      "When possible, call Acute Care at (203) 432-0123 before going to the ED.",
+      "After emergency care, call the Referrals Department at (203) 432-7397 within 48 hours.",
+      "Carry your Yale Health ID card at all times.",
+      "When in doubt, call 911."
+    ]
+  },
+  "crisis": {
+    "rule_id": "common.crisis",
+    "headline": "You do not have to handle this alone. Call or text 988 now. If you may act on these thoughts, call 911.",
+    "label": "988 is a national service, not a Yale Health service."
+  },
+  "red_flags": {
+    "rule_id": "common.safety_net",
+    "general": [
+      "Chest pain",
+      "Trouble breathing",
+      "Severe bleeding",
+      "Signs of a stroke",
+      "Any life-threatening symptom"
+    ],
+    "headache": [
+      "Sudden, worst headache of your life",
+      "Weakness, numbness, trouble speaking, confusion, or vision changes",
+      "Fever with stiff neck",
+      "Headache after a head injury",
+      "Seizure or loss of consciousness"
+    ]
+  },
+  "departments": [
+    {
+      "name": "Allergy",
+      "aliases": [
+        "allergy",
+        "allergist",
+        "allergies"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Dermatology",
+      "aliases": [
+        "dermatology",
+        "dermatologist",
+        "skin"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Diagnostic Imaging",
+      "aliases": [
+        "diagnostic imaging",
+        "imaging",
+        "x-ray",
+        "xray",
+        "mri",
+        "ct scan",
+        "ultrasound"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Endoscopy",
+      "aliases": [
+        "endoscopy",
+        "colonoscopy"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Infusion",
+      "aliases": [
+        "infusion"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Inpatient Care",
+      "aliases": [
+        "inpatient care",
+        "inpatient",
+        "hospital stay"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Laboratory Services",
+      "aliases": [
+        "laboratory services",
+        "laboratory",
+        "lab",
+        "blood work",
+        "blood test"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Nutrition Counseling",
+      "aliases": [
+        "nutrition counseling",
+        "nutrition",
+        "nutritionist",
+        "dietitian"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Physical Therapy",
+      "aliases": [
+        "physical therapy",
+        "pt",
+        "physical therapist"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Specialty Services",
+      "aliases": [
+        "specialty services",
+        "specialist",
+        "specialty"
+      ],
+      "needs_referral": true,
+      "rule_id": "common.referral_needed"
+    },
+    {
+      "name": "Acute Care",
+      "aliases": [
+        "acute care",
+        "urgent care",
+        "walk-in"
+      ],
+      "needs_referral": false,
+      "rule_id": "common.no_referral",
+      "next_step": "acute_care"
+    },
+    {
+      "name": "Behavioral Health and Mental Health & Counseling",
+      "aliases": [
+        "behavioral health",
+        "mental health",
+        "counseling",
+        "therapy for anxiety",
+        "psychiatry"
+      ],
+      "needs_referral": false,
+      "rule_id": "common.no_referral"
+    },
+    {
+      "name": "Immunization",
+      "aliases": [
+        "immunization",
+        "immunizations",
+        "vaccine",
+        "vaccines",
+        "vaccination",
+        "flu shot"
+      ],
+      "needs_referral": false,
+      "rule_id": "common.no_referral"
+    },
+    {
+      "name": "Obstetrics & Gynecology",
+      "aliases": [
+        "obstetrics",
+        "gynecology",
+        "ob/gyn",
+        "obgyn",
+        "ob-gyn",
+        "gyn"
+      ],
+      "needs_referral": false,
+      "rule_id": "common.no_referral"
+    },
+    {
+      "name": "Ophthalmology, Optometry and Eye Care",
+      "aliases": [
+        "ophthalmology",
+        "optometry",
+        "eye care",
+        "eye exam",
+        "eye doctor"
+      ],
+      "needs_referral": false,
+      "rule_id": "common.no_referral"
+    },
+    {
+      "name": "Screening mammograms",
+      "aliases": [
+        "screening mammogram",
+        "screening mammograms",
+        "mammogram",
+        "mammography"
+      ],
+      "needs_referral": false,
+      "rule_id": "common.no_referral"
+    }
+  ],
+  "referral_steps": {
+    "needed": "Ask your PCP for a referral. The department schedules you once the referral is in. Questions: Member Services at (203) 432-0246 or the Referrals Department at (203) 432-7397.",
+    "not_needed": "You can book directly, without a referral. Call Member Services at (203) 432-0246 to book.",
+    "acute_care": "No referral is needed. Call Acute Care at (203) 432-0123 for urgent same-day needs.",
+    "unknown": "Ask Member Services at (203) 432-0246."
+  },
+  "lines": [
+    {
+      "id": "emergency_911",
+      "name": "Emergency services (911)",
+      "phone": "911",
+      "hours": "24/7",
+      "use_for": "Life-threatening or serious emergencies. Call 911 immediately.",
+      "source": "common.emergency"
+    },
+    {
+      "id": "acute_care",
+      "name": "Yale Health Acute Care",
+      "phone": "(203) 432-0123",
+      "hours": "In-person Sunday-Saturday, 8:00 a.m.-10:00 p.m. Nurse triage by phone 24/7.",
+      "use_for": "Urgent same-day needs and after-hours questions. Call before going to an Emergency Department when possible.",
+      "source": "common.acute_care_hours"
+    },
+    {
+      "id": "member_services",
+      "name": "Yale Health Member Services",
+      "phone": "(203) 432-0246",
+      "hours": "Monday-Friday, 8:30 a.m.-5:00 p.m.",
+      "use_for": "Booking or routing a routine visit, referrals and how to get one, coverage and benefits questions, enrollment, and anything this app cannot verify.",
+      "source": "common.facility"
+    },
+    {
+      "id": "referrals",
+      "name": "Yale Health Referrals Department",
+      "phone": "(203) 432-7397",
+      "hours": "Not stated",
+      "use_for": "After emergency care, call within 48 hours.",
+      "source": "common.emergency"
+    },
+    {
+      "id": "crisis_988",
+      "name": "988 Suicide & Crisis Lifeline",
+      "phone": "988",
+      "hours": "24/7",
+      "use_for": "Anyone in emotional distress or thinking about suicide or self-harm. Call or text 988. This is a national service, not a Yale Health service.",
+      "source": "common.crisis"
+    },
+    {
+      "id": "member_services_email",
+      "name": "Member Services email",
+      "kind": "email",
+      "email": "member.services@yale.edu",
+      "hours": "Monday-Friday, 8:30 a.m.-5:00 p.m.",
+      "use_for": "Written coverage and administrative questions only. Not for appointments, time-sensitive issues, or emergencies. For those, call.",
+      "source": "common.written_channels"
+    },
+    {
+      "id": "mychart",
+      "name": "MyChart messaging",
+      "kind": "portal",
+      "hours": "Replies in about two business days",
+      "use_for": "Non-urgent messages to your care team. Not for appointments, time-sensitive issues, or emergencies. For those, call.",
+      "source": "common.written_channels"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "common.facility",
+      "topic": "where Yale Health is and how to reach it",
+      "statement": "The Yale Health Center is at 55 Lock Street. Member Services: (203) 432-0246. Acute Care: (203) 432-0123.",
+      "source": "Yale Health Member Booklet 2026, p. 3 (the Yale Health Center at 55 Lock Street); Yale Health Member Services page (203-432-0246); Yale Health Acute Care page (203-432-0123)",
+      "url": "https://yalehealth.yale.edu/member-services"
+    },
+    {
+      "id": "common.care_at_center",
+      "topic": "where care happens, referrals, pre-existing conditions",
+      "statement": "All care happens at the Yale Health Center unless a PCP refers you out. Prior authorization is required for all referrals. There are no limits for pre-existing conditions.",
+      "source": "Yale Health coverage page (care at the Yale Health Center unless referred out, prior authorization for referrals, no pre-existing condition limits)",
+      "url": "https://yalehealth.yale.edu/coverage"
+    },
+    {
+      "id": "common.acute_care_hours",
+      "topic": "Acute Care hours",
+      "statement": "Acute Care is open Sunday to Saturday, 8 a.m. to 10 p.m., for urgent same-day needs. Its phone line, (203) 432-0123, is also a nurse triage line 24 hours a day.",
+      "source": "Yale Health Acute Care department page (hours) and Yale Health Emergencies and After Hours page (24-hour nurse triage line)",
+      "url": "https://yalehealth.yale.edu/department/acute-care"
+    },
+    {
+      "id": "common.emergency",
+      "topic": "emergencies",
+      "statement": "For chest pain, trouble breathing, severe bleeding, signs of stroke, or any life-threatening symptom: call 911 or go to the emergency room now. Nearest ER: Yale New Haven Hospital Main Campus, 20 York St, New Haven (also the Saint Raphael Campus, 1450 Chapel St). When possible, call Acute Care at (203) 432-0123 before going to the ED. After emergency care, call the Referrals Department at (203) 432-7397 within 48 hours. Carry your Yale Health ID card at all times. When in doubt, call 911.",
+      "source": "Yale Health Emergencies and After Hours page (911, calling Acute Care first, Referrals within 48 hours, the ID card); hospital addresses from the Yale New Haven Hospital emergency services page",
+      "url": "https://yalehealth.yale.edu/emergencies-and-after-hours"
+    },
+    {
+      "id": "common.safety_net",
+      "topic": "symptom safety net",
+      "statement": "For any symptom this app never diagnoses, never names a condition, and never recommends treatment or medication. It routes to care and shows a short list of signs to get emergency help for, ending with Call 911. Anyone who reports one of those signs gets the emergency answer.",
+      "source": "Yale Health Navigator safety policy: what this app will and will not do. This is not a Yale Health document."
+    },
+    {
+      "id": "common.written_channels",
+      "topic": "email and MyChart",
+      "statement": "Member Services email (member.services@yale.edu, Monday-Friday 8:30 a.m.-5 p.m.) is for coverage and administrative questions. MyChart messaging is for non-urgent care team messages, with replies in about two business days. Neither is for appointments, time-sensitive issues, or emergencies. For those, call.",
+      "source": "Yale Health Member Services department page (member.services@yale.edu, Monday-Friday 8:30 a.m.-5:00 p.m.); Yale Health Student Health department page and Using MyChart page (MyChart for non-urgent messages; Student Health gives a 48-hour business-day window, the Using MyChart page says a few business days)",
+      "url": "https://yalehealth.yale.edu/department/member-services"
+    },
+    {
+      "id": "common.crisis",
+      "topic": "suicide, self-harm, or emotional crisis",
+      "statement": "If you are thinking about suicide or self-harm, or are in emotional crisis, call or text 988 (the national 988 Suicide & Crisis Lifeline, 24/7). If you may act on these thoughts, call 911. 988 is a national service, not a Yale Health service.",
+      "source": "988 Suicide & Crisis Lifeline (988lifeline.org), a national service. This is not a Yale Health document.",
+      "url": "https://988lifeline.org"
+    },
+    {
+      "id": "common.referral_needed",
+      "topic": "departments that need a referral",
+      "statement": "A referral from your PCP is needed before scheduling in these Yale Health Center departments: Allergy, Dermatology, Diagnostic Imaging, Endoscopy, Infusion, Inpatient Care, Laboratory Services, Nutrition Counseling, Physical Therapy, and Specialty Services.",
+      "source": "Yale Health Authorizations (Referrals) department page, the list of departments that require a PCP referral",
+      "url": "https://yalehealth.yale.edu/department/authorizations-referrals"
+    },
+    {
+      "id": "common.no_referral",
+      "topic": "departments that do not need a referral",
+      "statement": "No referral is needed for these Yale Health Center departments: Acute Care, Behavioral Health and Mental Health & Counseling, Immunization, Obstetrics & Gynecology, Ophthalmology, Optometry and Eye Care, and Screening mammograms.",
+      "source": "Yale Health Authorizations (Referrals) department page, the list of departments that do not require a PCP referral",
+      "url": "https://yalehealth.yale.edu/department/authorizations-referrals"
+    },
+    {
+      "id": "common.referral_other",
+      "topic": "any other department or care outside the Yale Health Center",
+      "statement": "Any other specialty department needs a referral from your PCP and prior authorization. Prior authorization is required for all care outside of the Yale Health Center, except emergencies and urgent care.",
+      "source": "Yale Health coverage page (specialty care by referral only); Yale Health Authorizations (Referrals) page (prior authorization for all care outside the Yale Health Center); Yale Health Member Booklet 2026, pp. 12 and 15 (all other departments and services, and the emergency and urgent care exception)",
+      "url": "https://yalehealth.yale.edu/department/authorizations-referrals"
+    },
+    {
+      "id": "common.prior_authorization",
+      "topic": "prior authorization",
+      "statement": "Certain services and supplies require Prior Authorization to confirm coverage, eligibility, medical necessity, and support care coordination for services.",
+      "source": "Yale Health Member Booklet 2026, p. 13 (Prior Authorization); Yale Health Student Guide 2025-2026, p. 25",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    },
+    {
+      "id": "common.referral_not_guarantee",
+      "topic": "what happens after a referral",
+      "statement": "A referral from your PCP starts the process, but approval is not guaranteed and is based on the information available at the time of review. Members will be notified of the determination once the review is complete.",
+      "source": "Yale Health Member Booklet 2026, p. 13 (Requesting Prior Authorization, points 5 and 6); Yale Health Student Guide 2025-2026, p. 25",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2026-01/yale%20health%20member%20booklet%20-%202026%20-%20final%20draft.pdf"
+    },
+    {
+      "id": "common.pcp_what",
+      "topic": "your PCP",
+      "statement": "Your primary care provider (PCP) is the medical professional who knows you best and coordinates all of your care. Your PCP is part of a clinical team of doctors, nurse practitioners, physician associates, nurses, medical assistants, and clinical receptionists.",
+      "source": "Yale Health page 'Primary Care Provider (PCP) and Your Primary Care Team'",
+      "url": "https://yalehealth.yale.edu/topic/primary-care-provider-pcp-and-your-primary-care-team"
+    },
+    {
+      "id": "common.pcp_assigned",
+      "topic": "how a PCP is assigned",
+      "statement": "A PCP is assigned to every member at enrollment. A welcome letter is emailed to you from Yale Health's Member Liaison when you have been assigned a PCP.",
+      "source": "Yale Health Member Booklet 2026, p. 13 (the Primary Care Provider); Yale Health New Member FAQs page (the welcome letter from the Member Liaison)",
+      "url": "https://yalehealth.yale.edu/topic/new-member-faqs"
+    },
+    {
+      "id": "common.pcp_change",
+      "topic": "changing your PCP",
+      "statement": "To choose a different PCP, call Member Services at (203) 432-0246 to review available providers. A change depends on the new PCP's availability.",
+      "source": "Yale Health page 'Primary Care Provider (PCP) and Your Primary Care Team'; Yale Health Member Booklet 2026, p. 13",
+      "url": "https://yalehealth.yale.edu/topic/primary-care-provider-pcp-and-your-primary-care-team"
+    },
+    {
+      "id": "common.provider_list",
+      "topic": "the in-network provider list",
+      "statement": "Yale Health keeps a Preferred Provider Directory of its in-network providers, vendors, and locations. This app does not copy it. Ask Member Services at (203) 432-0246 or the Referrals Department at (203) 432-7397 for it.",
+      "source": "Yale Health Preferred Provider Directory page, linked from the Authorizations (Referrals) page",
+      "url": "https://yalehealth.yale.edu/preferred-provider-directory"
+    },
+    {
+      "id": "common.dental",
+      "topic": "dental care",
+      "statement": "Yale Health does not offer dental insurance for adults. Dental care is a separate optional plan: graduate and professional school students and PhD students can buy a Delta Dental plan (enrollment is once a year, online), and faculty and staff can buy a dental plan with partial coverage. Pediatric dental care is covered through Delta Dental of Connecticut for students and enrolled dependents age 19 and under, and they are automatically enrolled. A dental emergency can be addressed at any hospital emergency room. For anything beyond that, including which plan fits a given role, ask Member Services at (203) 432-0246.",
+      "source": "Yale OISS Dental & Vision Care page; Yale Health Student Guide 2025-2026, Pediatric Dental Care section; Graduate and Professional Student Dental and Eye Care page (gradprofdenteye.yale.edu). Plan prices and copays change every year and are not copied here: see the plan page.",
+      "url": "https://oiss.yale.edu/getting-started/preparing-for-yale/health-care/dental-vision-care"
+    }
+  ]
+}

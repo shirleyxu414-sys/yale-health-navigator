@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safety demo - Yale Health Navigator</title>
+<style>
+  :root { --yale: #00356B; --yale-dark: #002349; --yale-mid: #286DC0; --tint: #EAF1F9; --line: #D3DEEC; --ink: #17283F; --muted: #5A6B82;
+          --white: #FFFFFF; --ok: #1C6B3F; --ok-bg: #E6F4EC; --bad: #B3261E; --bad-bg: #FDECEA; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); background: var(--tint); line-height: 1.5; }
+  header { background: var(--yale); color: var(--white); }
+  .bar { max-width: 960px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: center; gap: 12px; }
+  .wordmark { font-family: Georgia, serif; font-size: 22px; font-weight: 700; }
+  .bar a { margin-left: auto; color: var(--white); font-size: 14px; }
+  main { max-width: 960px; margin: 0 auto; padding: 24px 20px 56px; }
+  h1 { font-family: Georgia, serif; color: var(--yale); margin: 0 0 4px; }
+  .lede { color: var(--muted); margin: 0 0 18px; }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; margin-bottom: 18px; }
+  .card h2 { margin: 0 0 4px; font-size: 18px; color: var(--yale); }
+  .card .why { margin: 0 0 12px; color: var(--muted); font-size: 14px; }
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .summary div { background: var(--yale); color: var(--white); border-radius: 12px; padding: 12px 16px; font-weight: 700; }
+  .summary small { display: block; font-weight: 400; opacity: .85; text-transform: uppercase; letter-spacing: .5px; font-size: 11px; }
+  .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .5px; padding: 6px 8px; border-bottom: 2px solid var(--line); }
+  td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.input { font-family: ui-monospace, Menlo, monospace; font-size: 13px; background: var(--tint); }
+  .pill { display: inline-block; font-weight: 700; font-size: 12px; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+  .pill.pass { background: var(--ok-bg); color: var(--ok); }
+  .pill.fail { background: var(--bad-bg); color: var(--bad); }
+  button { font: inherit; font-weight: 600; border-radius: 10px; padding: 11px 22px; cursor: pointer; border: 2px solid var(--yale); background: var(--yale); color: var(--white); }
+  button:hover { background: var(--yale-dark); }
+  .muted { color: var(--muted); font-size: 13px; }
+  @media (max-width: 560px) {
+    main { padding: 14px 12px 40px; }
+    .card { padding: 14px; }
+    .bar { flex-wrap: wrap; }
+    button { width: 100%; min-height: 44px; }
+  }
+  @media print { header a, button { display: none; } body { background: #fff; } }
+</style>
+</head>
+<body>
+<header><div class="bar"><span class="wordmark">Yale Health Navigator</span><span>Safety demo</span><a href="/">Back to the app</a></div></header>
+<main>
+  <h1>Safety demo</h1>
+  <p class="lede">These defenses run in code, before any model call. Everything below ran live just now, and no model was called, so no tokens were spent.</p>
+  <div class="row"><button id="run">Run the safety tests again</button> <span class="muted" id="status"></span></div>
+  <div class="summary" id="summary" style="margin-top:16px"></div>
+  <section class="card"><h2>1. Prompt-injection defense</h2>
+    <p class="why">Everything typed into the app is data, never instructions. Attempts to give the app orders are refused.</p>
+    <div class="scroll"><table><thead><tr><th>What was typed</th><th>Result</th><th>What the app said</th></tr></thead><tbody id="injection"></tbody></table></div></section>
+  <section class="card"><h2>2. No-diagnosis guardrail</h2>
+    <p class="why">Questions like "what do I have?" or "is this serious?" are refused in code and sent to a clinician.</p>
+    <div class="scroll"><table><thead><tr><th>What was typed</th><th>Result</th><th>What the app said</th></tr></thead><tbody id="diagnosis"></tbody></table></div></section>
+  <section class="card"><h2>3. Grounding check</h2>
+    <p class="why">A coverage claim is shown only if its words, and every number in it, are in the rule files. Otherwise it is replaced.</p>
+    <div class="scroll"><table><thead><tr><th>Case</th><th>Model said</th><th>Result</th><th>What the person would see</th></tr></thead><tbody id="grounding"></tbody></table></div></section>
+  <section class="card"><h2>4. Budget guard</h2>
+    <p class="why">Each session has a cap on input tokens. A run that would go over it stops before the model is called.</p>
+    <div id="budget"></div></section>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const cell = (text, cls) => { const td = document.createElement("td"); if (cls) td.className = cls; td.textContent = text; return td; };
+  const pill = (ok, yes, no) => { const s = document.createElement("span"); s.className = "pill " + (ok ? "pass" : "fail"); s.textContent = ok ? yes : no; return s; };
+  function row(body, ...cells) { const tr = document.createElement("tr"); cells.forEach((c) => tr.append(c)); body.append(tr); }
+  function pillCell(ok, yes, no, extra) { const td = document.createElement("td"); td.append(pill(ok, yes, no)); if (extra) { const d = document.createElement("div"); d.className = "muted"; d.textContent = extra; td.append(d); } return td; }
+
+  function groundingCell(g) {
+    const td = document.createElement("td");
+    const s = document.createElement("span");
+    s.className = "pill " + (g.correct ? "pass" : "fail");
+    s.textContent = g.grounded ? "SHOWN (grounded)" : "REPLACED";
+    const d = document.createElement("div"); d.className = "muted"; d.textContent = g.reason;
+    td.append(s, d);
+    return td;
+  }
+
+  async function run() {
+    $("status").textContent = "Running...";
+    const res = await fetch("/api/safety-demo");
+    const demo = await res.json();
+    $("summary").replaceChildren();
+    Object.entries(demo.summary).forEach(([k, v]) => {
+      const d = document.createElement("div");
+      const small = document.createElement("small"); small.textContent = k;
+      d.append(small, document.createTextNode(v));
+      $("summary").append(d);
+    });
+    ["injection", "diagnosis", "grounding"].forEach((id) => $(id).replaceChildren());
+    demo.injection.forEach((t) => row($("injection"), cell(t.input, "input"), pillCell(t.refused, "REFUSED", "NOT REFUSED", t.result + ", model calls: " + t.model_calls), cell(t.message)));
+    demo.diagnosis.forEach((t) => row($("diagnosis"), cell(t.input, "input"), pillCell(t.refused, "REFUSED", "NOT CAUGHT", t.result), cell(t.message)));
+    demo.grounding.forEach((g) => row($("grounding"), cell(g.label), cell(g.answer, "input"), groundingCell(g), cell(g.shown)));
+    const b = demo.budget;
+    $("budget").replaceChildren();
+    const p = document.createElement("p");
+    p.append(pill(b.stopped, "STOPPED", "NOT STOPPED"), document.createTextNode(" Cap " + b.cap.toLocaleString() + " tokens, " + b.used.toLocaleString() + " already used: " + b.detail + "."));
+    $("budget").append(p);
+    $("status").textContent = "Done " + new Date().toLocaleTimeString();
+  }
+  $("run").addEventListener("click", run);
+  run();
+</script>
+</body>
+</html>

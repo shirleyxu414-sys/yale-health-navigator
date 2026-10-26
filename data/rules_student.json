@@ -1,0 +1,154 @@
+{
+  "file": "student",
+  "role": "student",
+  "label": "Yale student",
+  "lines": [
+    {
+      "id": "student_pcp",
+      "name": "Yale Health main line (primary care appointments and referrals)",
+      "phone": "(203) 432-0246",
+      "hours": "Monday-Friday, 8:30 a.m.-5:00 p.m.",
+      "use_for": "Call here for a primary care visit and for referrals, including a referral for physical therapy.",
+      "source": "student.pcp_line"
+    },
+    {
+      "id": "ptsmc",
+      "name": "PTSMC (Physical Therapy and Sports Medicine Center), Yale Health Center, 55 Lock Street",
+      "phone": "(203) 436-5583",
+      "hours": "Not stated",
+      "use_for": "Physical therapy and dry needling, once you have a PT referral from a PCP. First-visit scheduling: (203) 498-5980.",
+      "source": "student.ptsmc"
+    },
+    {
+      "id": "mental_health_counseling",
+      "name": "Yale Health Mental Health & Counseling (students)",
+      "phone": "(203) 432-0290",
+      "hours": "Urgent calls 24/7. Routine scheduling Monday-Friday, 8:30 a.m.-5:00 p.m.",
+      "use_for": "Counseling, therapy, anxiety, depression, stress, or any mental health concern for students.",
+      "source": "student.mental_health_line"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "student.pcp_line",
+      "topic": "primary care appointments and referrals",
+      "statement": "Yale Health main line / PCP appointments: (203) 432-0246. Call here for a primary care visit and for referrals.",
+      "source": "Yale Health Student Medicine department page, which lists Member Services at 203-432-0246 for primary care appointments and referrals",
+      "url": "https://yalehealth.yale.edu/department/student-medicine"
+    },
+    {
+      "id": "student.ptsmc",
+      "topic": "PTSMC location and phone",
+      "statement": "PTSMC (Physical Therapy and Sports Medicine Center) is at the Yale Health Center, 55 Lock Street: (203) 436-5583. First-visit scheduling is (203) 498-5980.",
+      "source": "Yale Health Physical Therapy department page (clinic and first-visit phone numbers) and Yale Health Member Booklet 2026, p. 38 (PTSMC at Yale Health, 55 Lock Street)",
+      "url": "https://yalehealth.yale.edu/department/physical-therapy"
+    },
+    {
+      "id": "student.pt_coverage",
+      "topic": "physical therapy",
+      "statement": "Physical therapy is covered 100% under the Yale student health plan with a referral from a PCP. Without a referral, coverage is not promised.",
+      "source": "Yale Health Schedule of Benefits for students (Physical Therapy covered at 100%) and the Yale Health Physical Therapy page (a referral from a Yale Health clinician is required)",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2024-01/Schedule%20of%20Benefits%20-%20Students%20122723.pdf"
+    },
+    {
+      "id": "student.pt_requires_hospitalization_specialty",
+      "topic": "physical therapy eligibility (waived Hospitalization & Specialty Care coverage)",
+      "statement": "Physical therapy is available exclusively for Yale Health members and students with Yale Health Hospitalization & Specialty Care coverage. Students who have waived Yale Health Hospitalization & Specialty Care coverage and Medicare patients are not eligible for treatment in the Physical Therapy Department. You need a referral from a Yale Health clinician to schedule an appointment.",
+      "source": "Yale Health Physical Therapy page",
+      "url": "https://yalehealth.yale.edu/department/physical-therapy",
+      "quote": "\"This service is available exclusively for Yale Health members and students with Yale Health Hospitalization & Specialty Care coverage.\" \"Students who have waived Yale Health Hospitalization & Specialty Care coverage and Medicare patients are not eligible for treatment in our Physical Therapy Department.\" \"You will need a referral from a Yale Health clinician to schedule an appointment.\""
+    },
+    {
+      "id": "student.dry_needling",
+      "topic": "dry needling",
+      "statement": "Dry needling is available through PTSMC and is covered under a PT referral.",
+      "source": "No Yale Health document found. Dry needling is not mentioned on the Yale Health Physical Therapy page. Confirm with PTSMC before relying on this.",
+      "url": "https://yalehealth.yale.edu/department/physical-therapy",
+      "source_status": "unconfirmed"
+    },
+    {
+      "id": "student.acupuncture_excluded",
+      "topic": "acupuncture",
+      "statement": "Acupuncture is excluded under the Yale student health plan. The only exception is as a substitute for anesthesia. Acupuncture is never suggested as a covered option.",
+      "source": "Yale Health Student Guide 2025-2026, p. 66, Service Exclusions and Limitations (\"Acupuncture, except when used instead of other anesthesia\") and p. 26",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2025-11/yale%20health%202025-2026%20student%20guide_1.pdf"
+    },
+    {
+      "id": "student.bring_id",
+      "topic": "what to bring",
+      "statement": "Bring a student ID to appointments.",
+      "source": "No Yale Health document found for this tip. It is general practice for appointments; confirm with Member Services.",
+      "source_status": "unconfirmed"
+    },
+    {
+      "id": "student.international",
+      "topic": "international students",
+      "statement": "Degree-seeking international students get the same student coverage described in this file. Two wrinkles: J-1/J-2 holders have federal minimums, and the Yale Health Plan does not cover medical evacuation and repatriation. Visiting international students may be on CISI coverage instead. Anyone not sure which coverage they have should call Member Services at (203) 432-0246. This app does not guess.",
+      "source": "Yale Health Student Coverage page (eligibility is by enrolled student status) and Yale Summer Session Health and Safety page (CISI for visiting international students). No Yale Health document found for the J-1/J-2 minimums or for medical evacuation and repatriation; confirm with Member Services.",
+      "url": "https://yalehealth.yale.edu/student-coverage",
+      "source_status": "partly_unconfirmed"
+    },
+    {
+      "id": "student.no_coverage",
+      "topic": "a student who says they have no insurance",
+      "statement": "Route to care by urgency first. Emergencies go to 911 no matter what. Then explain: Yale requires coverage, so an enrolled student generally has Basic Coverage for primary care at the Yale Health Center. If they waived Yale's hospitalization/specialty plan, their alternate plan governs outside care. If they are on leave, withdrawn, abroad, or recently graduated, coverage may have changed. In every case send them to Member Services at (203) 432-0246 to confirm enrollment. Never guess about their plan and never promise free care.",
+      "source": "Yale Health Student Guide 2025-2026, Yale Health Basic Student Health Services (p. 12) and Leaving Yale, Leaves of Absence and Student Withdrawals (pp. 79-80); Yale Health Student Coverage page",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2025-11/yale%20health%202025-2026%20student%20guide_1.pdf"
+    },
+    {
+      "id": "student.basic_services",
+      "topic": "Basic Student Health Services",
+      "statement": "Basic Student Health Services gives eligible students access to many Yale Health services, including primary care. Eligible undergraduate, graduate and professional students enrolled at least half-time and working toward a Yale degree are automatically enrolled. It does not apply to EMBA, Broad Center MMS, EMPH, MSN Nursing Online or PA Online students. It is not health insurance.",
+      "source": "Yale Health Student Coverage page",
+      "url": "https://yalehealth.yale.edu/student-coverage"
+    },
+    {
+      "id": "student.hospitalization_specialty",
+      "topic": "Hospitalization & Specialty Care coverage",
+      "statement": "The university requires Hospitalization & Specialty Care coverage for students eligible for Basic Student Health Services. Students are automatically enrolled and billed unless they waive it.",
+      "source": "Yale Health Student Coverage page",
+      "url": "https://yalehealth.yale.edu/student-coverage"
+    },
+    {
+      "id": "student.mental_health_line",
+      "topic": "mental health",
+      "statement": "Students call Mental Health & Counseling at (203) 432-0290. Urgent calls are answered 24/7. Visit limits and costs for therapy are not stated in this file.",
+      "source": "Yale Health Mental Health & Counseling page",
+      "url": "https://yalehealth.yale.edu/department/mental-health-counseling"
+    },
+    {
+      "id": "student.no_referral_departments",
+      "topic": "departments students can go to without a referral",
+      "statement": "With student coverage you can go directly, without a referral, to these departments at the Yale Health Center at 55 Lock Street: Acute Care, Student Health, Obstetrics & Gynecology, Ophthalmology, Mental Health & Counseling, and Pediatrics. All other departments and services require prior authorization.",
+      "source": "Yale Health Student Guide 2025-2026, the student coverage section (p. 84 of the PDF): 'you must directly access the following departments and services at Yale Health Center at 55 Lock Street'",
+      "url": "https://yalehealth.yale.edu/sites/default/files/2025-11/yale%20health%202025-2026%20student%20guide_1.pdf"
+    }
+  ],
+  "not_verified": [
+    "waiver rules and deadlines",
+    "copay amounts for anything not listed above",
+    "dental, vision, prescriptions",
+    "how many physical therapy visits are covered"
+  ],
+  "departments": [
+    {
+      "name": "Student Health",
+      "aliases": [
+        "student health",
+        "student medicine",
+        "primary care"
+      ],
+      "needs_referral": false,
+      "rule_id": "student.no_referral_departments"
+    },
+    {
+      "name": "Pediatrics",
+      "aliases": [
+        "pediatrics",
+        "pediatrician"
+      ],
+      "needs_referral": false,
+      "rule_id": "student.no_referral_departments"
+    }
+  ]
+}

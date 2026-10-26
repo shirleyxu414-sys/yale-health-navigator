@@ -1,0 +1,22 @@
+{
+  "file": "dependent",
+  "role": "dependent",
+  "label": "Dependent of a Yale member",
+  "lines": [],
+  "coverage": [
+    {
+      "id": "dependent.enrollment",
+      "topic": "enrolling as a dependent",
+      "statement": "Dependents enroll through the member's plan by the enrollment deadline, and can get hospitalization/specialty coverage through Yale Health. Anything beyond that goes to Member Services at (203) 432-0246.",
+      "source": "Yale Health Enrollment and Eligibility page (dependents of students enroll in the student's plan by the enrollment deadline)",
+      "url": "https://yalehealth.yale.edu/topic/enrollment-and-eligibility"
+    }
+  ],
+  "not_verified": [
+    "who counts as an eligible dependent",
+    "the enrollment deadline for a specific plan",
+    "what a dependent's plan covers or costs",
+    "physical therapy, mental health, and every other service"
+  ],
+  "departments": []
+}
