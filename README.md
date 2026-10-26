@@ -1,20 +1,25 @@
 # Yale Health Navigator
 
-A web app where you describe your situation in plain words and it tells you which Yale Health line to call, gives you a plan for the call, and checks what your plan covers.
+A web app where you describe your situation in plain words and it tells you which Yale Health line to call, gives you a plan for the call, and checks what your plan covers, quoting the rule behind every claim.
 
 ## Who it is for
 
-All Yale members: **students, staff or faculty, dependents, and visiting students**. The first question the app asks is which of these you are, and it only uses the rules for that role.
+All Yale members: **students, staff or faculty, dependents, and visiting students**. The first thing the app needs is which of these you are, and it only uses the rules for that role plus the shared rules.
 
 ## Prerequisites
 
 - **Python 3.10 or newer** (tested on 3.13)
-- **Node is not needed.** The frontend is one plain HTML file served by the backend.
+- **Node.js 18 or newer is optional**, and only for the tests: about 50 tests run the page's own JavaScript in Node and are skipped if Node is not installed. The app itself needs no Node: the frontend is plain HTML files served by the backend.
 - A Portkey API key (`PORTKEY_API_KEY`)
 
 ## How to run it
 
-1. **Clone the repo** and open a terminal in its folder.
+1. **Clone the repo** and open a terminal in its folder:
+
+   ```bash
+   git clone https://github.com/shirleyxu414-sys/yale-health-navigator.git
+   cd yale-health-navigator
+   ```
 2. **Add your key.** Copy the example file, then paste your key after the `=`:
 
    ```bash
@@ -37,29 +42,29 @@ All Yale members: **students, staff or faculty, dependents, and visiting student
    ```
 
    It listens on port **8000**.
-5. **Run the frontend:** there is nothing separate to start. The backend serves the page, so open **<http://127.0.0.1:8000>** in your browser. The JSON API is at `http://127.0.0.1:8000/api/navigate`.
+5. **Open the app.** There is no separate frontend to start: the backend serves the page. Open **<http://127.0.0.1:8000>** in your browser. The Safety demo is at <http://127.0.0.1:8000/safety-demo>.
 
 ## What success looks like
 
 **Try this:** pick **Yale student**, type `lower back pain for weeks, I want physical therapy`, and press **Find my next step**.
 
 **Expect this:**
-- **A line to call:** the Yale Health main line, (203) 432-0246, for a primary care visit and the physical therapy referral. PTSMC appears under "Also useful".
-- **A timeline:** Today (call), On the call, This week (PCP visit), After the referral (book PTSMC).
-- **Do not forget to mention:** two or three points you would not know to bring up, such as asking for the PT referral and asking whether PTSMC offers dry needling, each with one line on why. Never a script.
-- **Write down** (date and time of the appointment, referral details, name of the person you spoke to) and a **checklist** you can tick off.
-- **A coverage check:** is it covered, the condition that applies, what is excluded, and the rule cited for each claim.
-- **If things do not go as planned**, a **Print plan** button, a **How it decided** panel (role, rule files used, category, line chosen), clickable **common questions**, and a **Prefer writing?** section with copy-paste drafts. A headache asks one question first: "Do you need care today, or can it wait for a regular appointment?"
-- **Add to calendar:** next to the PCP visit and PTSMC booking steps, a form with the title, location and notes filled in. You add the date and time after you call, and it downloads an `.ics` file for Google Calendar, Apple Calendar or Outlook. It is made in your browser; nothing is sent anywhere, no login, and the app never books for you.
+- **A line to call:** the Yale Health main line, (203) 432-0246, for a primary care visit and the physical therapy referral, with an open-now badge and a Get directions link. PTSMC appears under "Also useful".
+- **Coverage:** a colored verdict (Covered with conditions), the answer, and the quote from the rules behind it. A link to the official Yale Health coverage page sits under it.
+- **A plan:** a timeline (Today, On the call, This week, After the referral), the two or three "Do not forget to mention" points, a "Write down" list with real fields, and a checklist you can tick. When the plan involves a referral you also get the referral tracker and the "Your PCP" card.
+- **Sections that open on tap:** "If things do not go as planned" and "Email or MyChart drafts" (copy-paste drafts, never sent). At the very end, "Take this plan with you" (Copy plan and Print plan, both giving the same short call sheet) and a collapsed "How it decided" panel that lists the rules behind the answer.
+- **Add to calendar:** next to the booked steps, a form that downloads an `.ics` file made in your browser. Nothing is sent anywhere and the app never books for you.
 - **Emergency check:** type `I have chest pain and I cannot breathe`. You get only the emergency message, nothing else.
-- **A chat panel:** *placeholder, not built yet. Fill this in when the chat panel exists.*
-- **Safety demo:** open <http://127.0.0.1:8000/safety-demo> to watch the defenses run live: 5 prompt-injection attempts refused, diagnosis requests refused, ungrounded coverage claims replaced, and the token budget stopping a run.
+- **A symptom with no timing, such as `I have a headache`:** a plan for today, with one line saying so and a button to see the routine plan instead.
+- **Referral checker** (below the form): pick a department, press Check, and get "referral needed", "no referral needed" or "Ask Member Services", with a button to get a plan for that department.
+- **Chat:** the floating "Chat with the helper" button opens a chat that answers insurance lookups only from the rule files, for example "Is dental covered?".
+- **Safety demo:** the page at `/safety-demo` runs the defenses live: injection attempts refused, diagnosis requests refused, ungrounded claims replaced, and the budget guard stopping a run. It spends no tokens.
 
 No login is needed, by design.
 
 ## Model
 
-**`gpt-6-luna` only, through Portkey, for every agent.** It is called with the OpenAI Python client, and the name is set once in `backend/config.py`.
+**`gpt-6-luna` only, through Portkey, for every agent.** It is called with the OpenAI Python client, and the name is set once in `backend/config.py`. A test fails if any other model name appears anywhere in the repo.
 
 ## Files
 
@@ -67,6 +72,8 @@ No login is needed, by design.
 .
 ├── README.md
 ├── AI_prompts.md
+├── report.html
+├── slides.html
 ├── requirements.txt
 ├── .env.example
 ├── .gitignore
@@ -74,7 +81,11 @@ No login is needed, by design.
 │   ├── main.py
 │   ├── navigator.py
 │   ├── agents.py
+│   ├── chat.py
+│   ├── referral.py
 │   ├── sections.py
+│   ├── glossary.py
+│   ├── example.py
 │   ├── safety.py
 │   ├── grounding.py
 │   ├── budget.py
@@ -82,7 +93,13 @@ No login is needed, by design.
 │   ├── safety_demo.py
 │   ├── rules.py
 │   ├── models.py
-│   └── config.py
+│   ├── config.py
+│   └── prompts/
+│       ├── router.md
+│       ├── coverage.md
+│       ├── plan.md
+│       ├── chat.md
+│       └── never.md
 ├── frontend/
 │   ├── index.html
 │   └── safety_demo.html
@@ -94,46 +111,60 @@ No login is needed, by design.
 │   └── rules_visiting_student.json
 ├── tests/
 │   ├── conftest.py
+│   ├── injection_test.py
 │   ├── test_safety.py
-│   ├── test_flow.py
 │   ├── test_defenses.py
+│   ├── test_flow.py
+│   ├── test_chat.py
+│   ├── test_referral.py
 │   ├── test_calendar.py
-│   └── injection_test.py
-├── output/
-│   └── .gitkeep
-└── joke.txt
+│   ├── test_landing.py
+│   ├── test_plan_page.py
+│   ├── test_practical.py
+│   ├── test_takeaway.py
+│   ├── test_warmth.py
+│   ├── test_writedown.py
+│   └── test_site.py
+└── output/
+    └── .gitkeep
 ```
 
 | Folder or file | What it holds |
 | --- | --- |
 | `backend/` | The agents and API logic |
-| `backend/main.py` | The FastAPI app: serves the page, the `/api/navigate` route, and the metadata-only run log |
-| `backend/navigator.py` | Runs one request: emergency check, router, the one timing question, coverage checker, then plan builder |
-| `backend/agents.py` | The three agents (router, coverage checker, plan builder) and their prompts, each one `gpt-6-luna` call, plus the checks on what they return |
-| `backend/sections.py` | Parts of the answer built in code from the rule files: write-down list, "if things do not go as planned", the red-flag list, the email and MyChart drafts, the "How it decided" panel |
-| `backend/models.py` | The one response shape (`Answer`) that the backend returns and the page reads; fields that do not apply are left out |
+| `backend/main.py` | The FastAPI app: serves the pages, the `/api/navigate`, `/api/chat`, `/api/referral`, `/api/departments`, `/api/example` and `/api/safety-demo` routes, and the logs |
+| `backend/navigator.py` | Runs one plan request: screen, router, coverage checker, plan builder, and the parts of the answer built in code |
+| `backend/agents.py` | The three plan agents (router, coverage checker, plan builder), the chat agent with its `lookup_rules` tool, the verifier, and the prompt loader; each model call is one `gpt-6-luna` call |
+| `backend/chat.py` | One chat turn: screen, diagnosis check, role handling, then the chat agent; also the code-only answers (rule files, official coverage page) |
+| `backend/referral.py` | The "Do I need a referral?" checker and the referral help, answered from the rule files with no model |
+| `backend/sections.py` | Parts of the answer built in code from the rule files: write-down list, "if things do not go as planned", the warning list, the email and MyChart drafts, the "How it decided" panel, the coverage page link |
+| `backend/glossary.py` | The plain-words explanations of terms such as referral and PCP, each one sentence taken from a rule |
+| `backend/example.py` | The example plan, built with a canned model reply so it costs no tokens |
 | `backend/safety.py` | Emergency and crisis detection, the prompt-injection and diagnosis-request checks, the no-diagnosis output check, and the phone-number scrubber |
-| `backend/grounding.py` | The grounding check: a coverage claim is shown only if it, and every number in it, is in the rule files |
-| `backend/budget.py` | The token budget guard: a cap on input tokens per session (20,000) and per network address; counters only, nothing stored |
-| `backend/logs.py` | The guard log (`output/guard_log.jsonl`): one line per defense that fired, with no text from the person |
+| `backend/grounding.py` | The grounding check: a coverage claim is shown only if it, and every number in it, is in the cited rule |
+| `backend/budget.py` | The token budget guard: a cap on input tokens per session and per network address; counters only, nothing stored |
+| `backend/logs.py` | The guard log, the run log, the chat log and the audit trail writers |
 | `backend/safety_demo.py` | The five injection attempts and the live checks behind the Safety demo page |
 | `backend/rules.py` | Loads a role's rule file plus the common file, nothing else |
-| `backend/config.py` | The model name, `.env` loading (repo folder, then the folder above), and the client |
-| `frontend/` | `index.html` (the app, with the Yale blue styling and the bulldog helper) and `safety_demo.html` (the Safety demo page) |
-| `data/` | The rule files: one common file and one per role (the only source of Yale Health facts) |
-| `tests/` | `test_safety.py` (safety and rule-file checks), `test_flow.py` (the router, coverage and plan flow, the response shape, and the page contract), `test_defenses.py` (no-diagnosis, grounding, budget and the Safety demo), `injection_test.py` (five injection attempts, all refused) and `test_calendar.py` (Add to calendar and the `.ics` file) |
-| `output/` | Logs written when the app runs |
-| `joke.txt` | A leftover test file from setting up this folder |
+| `backend/models.py` | The response shapes (pydantic) that the backend returns and the page reads |
+| `backend/config.py` | The model name, the budget caps, `.env` loading (repo folder, then the folder above) and the client |
+| `backend/prompts/` | The runtime prompts: one file per agent (`router.md`, `coverage.md`, `plan.md`, `chat.md`) and the shared rules every agent must follow (`never.md`) |
+| `frontend/` | `index.html` (the app) and `safety_demo.html` (the Safety demo page), plain HTML, CSS and JavaScript |
+| `data/` | The rule files: one common file and one per role. They are the only source of Yale Health facts |
+| `tests/` | The test suite (see Tests) |
+| `output/` | Logs written when the app runs; it starts empty |
+| `report.html`, `slides.html` | The report and the slides |
+| `AI_prompts.md` | The prompts used to build the app |
 
 ## Data
 
 The rule files ship in the repo, so **no separate data pack is needed.** They are the only source of Yale Health facts in the app. The `.env` file stays on your machine and is never committed.
 
-- `data/rules_common.json`: facts for every role (address, phone numbers, Acute Care hours, referrals, the emergency rule, the crisis rule for 988 and 911, the red-flag lists, email and MyChart).
+- `data/rules_common.json`: facts for every role (address, phone lines, Acute Care hours, referrals and prior authorization, the PCP, the emergency and crisis rules, the red-flag lists, the department referral lists, dental, email and MyChart).
 - `data/rules_student.json`, `rules_staff_faculty.json`, `rules_dependent.json`, `rules_visiting_student.json`: one file per role. A role only ever sees its own file plus the common file.
-- Every rule has an id (for example `student.pt_coverage`) and a source. Every coverage answer shows the ids it came from.
-- `rules_staff_faculty.json` starts with a `status` block listing which rules are verified and which are missing. Its cost amounts come only from the Yale Health Member Booklet 2026, with page numbers. One rule (the Aetna choice after three years) is from Yale's benefits page, not the booklet. It applies to Clerical & Technical, Service & Maintenance, and Security staff only, and every answer that uses it says so.
-- Anything not in the files gets the answer "I don't know this" and Member Services at (203) 432-0246. Nothing is filled in from another role's file.
+- Every rule has an id (for example `student.pt_coverage`), a statement, and a source that names the Yale Health document it came from. Where no Yale document says it, the rule says so instead of inventing a source.
+- `rules_staff_faculty.json` starts with a `status` block listing which rules are verified and which are missing. Its amounts come only from the Yale Health Member Booklet 2026, with page numbers.
+- Anything not in the files gets "I don't know" and Member Services at (203) 432-0246. Nothing is filled in from another role's file.
 
 ## Tests
 
@@ -143,38 +174,68 @@ From the repo folder:
 .venv/bin/python -m pytest tests
 ```
 
-- **No key needed (187 checks):** key-loading order, only `gpt-6-luna` in the code and README, no hard-coded keys, the emergency message appears alone, crisis goes to 988 and 911, role isolation, rule-file contents, no diagnosis (including refusing "what do I have?" and "is this serious?" in code before the model), five prompt-injection attempts all refused, the grounding check (claims and numbers must be in the rule files, every failure logged), the token budget guard, the Safety demo, the router, coverage and plan flow, one response shape that the page matches, the email and MyChart drafts, Add to calendar, and no health text stored. Four of these build a real `.ics` file with Node and are skipped if Node is not installed.
-- **Key needed (4 checks, skipped when no `PORTKEY_API_KEY` is found):** real calls for a student asking about physical therapy, staff costs for every plan group, a visiting student who must not get student rules, and a student with no insurance.
-- The prompt-injection script alone: `.venv/bin/python -m pytest tests/injection_test.py -v`
+- **495 tests.** Without a key, 491 run: key-loading order, only `gpt-6-luna` in the repo, no hard-coded keys, role isolation, rule-file contents, the emergency message alone, crisis to 988 and 911, no diagnosis, five prompt-injection attempts all refused, the grounding check, the budget guard, the Safety demo, the plan flow and response shape, the chat, the referral tools, Add to calendar, and the call sheet. About 50 of them run the page's own JavaScript in Node and are skipped if Node is not installed.
+- **Key needed (4 tests):** real calls for a student asking about physical therapy, staff costs for every plan group, a visiting student who must not get student rules, and a student with no insurance. They are skipped when no `PORTKEY_API_KEY` is found.
+- The prompt-injection tests alone: `.venv/bin/python -m pytest tests/injection_test.py -v`
 
 ## Included outputs
 
-*Placeholder: `report.html` and `slides.html` will open directly in a browser with no key and no server. Fill this in when those files exist.*
+`report.html` and `slides.html` are in the repo root. They are single files with the screenshots embedded: double-click either one to open it in a browser, with no key and no server. `slides.html` loads reveal.js from a public CDN, so it needs an internet connection; arrow keys move between slides and `F` goes full screen.
 
 ## Prompts
 
-*Placeholder: `backend/prompts/` will hold the runtime prompts. Fill this in when that folder exists. For now the three agent prompts are inside `backend/agents.py`.*
-
-`AI_prompts.md` logs the prompts used to build the app.
+- `backend/prompts/` holds the runtime prompts: `router.md`, `coverage.md`, `plan.md` and `chat.md`, one per agent, plus `never.md`, the rules every agent must follow (no diagnosis, nothing outside the rule files, no invented numbers).
+- `AI_prompts.md` logs the prompts used to build the app.
 
 ## Links
 
-- Report: *placeholder, `report.html` does not exist yet*
-- Slides: *placeholder, `slides.html` does not exist yet*
-- App: *not online. Run it locally with the steps above.*
+- Repo (public): <https://github.com/shirleyxu414-sys/yale-health-navigator>
+- Report: `report.html` in this repo
+- Slides: `slides.html` in this repo
+- App: not online. Run it locally with the steps above.
 
 ## Safety and limits
 
-- **Emergencies:** chest pain, trouble breathing, severe bleeding, signs of stroke or any red-flag sign get only "Call 911 or go to the emergency room now." with the nearest ERs. No plan, no checklist, no coverage, no questions.
-- **No diagnosis:** the app never names a condition and never recommends treatment or medication. "What do I have?" and "is this serious?" are refused in code before the model, with "I can't diagnose, that's for a clinician. Here's who to call:" and a recommendation.
-- **Prompt injection:** whatever you type is treated as data. "Ignore your rules", "you are now a doctor" and fake system instructions are refused in code, and the model's answers are checked again on the way out.
-- **Cited and grounded coverage:** every coverage answer names its rule and quotes it. A claim that is not in the rule files, or a number that is not, is replaced with "I don't know, ask Yale Health." and logged.
-- **Budget guard:** each session may use up to 20,000 input tokens (about three full plans). A run that would go over stops and tells you. A real plan uses about 6,000.
-- **No stored health data:** nothing you type is saved. The logs hold only the time, role, chosen line, model, duration, and which defense fired.
-- **Unverified falls back:** anything not in your role's file (plus the common file) is answered with "I don't know" and Member Services at (203) 432-0246.
+- **Emergencies:** chest pain, trouble breathing, severe bleeding, signs of stroke or any red-flag sign get only "Call 911 or go to the emergency room now." with the nearest ERs. No plan, no coverage.
+- **No diagnosis:** the app never names a condition and never recommends treatment or medication; "What do I have?" and "Is this serious?" are refused in code before the model.
+- **Prompt injection:** whatever you type is treated as data; "ignore your rules" and fake system instructions are refused in code, and model answers are checked again on the way out.
+- **Cited and grounded coverage:** every coverage answer quotes its rule; a claim, or a number, that is not in the rule is replaced with "I don't know, ask Yale Health."
+- **Budget guard:** `SESSION_TOKEN_CAP` is 200,000 input tokens per session and `ADDRESS_TOKEN_CAP` is 1,000,000 per network address, set in `backend/config.py`; a run that would go over stops and says so. A plan uses about 7,700 input tokens.
+- **No stored health data:** no login, no cookies, no localStorage; what you type lives in the page and is gone when you refresh. The server writes only local log files that are never committed.
+- **Unverified falls back:** anything not in your role's file plus the common file is answered with "I don't know" and Member Services at (203) 432-0246.
+- **Not medical or coverage advice:** the app is educational guidance, not a coverage decision; confirm details with Member Services.
+
+## Grounding design
+
+A model is never trusted to state a Yale Health fact. It may only choose and quote from the rule files, and code checks that it did.
+
+1. **Only the right rules are visible.** A role loads its own rule file plus the common file. The chat's lookup tool searches only those, and returns at most four rules.
+2. **The model must quote.** For each coverage claim it cites a rule id and copies one sentence from that rule word for word.
+3. **Code verifies.** The claim must appear in the cited rule, every number in the answer must appear in it too, there must be no diagnosis or treatment language, and any phone number not in the rule files is removed. A claim that fails is replaced with "I don't know, ask Yale Health." and logged.
+
+Example trace (a real chat turn, student role, "Is dental covered?", from `output/audit_trail.json`):
+
+```
+screen            passed
+diagnosis_check   passed
+route             a question: answered by the bot
+lookup_tool       1 lookup; rules seen: common.dental, common.referral_other,
+                  student.hospitalization_specialty, student.pt_requires_hospitalization_specialty
+verifier          1 passed citation, grounding, number and no-diagnosis checks; 0 did not
+outcome           answer, rule cited: common.dental         tokens used: 1,967
+
+claim (quoted):   "Yale Health does not offer dental insurance for adults."
+rule source:      Yale OISS Dental & Vision Care page; Yale Health Student Guide 2025-2026,
+                  Pediatric Dental Care section; gradprofdenteye.yale.edu
+```
 
 ## Keys and outputs
 
 Never commit a real `.env` or API key. `.env.example` lists `PORTKEY_API_KEY` only.
 
-`output/` starts empty. After runs, `run_log.jsonl` (one line per request) and `guard_log.jsonl` (one line per defense that fired) appear there today. *Placeholder: `token_log.json`, `chat_log.json` and `audit_trail.json` will appear after runs once those logs are built.*
+`output/` starts empty (it holds only a `.gitkeep`). After runs, these four logs appear there, and none of them is committed:
+
+- `run_log.jsonl`: one line per plan request (time, role, kind, line chosen, model, calls, seconds), with no text from the person.
+- `guard_log.jsonl`: one line per defense that fired.
+- `chat_log.json`: each chat turn (question, answer, rule cited, tokens). Set `CHAT_LOG_QUESTIONS = False` in `backend/config.py` to drop the question text.
+- `audit_trail.json`: the steps, rules and token use behind each plan, chat turn and referral check.

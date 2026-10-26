@@ -528,3 +528,38 @@ Print plan and Copy plan currently carry literally everything. Trim both to the 
 3. The on-screen plan does not change: only the Print and Copy outputs are trimmed.
 4. Print and Copy must contain the same key info: a person who prints and a person who copies get the same sheet.
 5. Do not change anything else in this change.
+
+## Step 14: Final dry run, GitHub repo, report and slides
+
+Now do the final dry run, in this order:
+1. Final README update and check. The README must have all sections in order: project name and one sentence; who it is for; prerequisites with versions; numbered run steps with ports and URLs; what success looks like; gpt-6-luna only through Portkey; file tree plus a folder map with one line per folder and per agent file; data note; tests and which need the key; report.html and slides.html open with no key and no server; prompts locations; links; safety and limits, one line each; never commit a real key, and output/ starts empty. Add a grounding-design subsection with one example trace. Record the budget caps (SESSION_TOKEN_CAP 200,000, ADDRESS_TOKEN_CAP 1,000,000). Fill in the report.html and slides.html placeholders with the real files and links. If either file does not exist yet, stop and tell me, do not invent a link. The file tree must match the actual repo, including token_log.json and any new files.
+2. Full test run. Run the whole tests/ suite and report the result per file. If anything fails, fix it and rerun until the suite passes, and report what changed.
+3. Fresh clone test. Clone the repo to a fresh folder and follow only the README, with no extra knowledge from this project. The app must be running within 10 minutes of following the README. Report the time it took and any step that was unclear or missing. If the repo is not pushed to GitHub yet, stop at this step and tell me.
+4. .env one level up test. Move the .env file to the folder above the repo and confirm the app still finds the key. Then put it back.
+5. Model and key grep. Search the whole repo, including code, comments, README, and prompts, for any model name other than gpt-6-luna. The result must be zero. Confirm no real .env or API key is committed, and .env.example lists PORTKEY_API_KEY only.
+6. Repo visibility. Confirm the GitHub repo is public. If you cannot verify that from here, say so.
+
+Do not change any answers, phone numbers, rule citations, or app behavior, except to fix a failing test or a README inaccuracy you find. Do not change anything else in this change.
+
+---
+
+Good stop, do not invent those links. Proceed like this:
+1. Do steps 2, 4, and 5 now: run the whole tests/ suite and report the result per file; move .env to the folder above the repo, confirm the app still finds the key, then put it back; search the whole repo, including code, comments, README, and prompts, for any model name other than gpt-6-luna and confirm no real .env or API key is committed. Steps 3 and 6 stay blocked until the repo is on GitHub, do not attempt them.
+2. Initialize a git repo in the project folder and commit the current state. Do not push anywhere yet, there is no remote.
+Do not update the README yet, that waits for the final dry run after report.html and slides.html exist. Leave output/ alone for now. Do not change any answers, phone numbers, rule citations, or app behavior, except to fix a failing test.
+
+---
+
+List only the four logs the app writes. Do not build a token log.
+
+---
+
+we can use the repo name you suggested, don't include the joke file
+
+---
+
+just go
+
+---
+
+this is the submission requirement, see what we should do next (the submission requirement: the HTML of the report and the HTML of the slides, each with the GitHub repo URL so it can be cloned; an optional video; nothing else. The course requirements page is https://zlisto.github.io/mgt_409_fa26/project_requirements.html)
