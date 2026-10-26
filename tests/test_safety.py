@@ -86,7 +86,7 @@ def test_env_missing_everywhere_gives_clear_error(tmp_path, monkeypatch):
 
 def test_only_gpt_6_luna_appears_in_code_and_readme():
     assert config.MODEL == "gpt-6-luna"
-    found = {m for p in repo_files() for m in re.findall(r"gpt-[\w.\-]+", re.sub(r"https?://\S+", "", p.read_text()))}  # code, comments, README, prompts, report and slides (web addresses are not model names)
+    found = {m for p in repo_files() for m in re.findall(r"gpt-[\w.\-]*\w", re.sub(r"https?://\S+", "", p.read_text()))}  # code, comments, README, prompts, report and slides (web addresses are not model names)
     assert found == {"gpt-6-luna"}, found
     assert "gpt-6-luna" in (ROOT / "README.md").read_text()
 
