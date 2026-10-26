@@ -470,9 +470,9 @@ Do not update the README yet, that waits for the final dry run after report.html
 
 List only the four logs the app writes. Do not build a token log.
 
-we can use the repo name you suggested, don't include the joke file
+Use the repo name you suggested, and don't include the joke file in the repo.
 
-just go
+Just go.
 
 1) HTML of report - put your github repo url in the report so we can clone it
 
@@ -486,14 +486,10 @@ If your github repo is not in your report and slide files, we cannot clone it an
 
 Also, if your repo is private, please mention this in your report and slides.
 
-this is the submission requirement, see what we should do next
+This is the submission requirement. See what we should do next.
 
-https://zlisto.github.io/mgt_409_fa26/project_requirements.html this is the requirement
+This is the project requirement: https://zlisto.github.io/mgt_409_fa26/project_requirements.html
 
-didn't see the links in repo
+I don't see the links to the report and the slides in the repo. Why can't a link in the repo take a grader straight to the report and the slides? If turning on GitHub Pages helps the grading, do it.
 
-why can't the link in repo lead grader to the report and ppt directly?
-
-yes if it helps the grading
-
-The slides look terrible. It doesn't look like a presentation
+The slides look terrible. They don't look like a presentation.
