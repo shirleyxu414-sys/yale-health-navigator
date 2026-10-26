@@ -256,10 +256,12 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <p><b>Tests.</b> The suite has 495 tests, all passing on 26 October 2026: <code>python -m pytest tests</code>. Safety coverage includes <code>tests/injection_test.py</code> (every injection attempt refused), the grounding and budget tests in <code>tests/test_defenses.py</code>, and the repo-wide checks that only gpt-6-luna appears and no key is committed. Four live tests call the real model and are skipped when no key is present.</p>
 
 <h2><span class="n">7</span>Impact</h2>
-<div class="warn"><b>I have not run a user study.</b> The only use beyond development testing is my own informal self-test on a phone: on home Wi-Fi, in several short sessions covering all four roles, with 9 real plans, 1 referral check and 2 chat questions. I did not time a manual-search baseline, so I do not claim a time saving, and I am not going to invent a user quote. What follows is what I can measure or source.</div>
+<div class="warn"><b>This is one tester, and the tester is me.</b> I have not run an independent user study. My own informal phone self-test (home Wi-Fi, several short sessions, all four roles, 9 real plans, 1 referral check and 2 chat questions) is the only use beyond development testing. My manual-search time below is an estimate, not a stopwatch measurement, so treat the comparison as indicative only. I am not going to invent a user quote.</div>
 <table>
 <tr><th>Measure</th><th>Value</th><th>Source</th></tr>
 <tr><td>Time from typing to a full plan</td><td>Median about 12 seconds, range 1 to 30, across eleven measured runs (1.0, 3.1, 8.3, 8.6, 11.7, 11.8, 14.4, 17.3, 21.1, 23.9 and 29.9 s). A plan is three model calls one after another, so it is as fast as the model that day</td><td>Measured in the app's run log</td></tr>
+<tr><td>Finding the same three answers (which line, whether a referral comes first, whether it is covered)</td><td>By hand on the Yale Health site and PDFs: about 10 minutes (my estimate, not timed). With the app: about 12 seconds for a plan (median). That is roughly 50 times faster, on an untimed estimate</td><td>My estimate; app run log</td></tr>
+<tr><td>The tester's impression (author, after the phone test)</td><td>"It got everything in one go."</td><td>My own comment, not an independent user</td></tr>
 <tr><td>Phone self-test (home Wi-Fi, logged by the app)</td><td>9 plans across the four roles (student, visiting student, dependent, staff or faculty), 1 referral check and 2 chat questions, all answered; no failures logged. One glitch: the first tap on the chat button did not respond</td><td>App run, chat and audit logs</td></tr>
 <tr><td>Cost of that plan</td><td>about $0.0017</td><td>Section 5, measured tokens</td></tr>
 <tr><td>Availability</td><td>The app answers at any hour. Member Services answers Monday to Friday, 8:30 a.m. to 5:00 p.m.</td><td>Hours from the Yale Health rule file</td></tr>
@@ -267,7 +269,7 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <tr><td>Referral lists covered by the checker</td><td>16 departments in the shared lists (18 for a student); every verdict cites the Yale Health Authorizations (Referrals) page</td><td>Rule file <code>rules_common.json</code></td></tr>
 <tr><td>Questions answered with zero tokens</td><td>Referral checks, emergencies, injection and diagnosis refusals</td><td>Section 5</td></tr>
 </table>
-<p>What I expect, and have not proven: fewer wrong first calls, fewer visits that start without a referral, and shorter calls to Member Services because the person arrives with the right question. <b>How I would test it:</b> five to ten Yale members each try three real situations; I would time how long it takes them to find the right line and the referral rule with and without the app, and record whether they would have called the right place first.</p>
+<p>What I expect, and have not proven independently: fewer wrong first calls, fewer visits that start without a referral, and shorter calls to Member Services because the person arrives with the right question. <b>How I would test it:</b> five to ten Yale members each try three real situations; I would time how long it takes them to find the right line and the referral rule with and without the app, and record whether they would have called the right place first.</p>
 
 <h2><span class="n">8</span>Limits and next steps</h2>
 <h3>What does not work yet</h3>
