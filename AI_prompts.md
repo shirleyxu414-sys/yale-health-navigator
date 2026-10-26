@@ -493,3 +493,15 @@ This is the project requirement: https://zlisto.github.io/mgt_409_fa26/project_r
 I don't see the links to the report and the slides in the repo. Why can't a link in the repo take a grader straight to the report and the slides? If turning on GitHub Pages helps the grading, do it.
 
 The slides look terrible. They don't look like a presentation.
+
+Check everything and run the tests if necessary, and make sure everything follows the project instructions and the submission rules I posted.
+
+The title slide looks bad and ugly, and I can't see the link either. Can you also polish the report?
+
+Yes, it's my name. I don't think we need a video. The price is fine. How can we solve the missing real-person evidence and the leftover test logs? Let's clean up the leftover test logs first.
+
+I will follow your advice as long as it fully complies with the project requirements. I will run the test on my own, and I will test it at home later.
+
+Now re-test everything. Also try to fine tune the report and the slides. Please fine tune the slides in terms of content, design, and layout. I want more insights and more elaboration in the presentation, especially on the problem and what is new, and also on the impact and what is next. We need to say something insightful, not just tedious stuff.
+
+Check the project instructions from the website I sent you and the submission rules I gave you. Do a final check of the content of the report and the slides. Run one last test of the app. Let me know if it is OK to go.
