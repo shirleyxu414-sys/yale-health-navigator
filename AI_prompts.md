@@ -507,3 +507,5 @@ Now re-test everything. Also try to fine tune the report and the slides. Please 
 Check the project instructions from the website I sent you and the submission rules I gave you. Do a final check of the content of the report and the slides. Run one last test of the app. Let me know if it is OK to go.
 
 I asked other people to test it. Please make it clear in the report that I invited a friend to do the test at home. It was the visiting student, on my computer. They found the answer in ChatGPT quite fast, in about 10 seconds. I think the app still helps though, because of the planner.
+
+Trim the report to 14 pages.
