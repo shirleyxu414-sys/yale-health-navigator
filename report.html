@@ -60,7 +60,7 @@ footer.end{margin-top:40px;padding-top:14px;border-top:2px solid var(--line)}
 </div></div></header>
 <div class="page" style="padding-bottom:0"><div class="glance">
 <div><b>$0.0017</b><span>per plan, measured on real runs</span></div>
-<div><b>~12 s</b><span>median time to a full plan (7 runs, 1 to 24 s)</span></div>
+<div><b>~12 s</b><span>median time to a full plan (11 runs, 1 to 30 s)</span></div>
 <div><b>3 + 1</b><span>model agents plus a code verifier</span></div>
 <div><b>495</b><span>tests passing, 5 of 5 injections refused</span></div>
 </div></div>
@@ -232,7 +232,7 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <tr><th>Step</th><th>Effect</th><th>Did it hurt? Evidence</th></tr>
 <tr><td>Do everything possible in code: referral checker, emergency and crisis screen, injection and diagnosis refusal, glossary, open-now badges, calendar, call sheet</td><td>Zero tokens for those paths; an emergency never waits on a model</td><td>No. These are deterministic and covered by tests (495 pass)</td></tr>
 <tr><td>Chat uses a lookup tool that returns at most 4 rules, instead of putting a whole rule file in the prompt</td><td>A chat question costs 1,956 input tokens on average. The student and common files together are about 7,200 tokens (estimated at 4 characters per token), so sending them every turn would roughly quadruple the input</td><td>Partly. "Is dental covered?" and "Do I need prior authorization?" answered correctly. But "Where is the official coverage page?" failed ("I don't know") because the lookup returns rule text, not URLs. I fixed that one question with a code path rather than widening the lookup</td></tr>
-<tr><td>One call per agent, no loops in the pipeline; plan limited to a few points; at most 4 coverage topics</td><td>3 sequential calls per plan, median about 12 seconds (1 to 24 s)</td><td>No evidence of harm</td></tr>
+<tr><td>One call per agent, no loops in the pipeline; plan limited to a few points; at most 4 coverage topics</td><td>3 sequential calls per plan, median about 12 seconds (1 to 30 s)</td><td>No evidence of harm</td></tr>
 <tr><td>Token budget guard: per-session and per-address caps, checked before every call, including each round of the chat tool loop</td><td>Caps the worst case</td><td>No. The Safety demo shows it stopping a run before the model call</td></tr>
 <tr><td>Strict grounding check (quote and every number must be in the cited rule)</td><td>Prevents wrong answers</td><td><b>Yes, a cost to quality.</b> In a live test the model wrote "$0" for "covered at 100%". The check treated "$0" as a number not in the rule and replaced a correct answer with "I don't know". It happened on repeated runs one day and passed on later runs. Safe, but it can look like a false refusal</td></tr>
 <tr><td>Prompt caching</td><td>Not realized: the API reported 0 cached tokens on all 5 measured runs</td><td>Untested. Each call repeats a fixed instruction block, so caching is the obvious next saving. If a third of a plan's input became cached at $0.01 per million, a plan would cost about 14% less. That figure is an illustration, not a measurement</td></tr>
@@ -256,11 +256,11 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <p><b>Tests.</b> The suite has 495 tests, all passing on 26 October 2026: <code>python -m pytest tests</code>. Safety coverage includes <code>tests/injection_test.py</code> (every injection attempt refused), the grounding and budget tests in <code>tests/test_defenses.py</code>, and the repo-wide checks that only gpt-6-luna appears and no key is committed. Four live tests call the real model and are skipped when no key is present.</p>
 
 <h2><span class="n">7</span>Impact</h2>
-<div class="warn"><b>I have not run a user study.</b> The only use beyond development testing is my own informal self-test on a phone: a Yale student on home Wi-Fi, in two short sessions, with 5 real plans, 1 referral check and 2 chat questions. I did not time a manual-search baseline, so I do not claim a time saving, and I am not going to invent a user quote. What follows is what I can measure or source.</div>
+<div class="warn"><b>I have not run a user study.</b> The only use beyond development testing is my own informal self-test on a phone: on home Wi-Fi, in several short sessions covering all four roles, with 9 real plans, 1 referral check and 2 chat questions. I did not time a manual-search baseline, so I do not claim a time saving, and I am not going to invent a user quote. What follows is what I can measure or source.</div>
 <table>
 <tr><th>Measure</th><th>Value</th><th>Source</th></tr>
-<tr><td>Time from typing to a full plan</td><td>Median about 12 seconds, range 1 to 24, across seven measured runs (1.0, 3.1, 8.3, 11.7, 11.8, 21.1 and 23.9 s). A plan is three model calls one after another, so it is as fast as the model that day</td><td>Measured in the app's run log</td></tr>
-<tr><td>Phone self-test (Yale student, home Wi-Fi, logged by the app)</td><td>5 plans, 1 referral check and 2 chat questions, all answered; no failures logged. One glitch: the first tap on the chat button did not respond</td><td>App run, chat and audit logs</td></tr>
+<tr><td>Time from typing to a full plan</td><td>Median about 12 seconds, range 1 to 30, across eleven measured runs (1.0, 3.1, 8.3, 8.6, 11.7, 11.8, 14.4, 17.3, 21.1, 23.9 and 29.9 s). A plan is three model calls one after another, so it is as fast as the model that day</td><td>Measured in the app's run log</td></tr>
+<tr><td>Phone self-test (home Wi-Fi, logged by the app)</td><td>9 plans across the four roles (student, visiting student, dependent, staff or faculty), 1 referral check and 2 chat questions, all answered; no failures logged. One glitch: the first tap on the chat button did not respond</td><td>App run, chat and audit logs</td></tr>
 <tr><td>Cost of that plan</td><td>about $0.0017</td><td>Section 5, measured tokens</td></tr>
 <tr><td>Availability</td><td>The app answers at any hour. Member Services answers Monday to Friday, 8:30 a.m. to 5:00 p.m.</td><td>Hours from the Yale Health rule file</td></tr>
 <tr><td>Roles served</td><td>4 (student, staff or faculty, dependent, visiting student)</td><td>Rule files in the repo</td></tr>
@@ -276,7 +276,7 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <li><b>Thin rule files for some roles.</b> The student file has 13 rules and the staff and faculty file 8, plus 17 shared ones. Dependents and visiting students have one role-specific rule each, so most of their questions fall back to Member Services. Rules were written by hand from public Yale pages and can go out of date; one rule (the Aetna switch after three years) comes from a Yale benefits page rather than the booklet and applies to a subset of staff, and the app says so.</li>
 <li><b>Safe but sometimes over-strict.</b> The grounding check can replace a correct answer with "I don't know" when the model rephrases a number, as the "$0" case showed.</li>
 <li><b>No personal eligibility.</b> It cannot know a member's actual plan, whether they waived coverage, or whether a referral was approved. It always says to confirm with Member Services.</li>
-<li><b>Plans are not instant.</b> Three model calls run one after another, so a plan took 1 to 24 seconds in my runs (median about 12). The page shows a thinking state, but a faster design (running independent steps in parallel, or caching) is a next step.</li>
+<li><b>Plans are not instant.</b> Three model calls run one after another, so a plan took 1 to 30 seconds in my runs (median about 12). The page shows a thinking state, but a faster design (running independent steps in parallel, or caching) is a next step.</li>
 <li><b>One phone glitch.</b> On a phone test over home Wi-Fi, the first tap on the "Chat with the helper" button did not respond; later taps worked. I could not reproduce it on a computer and have not fixed it.</li>
 <li><b>Not hosted.</b> It runs locally from the repo; there is no public link. Prompt caching is not used yet (0 cached tokens measured).</li>
 <li>The chat can answer only what the keyword lookup finds; a question phrased with words that are not in the rules may be answered with "I don't know" even when a rule exists.</li>
