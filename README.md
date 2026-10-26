@@ -180,7 +180,7 @@ From the repo folder:
 
 ## Included outputs
 
-`report.html` and `slides.html` are in the repo root. They are single files with the screenshots embedded: double-click either one to open it in a browser, with no key and no server. `slides.html` loads reveal.js from a public CDN, so it needs an internet connection; arrow keys move between slides and `F` goes full screen.
+[`report.html`](report.html) and [`slides.html`](slides.html) are in the repo root. They are single files with the screenshots embedded: download either one and double-click it to open it in a browser, with no key and no server. (GitHub shows the source of an HTML file rather than the page, so download it first: open the file on GitHub and use the download button, or clone the repo.) `slides.html` loads reveal.js from a public CDN, so it needs an internet connection; arrow keys move between slides and `F` goes full screen.
 
 ## Prompts
 
@@ -190,8 +190,8 @@ From the repo folder:
 ## Links
 
 - Repo (public): <https://github.com/shirleyxu414-sys/yale-health-navigator>
-- Report: `report.html` in this repo
-- Slides: `slides.html` in this repo
+- Report: [report.html](report.html) ([on GitHub](https://github.com/shirleyxu414-sys/yale-health-navigator/blob/main/report.html))
+- Slides: [slides.html](slides.html) ([on GitHub](https://github.com/shirleyxu414-sys/yale-health-navigator/blob/main/slides.html))
 - App: not online. Run it locally with the steps above.
 
 ## Safety and limits
