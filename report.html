@@ -299,7 +299,7 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <tr><td>Finding the same answers without the app</td><td>By hand on the Yale Health site and PDFs: about 10 minutes (my estimate, not timed). By phone: about 5 minutes (my classmate's estimate, not timed). With ChatGPT: about 10 seconds, according to my friend, who found the answer there quickly; I did not check that answer against Yale's documents</td><td>Our own estimates; not stopwatch measurements</td></tr>
 <tr><td>Feedback from a classmate (an outside tester)</td><td>He said he liked the app because it was easy to find out what is covered by insurance, and that he had faith in its sources. He said he would otherwise have called Yale Health to verify, which he estimated would take about 5 minutes. (Relayed by me in my own words, not a verbatim quote.)</td><td>My classmate, relayed by me</td></tr>
 <tr><td>Speed versus a general chatbot</td><td>The app is not faster than a chatbot: a plan takes about 12 seconds at the median, against about 10 seconds for a quick ChatGPT answer. What the app adds is the planner (the line to call, the referral first, the checklist and the calendar steps) and a source for each claim, which is what my classmate said he trusted</td><td>App run log; my friend's and my classmate's reports</td></tr>
-<tr><td>Impressions</td><td>Me, after the phone test: "It got everything in one go." After my friend's test I still think the app helps, because of the planner</td><td>My own comments, not an independent user</td></tr>
+<tr><td>Impressions</td><td>Me, after the phone test: "It got everything in one go." After my friend's test I still think the app helps, because of the planner</td><td>My own comments, not an independent tester</td></tr>
 <tr><td>What the logged test runs covered (home Wi-Fi, logged by the app)</td><td>9 plans across the four roles, 1 referral check and 2 chat questions; every run returned a plan or an answer. About 7 plans were mine (student, dependent, staff or faculty) and 2 were my friend's (visiting student, on my computer). One glitch on my phone: the first tap on the chat button did not respond</td><td>App run, chat and audit logs</td></tr>
 <tr><td>Cost of that plan</td><td>about $0.0017</td><td>Section 5, measured tokens</td></tr>
 <tr><td>Availability</td><td>The app answers at any hour. Member Services answers Monday to Friday, 8:30 a.m. to 5:00 p.m.</td><td>Hours from the Yale Health rule file</td></tr>
@@ -312,7 +312,7 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 <h2><span class="n">8</span>Limits and next steps</h2>
 <h3>What does not work yet</h3>
 <ul>
-<li><b>No controlled user test</b> (section 7). Three informal testers so far (me, a friend and a classmate), and every time quoted by a tester is an untimed estimate, so the impact is indicative, not proven. My friend also found that a general chatbot gives a quick answer, so the app's value has to be the planner and the sources, not speed.</li>
+<li><b>No controlled test</b> (section 7). Three informal testers so far (me, a friend and a classmate), and every time quoted by a tester is an untimed estimate, so the impact is indicative, not proven. My friend also found that a general chatbot gives a quick answer, so the app's value has to be the planner and the sources, not speed.</li>
 <li><b>Thin rule files for some roles.</b> The student file has 13 rules and the staff and faculty file 8, plus 17 shared ones. Dependents and visiting students have one role-specific rule each, so most of their questions fall back to Member Services. Rules were written by hand from public Yale pages and can go out of date; one rule (the Aetna switch after three years) comes from a Yale benefits page rather than the booklet and applies to a subset of staff, and the app says so.</li>
 <li><b>Safe but sometimes over-strict.</b> The grounding check can replace a correct answer with "I don't know" when the model rephrases a number, as the "$0" case showed.</li>
 <li><b>No personal eligibility.</b> It cannot know a member's actual plan, whether they waived coverage, or whether a referral was approved. It always says to confirm with Member Services.</li>
@@ -323,9 +323,10 @@ source on the rule:           Yale OISS Dental &amp; Vision Care page; Yale Heal
 </ul>
 <h3>What I would build next</h3>
 <ol>
-<li>Run the five-to-ten-person user test above and publish the times and quotes.</li>
+<li>Run the timed test described above with five to ten Yale members and publish the times and quotes.</li>
 <li>Host the app so a grader or a member can open a link, with the budget caps already in place.</li>
 <li>Add more rules for dependents and visiting students, each with its source page, and a yearly review so stale rules are caught.</li>
+<li><b>Go beyond Yale Health coverage.</b> Today the app answers "Is dental covered?" with one rule (Yale Health offers no adult dental insurance, and separate optional plans exist) and has no vision-plan rule, so vision questions fall back to Member Services. Next: add the optional dental and vision plans, and guidance for people who are covered elsewhere (for example, students who waived Yale's hospitalization plan), each with its own sources, and point them to the right insurer's line instead of only to Yale Health.</li>
 <li>Turn on prompt caching for the fixed instruction block and re-measure cost.</li>
 <li>Accept equivalent number formats in the grounding check ("covered at 100%" and "$0"), with tests, to remove the false refusals without weakening the rule.</li>
 <li>Ask Yale Health to review the rule files; a live connection to eligibility would make the answers personal.</li>

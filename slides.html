@@ -39,7 +39,7 @@
 .shots figure{margin:0;flex:1;text-align:center}
 .shots figcaption{font-size:20px;color:var(--muted);margin-top:8px}
 .list{list-style:none;margin:0;padding:0}
-.list li{display:flex;align-items:flex-start;gap:16px;margin:0 0 12px;font-size:30px;line-height:1.22}
+.list li{display:flex;align-items:flex-start;gap:16px;margin:0 0 10px;font-size:28px;line-height:1.2}
 .list .dot{flex:none;width:44px;height:44px;border-radius:50%;background:var(--yale);color:#fff;font-weight:700;font-size:24px;display:flex;align-items:center;justify-content:center;margin-top:2px}
 .list b{color:var(--yale)}
 .honest{border-left:8px solid #7A5300;background:#FFF4D6;border-radius:10px;padding:16px 24px;font-size:28px;line-height:1.3}
@@ -287,19 +287,20 @@ table.cmp tr.me td:first-child{color:#fff}
 <div class="card"><div class="label">The rule files are the product</div><div class="note" style="font-size:22px">The answers are only as good as about 40 rules. Upkeep, not tokens, is the real running cost.</div></div>
 </div>
 <div class="col" style="flex:.95">
-<h3 style="font-size:32px;margin-bottom:12px">Next, in order of value</h3>
+<h3 style="font-size:30px;margin-bottom:8px">Next, in order of value</h3>
 <ul class="list">
-<li><span class="dot">1</span><span><b>User test</b>: the biggest unknown</span></li>
+<li><span class="dot">1</span><span><b>Timed test</b> with more Yale members: the biggest unknown</span></li>
 <li><span class="dot">2</span><span><b>Yearly rule review</b> with Yale Health</span></li>
-<li><span class="dot">3</span><span><b>Host it</b> with the budget caps</span></li>
-<li><span class="dot">4</span><span><b>Prompt caching</b> and number-tolerant checks</span></li>
-<li><span class="dot">5</span><span><b>Later:</b> triage help, only with Yale clinicians</span></li>
+<li><span class="dot">3</span><span><b>Beyond Yale Health:</b> dental, vision and other insurers</span></li>
+<li><span class="dot">4</span><span><b>Host it</b> with the budget caps</span></li>
+<li><span class="dot">5</span><span><b>Prompt caching</b> and number-tolerant checks</span></li>
+<li><span class="dot">6</span><span><b>Later:</b> triage help, only with Yale clinicians</span></li>
 </ul>
-<p class="honest" style="font-size:22px;margin-top:8px;background:var(--tint);border-color:var(--yale)"><b>Who owns it:</b> Yale Health should own the rule files. This app is a front door to them.</p>
+<p class="honest" style="font-size:20px;margin-top:4px;padding:10px 18px;background:var(--tint);border-color:var(--yale)"><b>Who owns it:</b> Yale Health should own the rule files. This app is a front door to them.</p>
 </div>
 </div>
 <div class="repo-foot">Yale Health Navigator · github.com/shirleyxu414-sys/yale-health-navigator</div>
-<aside class="notes">Three lessons. First, use the model for judgment and code for rules: three model calls do the reading and writing, and everything that can be checked deterministically runs in code at zero tokens. Second, make the model quote, then check the quote. Grounding by checking beats grounding by asking nicely. It costs a few false I don't knows, and I chose safe over smooth. Third, the rule files are the product. The answers are only as good as the roughly forty rules behind them, so the real ongoing cost is keeping them true. The dental rule deliberately has no prices because they change every year. So next steps in order of value: a real user test, because it is the biggest unknown; a yearly rule review with Yale Health; hosting with the budget caps so anyone can try it; and prompt caching plus a number-tolerant grounding check to cut cost and false refusals.</aside>
+<aside class="notes">Three lessons. First, use the model for judgment and code for rules: three model calls do the reading and writing, and everything that can be checked deterministically runs in code at zero tokens. Second, make the model quote, then check the quote. Grounding by checking beats grounding by asking nicely. It costs a few false I don't knows, and I chose safe over smooth. Third, the rule files are the product. The answers are only as good as the roughly forty rules behind them, so the real ongoing cost is keeping them true. The dental rule deliberately has no prices because they change every year. So next steps in order of value: a timed test with more Yale members, because it is the biggest unknown; a yearly rule review with Yale Health; hosting with the budget caps so anyone can try it; and prompt caching plus a number-tolerant grounding check to cut cost and false refusals.</aside>
 </section>
 
 <!-- 10 Close -->
