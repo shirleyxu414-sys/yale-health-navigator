@@ -86,7 +86,7 @@ table.cmp tr.me td:first-child{color:#fff}
 <div class="kicker">AI Foundations for Managers · Final project</div>
 <h1>Yale Health<br>Navigator</h1>
 <p class="lead dark" style="margin-top:22px">Know who to call, and what to ask, before the phone rings. Say what is going on and get your next step.</p>
-<p style="margin-top:18px"><span class="chip">From situation to next step</span><span class="chip">Call, map, calendar</span><span class="chip">Checked in code</span></p>
+<p style="margin-top:18px"><span class="chip">A care planner</span><span class="chip">Call, map, calendar</span><span class="chip">Checked in code</span></p>
 <p class="sub" style="margin:6px 0 16px">Shirley Xu</p>
 <p class="pill" style="font-size:25px">GitHub: <a href="https://github.com/shirleyxu414-sys/yale-health-navigator">github.com/shirleyxu414-sys/yale-health-navigator</a></p>
 </div>
@@ -144,7 +144,7 @@ table.cmp tr.me td:first-child{color:#fff}
 <!-- 4 Agents -->
 <section>
 <div class="kicker">How it works</div>
-<h2 style="margin-bottom:6px">Three agents and one verifier</h2>
+<h2 style="margin-bottom:6px">Route, check, plan: how it works</h2>
 <div class="diagram">
 <svg viewBox="0 0 900 470" role="img" aria-label="How a request moves through the agents" style="width:100%;height:auto;font-family:Helvetica,Arial,sans-serif">
   <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#286DC0"/></marker></defs>
@@ -158,29 +158,30 @@ table.cmp tr.me td:first-child{color:#fff}
   <text x="240" y="256" text-anchor="middle" font-size="12" fill="#17283F">diagnosis request</text>
   <text x="240" y="276" text-anchor="middle" font-size="12" fill="#5A6B82">0 tokens</text>
   <rect x="350" y="20" width="160" height="90" rx="12" fill="#00356B"/>
-  <text x="430" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">1. Router</text>
-  <text x="430" y="73" text-anchor="middle" font-size="12" fill="#D3DEEC">category, line, timing</text>
+  <text x="430" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">1. Route</text>
+  <text x="430" y="73" text-anchor="middle" font-size="12" fill="#D3DEEC">which line to call, and when</text>
   <text x="430" y="91" text-anchor="middle" font-size="12" fill="#D3DEEC">1 call, no tools</text>
   <rect x="350" y="190" width="160" height="90" rx="12" fill="#00356B"/>
-  <text x="430" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">2. Coverage checker</text>
+  <text x="430" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">2. Check coverage</text>
   <text x="430" y="243" text-anchor="middle" font-size="12" fill="#D3DEEC">reads role file + common</text>
   <text x="430" y="261" text-anchor="middle" font-size="12" fill="#D3DEEC">1 call, no tools</text>
   <rect x="350" y="360" width="160" height="90" rx="12" fill="#00356B"/>
-  <text x="430" y="392" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">3. Plan builder</text>
-  <text x="430" y="413" text-anchor="middle" font-size="12" fill="#D3DEEC">timeline, points, checklist</text>
+  <text x="430" y="392" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">3. Build the plan</text>
+  <text x="430" y="413" text-anchor="middle" font-size="12" fill="#D3DEEC">steps, points, checklist</text>
   <text x="430" y="431" text-anchor="middle" font-size="12" fill="#D3DEEC">1 call, no tools</text>
   <rect x="560" y="190" width="150" height="90" rx="12" fill="#E6F4EC" stroke="#1C6B3F" stroke-width="2"/>
   <text x="635" y="218" text-anchor="middle" font-size="15" font-weight="700" fill="#1C6B3F">Verifier (code)</text>
   <text x="635" y="239" text-anchor="middle" font-size="12" fill="#17283F">citation, quote, numbers,</text>
   <text x="635" y="257" text-anchor="middle" font-size="12" fill="#17283F">no diagnosis, phone scrub</text>
   <rect x="750" y="170" width="140" height="130" rx="12" fill="#fff" stroke="#00356B" stroke-width="2"/>
-  <text x="820" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">The page</text>
-  <text x="820" y="222" text-anchor="middle" font-size="12" fill="#17283F">call card, coverage,</text>
-  <text x="820" y="240" text-anchor="middle" font-size="12" fill="#17283F">plan, checklist,</text>
-  <text x="820" y="258" text-anchor="middle" font-size="12" fill="#17283F">tracker, call sheet</text>
+  <text x="820" y="196" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">The planner</text>
+  <text x="820" y="216" text-anchor="middle" font-size="12" fill="#17283F">tap to call, map,</text>
+  <text x="820" y="233" text-anchor="middle" font-size="12" fill="#17283F">checklist, tracker,</text>
+  <text x="820" y="250" text-anchor="middle" font-size="12" fill="#17283F">calendar, call sheet,</text>
+  <text x="820" y="267" text-anchor="middle" font-size="12" fill="#17283F">email drafts</text>
   <rect x="560" y="360" width="330" height="90" rx="12" fill="#EAF1F9" stroke="#286DC0" stroke-width="2"/>
-  <text x="725" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">Chat agent (tool: lookup_rules)</text>
-  <text x="725" y="410" text-anchor="middle" font-size="12" fill="#17283F">searches the role file + common file, at most 4 rounds,</text>
+  <text x="725" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">Follow-up chat (secondary)</text>
+  <text x="725" y="410" text-anchor="middle" font-size="12" fill="#17283F">tool: lookup_rules, role file + common file, 4 rounds,</text>
   <text x="725" y="428" text-anchor="middle" font-size="12" fill="#17283F">answers go through the same verifier</text>
   <rect x="165" y="360" width="150" height="90" rx="12" fill="#FFF4D6" stroke="#7A5300" stroke-width="2"/>
   <text x="240" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#7A5300">Rule files</text>
@@ -198,7 +199,7 @@ table.cmp tr.me td:first-child{color:#fff}
   <text x="560" y="345" font-size="11" fill="#5A6B82">chat questions skip the three-step flow</text>
 </svg>
 </div>
-<p class="sub" style="margin:8px 0 0;font-size:24px"><b style="color:var(--yale)">Design choice:</b> work is handed over in code, not agent to agent, so each call stays small and every step is logged.</p>
+<p class="sub" style="margin:8px 0 0;font-size:24px"><b style="color:var(--yale)">Design choice:</b> handoffs happen in code, so each call stays small and every step is logged.</p>
 <div class="repo-foot">Yale Health Navigator · github.com/shirleyxu414-sys/yale-health-navigator</div>
 <aside class="notes">This is the flow. The screen runs first, in code: emergencies, crisis words, prompt injection and requests to diagnose never reach a model. Then three model calls, each gpt-6-luna with no tools: the router picks the category and the line, the coverage checker reads only your role's rule file plus the common file, and the plan builder writes the timeline and the points to bring up. In between, the verifier, also code, checks citation, quote, numbers and diagnosis words. Handoffs happen in code, not agent to agent, so each call stays small and every step is logged. Chat questions use a separate agent with one tool, lookup_rules, limited to four rounds.</aside>
 </section>

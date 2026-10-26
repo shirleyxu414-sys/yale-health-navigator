@@ -55,6 +55,7 @@ footer.end{margin-top:40px;padding-top:14px;border-top:2px solid var(--line)}
 
 <header class="top"><div class="page">
 <h1>Yale Health Navigator</h1>
+<p style="margin:0 0 6px;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#9FC3EE;font-weight:700">A care planner for the Yale community</p>
 <p class="sub">Care starts with knowing who to call. Describe what is going on in plain words and get the Yale Health line to call, a plan for the call and the referral, and a coverage check that quotes Yale's own sources.</p>
 <div class="links">
 <b>Student:</b> Shirley Xu &nbsp;|&nbsp; <b>Course:</b> AI Foundations for Managers (MGT 409), final project<br>
@@ -118,6 +119,7 @@ footer.end{margin-top:40px;padding-top:14px;border-top:2px solid var(--line)}
 <p><b>Why it matters, and the honest part.</b> I see this as a practical, end-to-end tool for the Yale community: it takes someone from "what do I do?" to a call, a booked appointment on their own calendar, and a referral they can track. This is not a new model or a new medical technique; the idea is to put a careful grounding layer between a language model and a confusing but high-stakes set of rules. It does not replace Member Services, it is not a coverage decision, and it only knows what is in the rule files I built by hand from public Yale pages. Yale Health could build something similar with access to live eligibility data, which would beat this app on accuracy for individual members.</p>
 
 <h2><span class="n">4</span>The agents</h2>
+<p>The core of the app is a planner: it routes a situation to the right line, checks coverage, and builds the plan. The follow-up chat is a secondary feature on top of it.</p>
 <h3>The agents and their tools</h3>
 <table>
 <tr><th>Agent</th><th>What it does</th><th>Tools</th></tr>
@@ -142,29 +144,30 @@ footer.end{margin-top:40px;padding-top:14px;border-top:2px solid var(--line)}
   <text x="240" y="256" text-anchor="middle" font-size="12" fill="#17283F">diagnosis request</text>
   <text x="240" y="276" text-anchor="middle" font-size="12" fill="#5A6B82">0 tokens</text>
   <rect x="350" y="20" width="160" height="90" rx="12" fill="#00356B"/>
-  <text x="430" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">1. Router</text>
-  <text x="430" y="73" text-anchor="middle" font-size="12" fill="#D3DEEC">category, line, timing</text>
+  <text x="430" y="52" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">1. Route</text>
+  <text x="430" y="73" text-anchor="middle" font-size="12" fill="#D3DEEC">which line to call, and when</text>
   <text x="430" y="91" text-anchor="middle" font-size="12" fill="#D3DEEC">1 call, no tools</text>
   <rect x="350" y="190" width="160" height="90" rx="12" fill="#00356B"/>
-  <text x="430" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">2. Coverage checker</text>
+  <text x="430" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">2. Check coverage</text>
   <text x="430" y="243" text-anchor="middle" font-size="12" fill="#D3DEEC">reads role file + common</text>
   <text x="430" y="261" text-anchor="middle" font-size="12" fill="#D3DEEC">1 call, no tools</text>
   <rect x="350" y="360" width="160" height="90" rx="12" fill="#00356B"/>
-  <text x="430" y="392" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">3. Plan builder</text>
-  <text x="430" y="413" text-anchor="middle" font-size="12" fill="#D3DEEC">timeline, points, checklist</text>
+  <text x="430" y="392" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">3. Build the plan</text>
+  <text x="430" y="413" text-anchor="middle" font-size="12" fill="#D3DEEC">steps, points, checklist</text>
   <text x="430" y="431" text-anchor="middle" font-size="12" fill="#D3DEEC">1 call, no tools</text>
   <rect x="560" y="190" width="150" height="90" rx="12" fill="#E6F4EC" stroke="#1C6B3F" stroke-width="2"/>
   <text x="635" y="218" text-anchor="middle" font-size="15" font-weight="700" fill="#1C6B3F">Verifier (code)</text>
   <text x="635" y="239" text-anchor="middle" font-size="12" fill="#17283F">citation, quote, numbers,</text>
   <text x="635" y="257" text-anchor="middle" font-size="12" fill="#17283F">no diagnosis, phone scrub</text>
   <rect x="750" y="170" width="140" height="130" rx="12" fill="#fff" stroke="#00356B" stroke-width="2"/>
-  <text x="820" y="200" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">The page</text>
-  <text x="820" y="222" text-anchor="middle" font-size="12" fill="#17283F">call card, coverage,</text>
-  <text x="820" y="240" text-anchor="middle" font-size="12" fill="#17283F">plan, checklist,</text>
-  <text x="820" y="258" text-anchor="middle" font-size="12" fill="#17283F">tracker, call sheet</text>
+  <text x="820" y="196" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">The planner</text>
+  <text x="820" y="216" text-anchor="middle" font-size="12" fill="#17283F">tap to call, map,</text>
+  <text x="820" y="233" text-anchor="middle" font-size="12" fill="#17283F">checklist, tracker,</text>
+  <text x="820" y="250" text-anchor="middle" font-size="12" fill="#17283F">calendar, call sheet,</text>
+  <text x="820" y="267" text-anchor="middle" font-size="12" fill="#17283F">email drafts</text>
   <rect x="560" y="360" width="330" height="90" rx="12" fill="#EAF1F9" stroke="#286DC0" stroke-width="2"/>
-  <text x="725" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">Chat agent (tool: lookup_rules)</text>
-  <text x="725" y="410" text-anchor="middle" font-size="12" fill="#17283F">searches the role file + common file, at most 4 rounds,</text>
+  <text x="725" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#00356B">Follow-up chat (secondary)</text>
+  <text x="725" y="410" text-anchor="middle" font-size="12" fill="#17283F">tool: lookup_rules, role file + common file, 4 rounds,</text>
   <text x="725" y="428" text-anchor="middle" font-size="12" fill="#17283F">answers go through the same verifier</text>
   <rect x="165" y="360" width="150" height="90" rx="12" fill="#FFF4D6" stroke="#7A5300" stroke-width="2"/>
   <text x="240" y="388" text-anchor="middle" font-size="15" font-weight="700" fill="#7A5300">Rule files</text>
@@ -181,7 +184,7 @@ footer.end{margin-top:40px;padding-top:14px;border-top:2px solid var(--line)}
   <path d="M315 372L348 262" stroke="#7A5300" stroke-width="2" fill="none" marker-end="url(#ar)"/>
   <text x="560" y="345" font-size="11" fill="#5A6B82">chat questions skip the three-step flow</text>
 </svg>
-<figcaption>Figure 1. Request flow. Blue boxes are the model calls (all gpt-6-luna). Red and green boxes are code that runs without a model. Chat questions skip the three-step flow and use the lookup tool.</figcaption></figure>
+<figcaption>Figure 1. How a situation becomes a plan. Blue boxes are the three model calls (all gpt-6-luna); red and green boxes are code that runs without a model; the planner on the right is what the person sees and uses. The follow-up chat skips the three steps and uses the lookup tool.</figcaption></figure>
 <h3>Models used and why</h3>
 <p><b>gpt-6-luna only</b>, through Portkey with the OpenAI client. It is the course model, and it fits the job: the task is short structured JSON output over a small rule set, not open-ended reasoning, so a low-cost model is enough and keeps a plan at a fraction of a cent (section 5). The model name lives in one place, <code>backend/config.py</code>, and a test fails if any other model name appears anywhere in the repo.</p>
 <h3>One real run, traced step by step</h3>
