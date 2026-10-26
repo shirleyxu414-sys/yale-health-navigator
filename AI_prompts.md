@@ -509,3 +509,5 @@ Check the project instructions from the website I sent you and the submission ru
 I asked other people to test it. Please make it clear in the report that I invited a friend to do the test at home. It was the visiting student, on my computer. They found the answer in ChatGPT quite fast, in about 10 seconds. I think the app still helps though, because of the planner.
 
 Trim the report to 14 pages.
+
+To avoid falling into the Tier 1 trap, should we focus more on the planner side? It's a solution, not a search engine. Yes, apply the amendments.
